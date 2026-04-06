@@ -15,6 +15,11 @@ import {
   ItemDescription,
   ItemActions,
 } from "@/components/ui/item";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -28,7 +33,7 @@ import { Logo } from "@/components/logo";
 export function Navbar() {
   return (
     <header className="w-full border-b bg-background sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
         {/* Left Group */}
         <div className="flex items-center gap-8">
           <Link href="/">
@@ -49,9 +54,7 @@ export function Navbar() {
           <Button size="icon" variant="ghost">
             <CalendarRange className="w-4 h-4" />
           </Button>
-          <Button variant="secondary" size="sm">
-            Log in
-          </Button>
+          <LoginButton />
           <Button>Jetzt starten</Button>
         </div>
       </div>
@@ -120,5 +123,20 @@ function ListItem({
         </Item>
       </NavigationMenuLink>
     </li>
+  );
+}
+
+function LoginButton() {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button disabled variant="secondary" size="sm">
+          Log in
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Bald verfügbar</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

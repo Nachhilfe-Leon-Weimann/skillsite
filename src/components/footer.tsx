@@ -10,11 +10,16 @@ import {
 } from "simple-icons/icons";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function Footer() {
   return (
     <footer className="w-full border-t bg-background">
-      <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-4">
+      <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-4">
         {/* Top Row */}
         <div className="relative flex items-center justify-center">
           {/* Logo */}
@@ -39,7 +44,15 @@ export function Footer() {
 
           {/* Socials */}
           <div className="absolute right-0 flex items-center gap-2">
-            <BrandIconLink href="#" icon={siDiscord} />
+            <Tooltip>
+              <TooltipTrigger>
+                <BrandIconLink href="#" icon={siDiscord} />
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Tritt unserer Discord-Community bei!</p>
+              </TooltipContent>
+            </Tooltip>
+
             <BrandIconLink href="#" icon={siWhatsapp} />
             <BrandIconLink href="#" icon={siInstagram} />
             <BrandIconLink href="#" icon={siYoutube} />
