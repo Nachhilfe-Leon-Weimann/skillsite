@@ -3,11 +3,12 @@ import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { socials } from "@/lib/socials";
 import { SocialLink } from "@/components/social-link";
+import { Container } from "@/components/container";
 
 export function Footer() {
   return (
     <footer className="w-full border-t bg-background">
-      <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-4">
+      <Container className="py-6 flex flex-col gap-4">
         {/* Top Row */}
         <div className="relative flex items-center justify-center">
           {/* Logo */}
@@ -49,7 +50,7 @@ export function Footer() {
             Inhaber.
           </span>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

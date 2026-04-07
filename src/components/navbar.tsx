@@ -29,11 +29,12 @@ import Link from "next/link";
 import { navItems, NavItem } from "@/lib/navigation";
 
 import { Logo } from "@/components/logo";
+import { Container } from "@/components/container";
 
 export function Navbar() {
   return (
     <nav className="w-full border-b bg-background sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
+      <Container className="flex items-center justify-between h-(--navbar-height)">
         {/* Left Group */}
         <div className="flex items-center gap-8">
           <Link href="/">
@@ -57,7 +58,7 @@ export function Navbar() {
           <LoginButton />
           <Button>Jetzt starten</Button>
         </div>
-      </div>
+      </Container>
     </nav>
   );
 }

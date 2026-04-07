@@ -51,7 +51,7 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <Navbar />
-            {children}
+            <main className="flex-1">{children}</main>
             <Footer />
           </TooltipProvider>
         </ThemeProvider>
