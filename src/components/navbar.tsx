@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarRange } from "lucide-react";
 import Link from "next/link";
 
-import { navItems, NavItem, NavItemChildren } from "@/lib/navigation";
+import { navItems, NavItem } from "@/lib/navigation";
 
 import { Logo } from "@/components/logo";
 
@@ -91,7 +91,7 @@ function ListItem({
   child,
   ...props
 }: {
-  child: NavItemChildren;
+  child: NavItem;
 } & React.ComponentPropsWithoutRef<"li">) {
   const Icon = child.icon;
   const tag = child.tag;
