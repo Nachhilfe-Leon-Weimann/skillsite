@@ -20,7 +20,7 @@ export default function Contact() {
   return (
     <div>
       <Section variant="content" className="flex items-center py-16">
-        <Container className="flex flex-col items-center justify-between gap-8 sm:gap-12 md:gap-24 bg-background">
+        <Container className="flex flex-col items-center justify-between gap-8 sm:gap-12 md:gap-24">
           <div>
             <H1 className="md:text-center">Kontaktiere mich noch heute</H1>
           </div>
@@ -31,7 +31,7 @@ export default function Contact() {
                 Ich freue mich auf deine Nachricht!
               </H2>
 
-              <div className="bg-card border rounded px-6 py-4 grid grid-cols-1 min-[950px]:grid-cols-2 gap-8">
+              <div className="bg-card border rounded-xl px-6 py-4 grid grid-cols-1 min-[950px]:grid-cols-2 gap-8">
                 <div className="flex flex-col items-center justify-center min-[950px]:items-start">
                   <dl>
                     {contactDetails.map((contactDetail) => (

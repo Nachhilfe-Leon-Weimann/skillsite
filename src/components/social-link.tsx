@@ -17,7 +17,7 @@ type Props = {
 export function SocialLink({ social, side = "top" }: Props) {
   const button = (
     <Button asChild size="icon" variant="ghost">
-      <Link href={social.href}>
+      <Link href={social.href} target="_blank" rel="noopener noreferrer">
         <BrandIcon icon={social.icon} />
         <span className="sr-only">{social.label}</span>
       </Link>
