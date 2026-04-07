@@ -32,7 +32,7 @@ import { Logo } from "@/components/logo";
 
 export function Navbar() {
   return (
-    <header className="w-full border-b bg-background sticky top-0 z-50">
+    <nav className="w-full border-b bg-background sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
         {/* Left Group */}
         <div className="flex items-center gap-8">
@@ -58,7 +58,7 @@ export function Navbar() {
           <Button>Jetzt starten</Button>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }
 
