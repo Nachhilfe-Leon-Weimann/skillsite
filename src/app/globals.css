@@ -138,3 +138,10 @@
     min-height: var(--section-height);
   }
 }
+
+@media (max-aspect-ratio: 4/3) {
+  .section-full {
+    min-height: auto;
+    padding-block: calc(var(--spacing) * 10);
+  }
+}

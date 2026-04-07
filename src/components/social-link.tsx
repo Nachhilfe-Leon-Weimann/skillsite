@@ -36,7 +36,7 @@ export function SocialLink({ social, side = "top" }: Props) {
   );
 }
 
-function BrandIcon({ icon }: { icon: { path: string } }) {
+export function BrandIcon({ icon }: { icon: { path: string } }) {
   return (
     <svg role="img" viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
       <path d={icon.path} />

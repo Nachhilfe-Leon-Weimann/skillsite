@@ -1,10 +1,26 @@
 import { cn } from "@/lib/utils";
 
+type SectionProps = React.ComponentProps<"section"> & {
+  variant?: "auto" | "content";
+};
+
 export function Section({
   className,
   children,
-}: React.ComponentProps<"section">) {
+  variant = "auto",
+  ...props
+}: SectionProps) {
   return (
-    <section className={cn("section-full", className)}>{children}</section>
+    <section
+      className={cn(
+        variant === "auto" && "section-full",
+        "py-6",
+        variant === "content" && "py-10",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </section>
   );
 }
