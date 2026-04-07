@@ -1,20 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import {
-  siDiscord,
-  siWhatsapp,
-  siInstagram,
-  siYoutube,
-  siTiktok,
-  siGithub,
-} from "simple-icons/icons";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { socials } from "@/lib/socials";
+import { SocialLink } from "@/components/social-link";
 
 export function Footer() {
   return (
@@ -44,20 +32,9 @@ export function Footer() {
 
           {/* Socials */}
           <div className="absolute right-0 flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger>
-                <BrandIconLink href="#" icon={siDiscord} />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Tritt unserer Discord-Community bei!</p>
-              </TooltipContent>
-            </Tooltip>
-
-            <BrandIconLink href="#" icon={siWhatsapp} />
-            <BrandIconLink href="#" icon={siInstagram} />
-            <BrandIconLink href="#" icon={siYoutube} />
-            <BrandIconLink href="#" icon={siTiktok} />
-            <BrandIconLink href="#" icon={siGithub} />
+            {socials.map((social) => (
+              <SocialLink key={social.id} social={social} side="bottom" />
+            ))}
           </div>
         </div>
 
@@ -74,29 +51,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function BrandIconLink({
-  href,
-  icon,
-}: {
-  href: string;
-  icon: { path: string };
-}) {
-  return (
-    <Button asChild size="icon" variant="ghost">
-      <Link href={href}>
-        <BrandIcon icon={icon} />
-      </Link>
-    </Button>
-  );
-}
-
-function BrandIcon({ icon }: { icon: { path: string } }) {
-  return (
-    <svg role="img" viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
-      <path d={icon.path} />
-    </svg>
   );
 }
