@@ -19,8 +19,8 @@ export default function Contact() {
 
   return (
     <div>
-      <Section variant="content" className="flex items-center py-16">
-        <Container className="flex flex-col items-center justify-between gap-8 sm:gap-12 md:gap-24">
+      <Section variant="content" gradient="top">
+        <Container className="flex flex-col items-center justify-between md:py-16 gap-8 sm:gap-12 md:gap-24">
           <div>
             <H1 className="md:text-center">Kontaktiere mich noch heute</H1>
           </div>
@@ -73,10 +73,7 @@ export default function Contact() {
         </Container>
       </Section>
 
-      <Section
-        variant="content"
-        className="flex flex-col items-center justify-center py-16"
-      >
+      <Section variant="content" gradient="bottom">
         <Container className="flex flex-col items-center">
           <div className="text-center mb-12">
             <H1>Kennenlern-Gespräch</H1>
