@@ -19,7 +19,7 @@ export default function Contact() {
 
   return (
     <div>
-      <Section variant="content" gradient="top">
+      <Section variant="auto" gradient="top">
         <Container className="flex flex-col items-center justify-between md:py-16 gap-8 sm:gap-12 md:gap-24">
           <div>
             <H1 className="md:text-center">Kontaktiere mich noch heute</H1>

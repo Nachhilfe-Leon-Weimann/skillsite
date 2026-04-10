@@ -75,7 +75,7 @@
   --radius: 0.625rem;
 
   --navbar-height: 4rem;
-  --section-height: calc(100dvh - var(--navbar-height));
+  --section-height: 100dvh - var(--navbar-height);
 }
 
 .dark {
@@ -119,18 +119,5 @@
 
   html {
     @apply font-sans;
-  }
-}
-
-@layer utilities {
-  .section-full {
-    min-height: var(--section-height);
-  }
-}
-
-@media (max-aspect-ratio: 4/3) {
-  .section-full {
-    min-height: auto;
-    padding-block: calc(var(--spacing) * 10);
   }
 }

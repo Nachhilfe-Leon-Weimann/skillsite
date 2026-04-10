@@ -22,7 +22,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nachhilfe Leon Weimann",
+  title: {
+    absolute: "Homepage | Nachhilfe Leon Weimann",
+    default: "Nachhilfe Leon Weimann",
+    template: "%s | Nachhilfe Leon Weimann",
+  },
   description:
     "Erfahrene Nachhilfe für Schüler aller Klassenstufen. Individuelle Betreuung, flexible Zeiten und bewährte Lernmethoden.",
 };
