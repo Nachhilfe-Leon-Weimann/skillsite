@@ -51,7 +51,7 @@ export default async function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="grid min-h-dvh grid-rows-[auto_minmax(0,1fr)_auto]">
         <DeviceContextProvider isMobile={isMobile}>
           <ThemeProvider
             attribute="class"
@@ -61,7 +61,7 @@ export default async function RootLayout({
           >
             <TooltipProvider>
               <Navbar />
-              <main className="flex-1">{children}</main>
+              <main className="flex min-h-0 flex-col">{children}</main>
               <Footer />
             </TooltipProvider>
           </ThemeProvider>
