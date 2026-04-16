@@ -8,4 +8,5 @@ export const routes = {
   pricing: "/details#preise",
   about: "/about",
   contact: "/kontakt",
+  booking: "/termin",
 } as const;

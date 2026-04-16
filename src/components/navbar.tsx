@@ -30,6 +30,7 @@ import { navItems, NavItem } from "@/lib/navigation";
 
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/container";
+import { routes } from "@/lib/routes";
 
 export function Navbar() {
   return (
@@ -52,8 +53,10 @@ export function Navbar() {
 
         {/* Right Group */}
         <div className="flex items-center gap-3">
-          <Button size="icon" variant="ghost">
-            <CalendarRange className="w-4 h-4" />
+          <Button size="icon" variant="ghost" asChild>
+            <Link href={routes.booking}>
+              <CalendarRange className="w-4 h-4" />
+            </Link>
           </Button>
           <LoginButton />
           <Button>Jetzt starten</Button>
