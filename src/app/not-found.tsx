@@ -1,5 +1,6 @@
 "use client";
 
+import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -9,7 +10,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { GradientBackground } from "@/components/ui/gradient-background";
 import { routes } from "@/lib/routes";
 import { CircleQuestionMark } from "lucide-react";
 import Link from "next/link";
@@ -23,8 +23,8 @@ export default function NotFound() {
   const currentUrl = search ? `${pathname}?${search}` : pathname;
 
   return (
-    <GradientBackground show="bottom" className="h-full">
-      <Empty className="h-full">
+    <Section gradient="bottom" offsetFooter>
+      <Empty>
         <EmptyHeader className="max-w-md">
           <EmptyMedia variant="icon">
             <CircleQuestionMark />
@@ -44,6 +44,6 @@ export default function NotFound() {
           </Button>
         </EmptyContent>
       </Empty>
-    </GradientBackground>
+    </Section>
   );
 }

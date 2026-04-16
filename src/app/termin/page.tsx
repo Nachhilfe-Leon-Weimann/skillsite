@@ -1,19 +1,16 @@
 import { Booker } from "@/components/cal/booker";
-import { Container } from "@/components/layout/container";
-import { GradientBackground } from "@/components/ui/gradient-background";
+import { Section } from "@/components/layout/section";
 import { getBookingDetails } from "@/lib/booking-details";
 
 export default function Termin() {
   const bookerProps = getBookingDetails("nachhilfe");
 
   return (
-    <GradientBackground className="h-full" show="bottom">
-      <Container className="h-full mt-8">
-        <Booker
-          calUsername={bookerProps.calUsername}
-          eventSlug={bookerProps.eventSlug}
-        />
-      </Container>
-    </GradientBackground>
+    <Section gradient="bottom" containerClassName="mb-0" offsetFooter>
+      <Booker
+        calUsername={bookerProps.calUsername}
+        eventSlug={bookerProps.eventSlug}
+      />
+    </Section>
   );
 }
