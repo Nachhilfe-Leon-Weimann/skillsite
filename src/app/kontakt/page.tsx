@@ -12,10 +12,13 @@ import { socials } from "@/lib/socials";
 import { MoveDown } from "lucide-react";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { getBookingDetails } from "@/lib/booking-details";
 
 export default function Contact() {
   const isMobile = useIsMobile();
   const whatsAppSocial = socials.find((s) => s.id === "whatsapp");
+
+  const bookerProps = getBookingDetails("kennenlernen");
 
   return (
     <div>
@@ -82,8 +85,8 @@ export default function Contact() {
           <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="w-3/4 h-full mt-16">
               <Booker
-                calUsername="nachhilfe-leonweimann"
-                eventSlug="kennenlernen"
+                calUsername={bookerProps.calUsername}
+                eventSlug={bookerProps.eventSlug}
               />
             </div>
           </div>
