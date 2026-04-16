@@ -130,7 +130,7 @@ function ListItem({
 function LoginButton() {
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button disabled variant="secondary" size="sm">
           Log in
         </Button>

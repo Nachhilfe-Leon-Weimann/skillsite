@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { DeviceContextProvider } from "@/hooks/use-mobile";
-import { getDevice } from "@/utils/getDevice";
+import { getDevice } from "@/server/get-device";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
