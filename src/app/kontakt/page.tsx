@@ -1,8 +1,8 @@
 "use client";
 
 import { Booker } from "@/components/cal/booker";
-import { Container } from "@/components/container";
-import { Section } from "@/components/section";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
 import { BrandIcon } from "@/components/social-link";
 import { Button } from "@/components/ui/button";
 import { H1, H2 } from "@/components/ui/typography";

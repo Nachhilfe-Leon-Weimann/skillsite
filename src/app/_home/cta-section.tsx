@@ -1,5 +1,5 @@
-import { Container } from "@/components/container";
-import { Section } from "@/components/section";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { GradientBackground } from "@/components/ui/gradient-background";
 import { H1, H4, Muted } from "@/components/ui/typography";

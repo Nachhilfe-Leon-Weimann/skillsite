@@ -4,10 +4,11 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
 import { DeviceContextProvider } from "@/hooks/use-mobile";
 import { getDevice } from "@/server/get-device";
+import { LayoutMetricsProvider } from "@/components/layout/metrics/layout-metrics-provider";
+import { MeasuredNavbar } from "@/components/layout/metrics/measured-navbar";
+import { MeasuredFooter } from "@/components/layout/metrics/measured-footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -58,11 +59,13 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <TooltipProvider>
-              <Navbar />
-              <main className="flex min-h-0 flex-col">{children}</main>
-              <Footer />
-            </TooltipProvider>
+            <LayoutMetricsProvider>
+              <TooltipProvider>
+                <MeasuredNavbar />
+                <main className="flex min-h-0 flex-col">{children}</main>
+                <MeasuredFooter />
+              </TooltipProvider>
+            </LayoutMetricsProvider>
           </ThemeProvider>
         </DeviceContextProvider>
       </body>

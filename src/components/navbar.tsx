@@ -29,13 +29,13 @@ import Link from "next/link";
 import { navItems, NavItem } from "@/lib/navigation";
 
 import { Logo } from "@/components/logo";
-import { Container } from "@/components/container";
+import { Container } from "@/components/layout/container";
 import { routes } from "@/lib/routes";
 
 export function Navbar() {
   return (
-    <nav className="w-full border-b bg-background sticky top-0 z-50">
-      <Container className="flex items-center justify-between h-(--navbar-height)">
+    <nav>
+      <Container className="flex items-center justify-between h-16">
         {/* Left Group */}
         <div className="flex items-center gap-8">
           <Link href="/">

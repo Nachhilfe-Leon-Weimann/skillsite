@@ -3,7 +3,7 @@ import { Logo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { socials } from "@/lib/socials";
 import { SocialLink } from "@/components/social-link";
-import { Container } from "@/components/container";
+import { Container } from "@/components/layout/container";
 
 export function Footer() {
   return (

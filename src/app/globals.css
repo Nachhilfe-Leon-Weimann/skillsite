@@ -73,9 +73,6 @@
   --gradient-to: oklch(0.97 0.02 20);
 
   --radius: 0.625rem;
-
-  --navbar-height: 4rem;
-  --section-height: 100dvh - var(--navbar-height);
 }
 
 .dark {

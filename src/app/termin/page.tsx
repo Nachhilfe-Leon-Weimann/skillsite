@@ -1,5 +1,5 @@
 import { Booker } from "@/components/cal/booker";
-import { Container } from "@/components/container";
+import { Container } from "@/components/layout/container";
 import { GradientBackground } from "@/components/ui/gradient-background";
 import { getBookingDetails } from "@/lib/booking-details";
 
