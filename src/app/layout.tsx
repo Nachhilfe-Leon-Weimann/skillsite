@@ -23,7 +23,6 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Homepage | Nachhilfe Leon Weimann",
     default: "Nachhilfe Leon Weimann",
     template: "%s | Nachhilfe Leon Weimann",
   },
