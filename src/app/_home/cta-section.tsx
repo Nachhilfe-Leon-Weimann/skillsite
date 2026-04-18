@@ -1,8 +1,6 @@
 import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
-import { H1, H4, Muted } from "@/components/ui/typography";
-import { routes } from "@/lib/routes";
-import Link from "next/link";
+import { CTAButton } from "@/components/shared/cta-button";
+import { H1, H4 } from "@/components/ui/typography";
 
 export function CTASection() {
   return (
@@ -15,12 +13,7 @@ export function CTASection() {
       <H4 className="max-w-xl">
         Mehr Verständnis, mehr Selbstbewusstsein, weniger Lernstress.
       </H4>
-      <div className="flex flex-col items-center gap-4">
-        <Button asChild>
-          <Link href={routes.contact}>Jetzt durchstarten</Link>
-        </Button>
-        <Muted>Sichere dir dein unverbindliches Kennenlerngespräch</Muted>
-      </div>
+      <CTAButton />
     </Section>
   );
 }
