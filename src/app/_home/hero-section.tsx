@@ -23,10 +23,10 @@ export function HeroSection() {
 function HeroShapes() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0">
-      <div className="absolute left-[14%] top-[30%] h-44 w-44 rounded-3xl border border-blue-300/60 bg-blue-100/50" />
-      <div className="absolute left-[7%] top-[50%] h-44 w-44 rounded-3xl border border-red-300/60 bg-red-100/50" />
-      <div className="absolute right-[8%] top-[22%] h-44 w-44 rounded-3xl border border-red-300/60 bg-red-100/50" />
-      <div className="absolute right-[16%] top-[44%] h-48 w-48 rounded-3xl border border-blue-300/60 bg-blue-100/50" />
+      <div className="absolute left-[14%] top-[30%] h-48 w-48 rounded-3xl border border-blue-300/60 bg-blue-100/50" />
+      <div className="absolute left-[7%] top-[50%] h-48 w-48 rounded-3xl border border-red-300/60 bg-red-100/50" />
+      <div className="absolute right-[8%] top-[20%] h-48 w-48 rounded-3xl border border-red-300/60 bg-red-100/50" />
+      <div className="absolute right-[16%] top-[40%] h-48 w-48 rounded-3xl border border-blue-300/60 bg-blue-100/50" />
     </div>
   );
 }
