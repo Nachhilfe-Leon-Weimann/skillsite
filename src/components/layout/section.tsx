@@ -10,7 +10,7 @@ type SectionProps = ComponentProps<"section"> & {
   variant?: "auto" | "content";
   gradient?: "top" | "bottom" | "none";
   offsetFooter?: boolean;
-  containerClassName?: string;
+  containerClassName?: ComponentProps<typeof Container>["className"];
 };
 
 function getSectionMinHeight({
@@ -102,7 +102,7 @@ export function Section({
     >
       <Container
         className={cn(
-          "flex w-full flex-1 flex-col justify-center my-8",
+          "flex w-full flex-1 flex-col justify-center my-16",
           containerClassName,
         )}
       >
