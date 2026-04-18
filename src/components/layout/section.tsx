@@ -104,7 +104,7 @@ export function Section({
     >
       <Container
         className={cn(
-          "flex w-full flex-1 flex-col justify-center my-16",
+          "flex w-full flex-1 flex-col justify-center my-12",
           containerClassName,
         )}
       >
