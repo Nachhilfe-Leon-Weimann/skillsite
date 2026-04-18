@@ -16,6 +16,7 @@ export const navItems: NavItem[] = [
     label: "Fächer",
     href: routes.subjects,
     children: [
+      // TODO: refactor to use subjectDetails
       {
         label: "Mathematik",
         icon: Calculator,
