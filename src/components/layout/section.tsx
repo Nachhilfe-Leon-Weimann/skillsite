@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 type SectionProps = ComponentProps<"section"> & {
   variant?: "auto" | "content";
-  gradient?: "top" | "bottom" | "none";
+  gradient?: "top" | "bottom" | "filled" | "none";
   offsetFooter?: boolean;
   containerClassName?: ComponentProps<typeof Container>["className"];
 };
@@ -35,6 +35,16 @@ function getGradientStyle(
 ): CSSProperties | undefined {
   if (gradient === "none") return undefined;
 
+  const linearGradient = `
+      linear-gradient(
+        120deg,
+        var(--gradient-from) 0%,
+        var(--gradient-to) 100%
+      )
+    `;
+
+  if (gradient === "filled") return { background: linearGradient };
+
   const radialGradient =
     gradient === "top"
       ? `
@@ -53,14 +63,6 @@ function getGradientStyle(
           oklch(from var(--background) l c h / 1) 85%
         )
       `;
-
-  const linearGradient = `
-      linear-gradient(
-        120deg,
-        var(--gradient-from) 0%,
-        var(--gradient-to) 100%
-      )
-    `;
 
   return {
     background: `${radialGradient}, ${linearGradient}`,
