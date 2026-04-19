@@ -23,7 +23,7 @@ export default function Contact() {
     <>
       <Section
         gradient="top"
-        containerClassName="items-center justify-between md:py-16 gap-8 sm:gap-12 md:gap-24"
+        containerClassName="items-center justify-evenly md:py-16 gap-8 sm:gap-12 md:gap-24"
       >
         <H1 className="md:text-center">Kontaktiere mich noch heute</H1>
 
