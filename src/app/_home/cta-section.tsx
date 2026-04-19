@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout/section";
-import { CTAButton } from "@/components/shared/cta-button";
+import { ContactAction } from "@/components/shared/contact-action";
 import { H1, H4 } from "@/components/ui/typography";
 
 export function CTASection() {
@@ -13,7 +13,7 @@ export function CTASection() {
       <H4 className="max-w-xl">
         Mehr Verständnis, mehr Selbstbewusstsein, weniger Lernstress.
       </H4>
-      <CTAButton />
+      <ContactAction />
     </Section>
   );
 }

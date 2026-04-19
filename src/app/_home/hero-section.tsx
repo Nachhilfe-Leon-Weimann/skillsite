@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Section } from "@/components/layout/section";
-import { CTAButton } from "@/components/shared/cta-button";
+import { ContactAction } from "@/components/shared/contact-action";
 import { Badge } from "@/components/ui/badge";
 import { H1, H2, P } from "@/components/ui/typography";
 import { subjectList } from "@/content/subjects";
@@ -59,7 +59,7 @@ function NumberCard({ number, text }: { number: number; text: string }) {
 function BottomPart() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <CTAButton />
+      <ContactAction />
 
       <div className="flex flex-col items-center gap-4">
         <P>Hol dir Hilfe in</P>
