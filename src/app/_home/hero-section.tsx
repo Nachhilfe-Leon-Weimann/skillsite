@@ -9,8 +9,8 @@ import { subjectList } from "@/content/subjects";
 export function HeroSection() {
   return (
     <Section
-      className="relative overflow-hidden"
-      containerClassName="relative z-10 my-20 justify-evenly text-center"
+      className="relative overflow-hidden flex flex-col items-center justify-center"
+      containerClassName="relative z-10 my-20 justify-evenly text-center max-h-150 gap-16"
       gradient="bottom"
     >
       <HeroShapes />
@@ -77,7 +77,7 @@ function SubjectBadges() {
     <>
       {subjectList.map((subject) => (
         <Link key={subject.key} href={subject.href}>
-          <Badge className="min-w-32" variant="outline">
+          <Badge className="min-w-36 text-md p-3" variant="outline">
             {subject.name}
           </Badge>
         </Link>
