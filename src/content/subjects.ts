@@ -49,7 +49,9 @@ export const subjectOrder: SubjectKey[] = [
   "physics",
 ];
 
-export const subjectList = subjectOrder.map((key) => subjects[key]);
+export const subjectList: SubjectDetail[] = subjectOrder.map(
+  (key) => subjects[key],
+);
 
 export function getSubject(key: SubjectKey): SubjectDetail {
   return subjects[key];
