@@ -1,3 +1,4 @@
+import { BenefitsSection } from "@/app/_home/benefits-section";
 import { BriefBenefitsSection } from "@/app/_home/brief-benefits-section";
 import { CTASection } from "@/app/_home/cta-section";
 import { FeedbackSection } from "@/app/_home/feedback-section";
@@ -13,6 +14,8 @@ export default function Home() {
       <FeedbackSection />
       <Separator />
       <BriefBenefitsSection />
+      <Separator />
+      <BenefitsSection />
       <Separator />
       <SmartBookingSection />
       <Separator />
