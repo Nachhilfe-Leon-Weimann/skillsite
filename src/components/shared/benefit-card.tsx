@@ -1,3 +1,4 @@
+import { Magnetic } from "@/components/effects/magnetic";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,33 +35,35 @@ export function BenefitCard({
   const contentOffset = ICON_SIZE + SPACING_X;
 
   return (
-    <Card
-      className={cn("justify-between", "hover:ring-foreground/20", className)}
-    >
-      <CardHeader>
-        <CardTitle
-          className="flex flex-row items-center"
-          style={{ gap: SPACING_X }}
-        >
-          <div
-            className="flex shrink-0 items-center justify-center"
-            style={{ width: ICON_SIZE, height: ICON_SIZE }}
+    <Magnetic>
+      <Card
+        className={cn("justify-between", "hover:ring-foreground/20", className)}
+      >
+        <CardHeader>
+          <CardTitle
+            className="flex flex-row items-center"
+            style={{ gap: SPACING_X }}
           >
-            <Icon size={ICON_SIZE} />
-          </div>
-          {title}
-        </CardTitle>
-        <CardDescription style={{ marginLeft: contentOffset }}>
-          {description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent style={{ marginLeft: contentOffset }}>
-        {href ? (
-          <Button variant="link" className="p-0" asChild>
-            <Link href={href}>{linkLabel ?? "Mehr erfahren"}</Link>
-          </Button>
-        ) : null}
-      </CardContent>
-    </Card>
+            <div
+              className="flex shrink-0 items-center justify-center"
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
+            >
+              <Icon size={ICON_SIZE} />
+            </div>
+            {title}
+          </CardTitle>
+          <CardDescription style={{ marginLeft: contentOffset }}>
+            {description}
+          </CardDescription>
+        </CardHeader>
+        <CardContent style={{ marginLeft: contentOffset }}>
+          {href ? (
+            <Button variant="link" className="p-0" asChild>
+              <Link href={href}>{linkLabel ?? "Mehr erfahren"}</Link>
+            </Button>
+          ) : null}
+        </CardContent>
+      </Card>
+    </Magnetic>
   );
 }
