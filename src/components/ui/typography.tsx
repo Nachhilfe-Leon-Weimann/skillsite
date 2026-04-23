@@ -98,12 +98,7 @@ export function Small({
   className,
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return (
-    <p
-      className={cn("text-sm leading-none font-medium", className)}
-      {...props}
-    />
-  );
+  return <p className={cn("text-sm font-medium", className)} {...props} />;
 }
 
 export function Lead({
