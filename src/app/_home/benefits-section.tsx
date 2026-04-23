@@ -19,12 +19,12 @@ export function BenefitsSection() {
           <H3 className="my-6">
             Nachhilfe ohne komplizierte Verträge – so, wie es für dich passt.
           </H3>
-          <P>
+          <P className="mt-6">
             Bei mir gibt es keine langfristigen Verpflichtungen oder versteckten
             Bedingungen. Du kannst jederzeit aufhören oder flexibel zusätzliche
             Stunden buchen – genau so, wie es für dich am besten ist.
           </P>
-          <P>
+          <P className="mt-6">
             Mein Ansatz: Lernen soll sich an dein Leben anpassen, nicht
             umgekehrt.
           </P>

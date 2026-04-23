@@ -102,7 +102,7 @@ function CTABadge({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="cta-badge"
       className={cn(
-        "flex flex-wrap items-center gap-2 not-first:mt-2",
+        "flex flex-wrap items-center gap-2 not-first:mt-2 mb-2",
         className,
       )}
       {...props}

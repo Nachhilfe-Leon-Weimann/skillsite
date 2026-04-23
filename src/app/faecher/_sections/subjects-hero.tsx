@@ -1,4 +1,5 @@
 import { CTA, CTABadge, CTAHeader } from "@/components/blocks/cta";
+import { Magnetic } from "@/components/effects/magnetic";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,11 +19,11 @@ import Link from "next/link";
 
 export function SubjectsHero() {
   return (
-    <Section gradient="bottom" containerClassName="gap-25" offsetFooter>
-      <CTA>
+    <Section gradient="bottom" containerClassName="gap-24" offsetFooter>
+      <CTA className="max-w-full">
         <CTAHeader>
           <CTABadge>
-            <Badge variant="outline">Fächer</Badge>
+            <Badge variant="outline">Fächerübersicht</Badge>
           </CTABadge>
 
           <H1>Starke Fächer für starke Leistungen</H1>
@@ -65,27 +66,31 @@ function SubjectCard({
   const Icon = icon;
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="w-fit p-3 bg-muted rounded-lg">
-          <Icon size={32} />
-        </div>
+    <Magnetic>
+      <Card variant="interactive">
+        <CardHeader>
+          <div>
+            <Magnetic className="w-fit p-3 bg-muted rounded-lg">
+              <Icon size={32} />
+            </Magnetic>
+          </div>
 
-        {tag && (
-          <CardAction>
-            <Badge>{tag}</Badge>
-          </CardAction>
-        )}
-      </CardHeader>
-      <CardContent>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardContent>
-      <CardFooter>
-        <Button variant="link" className="px-0" asChild>
-          <Link href={linkHref}>{linkLabel}</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+          {tag && (
+            <CardAction>
+              <Badge>{tag}</Badge>
+            </CardAction>
+          )}
+        </CardHeader>
+        <CardContent>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardContent>
+        <CardFooter>
+          <Button variant="link" className="px-0" asChild>
+            <Link href={linkHref}>{linkLabel}</Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </Magnetic>
   );
 }

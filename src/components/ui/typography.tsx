@@ -25,7 +25,7 @@ export function H2({
   return (
     <h2
       className={cn(
-        "scroll-m-20 text-4xl font-semibold tracking-tight first:mt-0",
+        "scroll-m-20 text-4xl font-semibold tracking-tight",
         className,
       )}
       {...props}
@@ -84,7 +84,7 @@ export function P({
   className,
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("leading-7 not-first:mt-6", className)} {...props} />;
+  return <p className={cn("leading-7", className)} {...props} />;
 }
 
 export function Large({
