@@ -34,7 +34,9 @@ export function BenefitCard({
   const contentOffset = ICON_SIZE + SPACING_X;
 
   return (
-    <Card className={cn("justify-between", className)}>
+    <Card
+      className={cn("justify-between", "hover:ring-foreground/20", className)}
+    >
       <CardHeader>
         <CardTitle
           className="flex flex-row items-center"

@@ -24,7 +24,7 @@ export function ContactAction({
 }: ContactActionProps) {
   return (
     <div className={cn("flex flex-col gap-4", alignment[align])}>
-      <Button asChild>
+      <Button size="lg" asChild>
         <Link href={routes.contact}>{label}</Link>
       </Button>
 

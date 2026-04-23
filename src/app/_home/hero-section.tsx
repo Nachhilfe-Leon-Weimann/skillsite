@@ -3,14 +3,15 @@ import Link from "next/link";
 import { Section } from "@/components/layout/section";
 import { ContactAction } from "@/components/shared/contact-action";
 import { Badge } from "@/components/ui/badge";
-import { H1, H2, P } from "@/components/ui/typography";
+import { H1, H2, Lead, Muted, P } from "@/components/ui/typography";
 import { subjectList } from "@/content/subjects";
+import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
     <Section
       className="relative overflow-hidden flex flex-col items-center justify-center"
-      containerClassName="relative z-10 my-20 justify-evenly text-center max-h-150 gap-16"
+      containerClassName="relative z-10 my-20 justify-evenly text-center max-h-150 gap-32"
       gradient="bottom"
     >
       <HeroShapes />
@@ -33,13 +34,15 @@ function HeroShapes() {
 
 function TopPart() {
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div className="space-y-3">
-        <H1>Gute Noten ohne Umweg</H1>
-        <P>Professionelle Nachhilfe für Schüler:innen und Studenten</P>
+    <div className="flex flex-col items-center gap-16">
+      <div className="space-y-4">
+        <H1 className="text-6xl">Gute Noten ohne Umweg</H1>
+        <Lead className="font-medium">
+          Professionelle Nachhilfe für Schüler:innen und Studenten
+        </Lead>
       </div>
 
-      <div className="flex flex-wrap items-start justify-center gap-10 text-left">
+      <div className="flex flex-wrap items-start justify-center gap-12 text-left">
         <NumberCard number={320} text="Gemeinsame Stunden" />
         <NumberCard number={35} text="Betreute Schüler" />
       </div>
@@ -50,19 +53,19 @@ function TopPart() {
 function NumberCard({ number, text }: { number: number; text: string }) {
   return (
     <div className="space-y-1">
-      <H2 className="text-primary">+{number}</H2>
-      <P>{text}</P>
+      <H2 className="font-semibold text-accent-foreground">+{number}</H2>
+      <P className="mt-0!">{text}</P>
     </div>
   );
 }
 
 function BottomPart() {
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-16">
       <ContactAction />
 
       <div className="flex flex-col items-center gap-4">
-        <P>Hol dir Hilfe in</P>
+        <Muted>Hol dir Hilfe in</Muted>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
           <SubjectBadges />
@@ -76,11 +79,21 @@ function SubjectBadges() {
   return (
     <>
       {subjectList.map((subject) => (
-        <Link key={subject.key} href={subject.href}>
-          <Badge className="min-w-36 text-md p-3" variant="outline">
-            {subject.name}
-          </Badge>
-        </Link>
+        <Button
+          key={subject.key}
+          variant="link"
+          className="p-0 hover:no-underline text-md"
+          asChild
+        >
+          <Link href={subject.href}>
+            <Badge
+              className="min-w-42 text-md p-3.5 hover:border-primary/40 hover:bg-primary/5"
+              variant="outline"
+            >
+              {subject.name}
+            </Badge>
+          </Link>
+        </Button>
       ))}
     </>
   );

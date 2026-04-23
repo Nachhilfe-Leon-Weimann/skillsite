@@ -22,9 +22,9 @@ export function FeedbackSection() {
   return (
     <Section variant="content">
       <Carousel>
-        <CarouselContent className="-ml-6">
+        <CarouselContent className="-ml-2">
           {feedbackList.map((feedbackItem, index) => (
-            <CarouselItem key={index} className="basis-1/3 pl-6">
+            <CarouselItem key={index} className="basis-1/3 pl-2">
               <FeedbackCard item={feedbackItem} />
             </CarouselItem>
           ))}
