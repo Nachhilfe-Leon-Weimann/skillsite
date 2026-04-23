@@ -1,83 +1,152 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// MARK: Helpers
-
-type PolymorphicProps<C extends React.ElementType> = {
-  as?: C;
-  className?: string;
-} & React.ComponentPropsWithoutRef<C>;
-
-function createTypography<C extends React.ElementType>(
-  defaultTag: C,
-  baseStyles: string,
-) {
-  return function Component<T extends React.ElementType = C>({
-    as,
-    className,
-    ...props
-  }: PolymorphicProps<T>) {
-    const Comp = (as || defaultTag) as React.ElementType;
-    return <Comp className={cn(baseStyles, className)} {...props} />;
-  };
-}
-
 // MARK: Headings
 
-export const H1 = createTypography(
-  "h1",
-  "scroll-m-20 text-4xl font-bold tracking-tight md:text-5xl",
-);
+export function H1({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h1
+      className={cn(
+        "font-heading scroll-m-20 text-5xl font-bold tracking-tight text-balance",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export const H2 = createTypography(
-  "h2",
-  "scroll-m-20 text-3xl font-semibold tracking-tight md:text-4xl",
-);
+export function H2({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h2
+      className={cn(
+        "scroll-m-20 text-4xl font-semibold tracking-tight first:mt-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export const H3 = createTypography(
-  "h3",
-  "scroll-m-20 text-2xl font-semibold md:text-3xl",
-);
+export function H3({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h3
+      className={cn(
+        "scroll-m-20 text-3xl font-semibold tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export const H4 = createTypography(
-  "h4",
-  "scroll-m-20 text-xl font-medium md:text-2xl",
-);
+export function H4({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h4
+      className={cn(
+        "scroll-m-20 text-2xl font-semibold tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-// MARK: Text level
+export function H5({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h4
+      className={cn(
+        "scroll-m-20 text-xl font-medium tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export const P = createTypography("p", "leading-7 text-muted-foreground");
+// MARK: Text
 
-export const Lead = createTypography("p", "text-lg text-muted-foreground");
+export function P({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return <p className={cn("leading-7 not-first:mt-6", className)} {...props} />;
+}
 
-export const Large = createTypography("div", "text-lg font-semibold");
+export function Large({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return <p className={cn("text-lg font-semibold", className)} {...props} />;
+}
 
-export const Small = createTypography("small", "text-sm text-muted-foreground");
+export function Small({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p
+      className={cn("text-sm leading-none font-medium", className)}
+      {...props}
+    />
+  );
+}
 
-export const Muted = createTypography("p", "text-sm text-muted-foreground");
+export function Lead({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p className={cn("text-xl text-muted-foreground", className)} {...props} />
+  );
+}
 
-// MARK: Other
+export function Muted({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p className={cn("text-sm text-muted-foreground", className)} {...props} />
+  );
+}
 
-export const Blockquote = createTypography(
-  "blockquote",
-  "mt-6 border-l-2 pl-6 italic text-muted-foreground",
-);
+export function Blockquote({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLQuoteElement>) {
+  return (
+    <blockquote
+      className={cn("mt-6 border-l-2 pl-6 italic", className)}
+      {...props}
+    />
+  );
+}
 
-export const InlineCode = createTypography(
-  "code",
-  "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
-);
-
-export const List = createTypography("ul", "my-6 ml-6 list-disc [&>li]:mt-2");
-
-export const OrderedList = createTypography(
-  "ol",
-  "my-6 ml-6 list-decimal [&>li]:mt-2",
-);
-
-export const ListItem = createTypography("li", "");
-
-export const TextLink = createTypography(
-  "a",
-  "font-medium underline underline-offset-4 hover:text-primary",
-);
+export function InlineCode({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"code">) {
+  return (
+    <code
+      className={cn(
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
