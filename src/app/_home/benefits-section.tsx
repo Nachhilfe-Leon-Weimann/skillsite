@@ -1,3 +1,4 @@
+import { Magnetic } from "@/components/effects/magnetic";
 import { Section } from "@/components/layout/section";
 import { ContactAction } from "@/components/shared/contact-action";
 import {
@@ -13,24 +14,26 @@ export function BenefitsSection() {
   return (
     <Section gradient="bottom" containerClassName="gap-24">
       <div className="grid grid-cols-2 gap-16">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col">
           <H1>Simpel & flexibel</H1>
-          <H3>
+          <H3 className="my-6">
             Nachhilfe ohne komplizierte Verträge – so, wie es für dich passt.
           </H3>
           <P>
             Bei mir gibt es keine langfristigen Verpflichtungen oder versteckten
             Bedingungen. Du kannst jederzeit aufhören oder flexibel zusätzliche
-            Stunden buchen – genau so, wie es für dich am besten ist. <br />
-            <br /> Mein Ansatz: Lernen soll sich an dein Leben anpassen, nicht
+            Stunden buchen – genau so, wie es für dich am besten ist.
+          </P>
+          <P>
+            Mein Ansatz: Lernen soll sich an dein Leben anpassen, nicht
             umgekehrt.
           </P>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <div className="bg-muted h-3/4 w-full flex items-center justify-center rounded-lg">
+          <Magnetic className="bg-muted h-3/4 w-full flex items-center justify-center rounded-lg">
             <ImageIcon size={64} />
-          </div>
+          </Magnetic>
         </div>
       </div>
 
@@ -75,12 +78,14 @@ function BenefitCard({
   description: string;
 }) {
   return (
-    <Card>
-      <CardHeader>
-        <Check size={18} />
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-    </Card>
+    <Magnetic>
+      <Card variant="interactive">
+        <CardHeader>
+          <Check size={18} />
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+      </Card>
+    </Magnetic>
   );
 }

@@ -36,9 +36,7 @@ export function BenefitCard({
 
   return (
     <Magnetic>
-      <Card
-        className={cn("justify-between", "hover:ring-foreground/20", className)}
-      >
+      <Card variant="interactive" className={cn("justify-between", className)}>
         <CardHeader>
           <CardTitle
             className="flex flex-row items-center"
