@@ -32,8 +32,18 @@ export function SubjectDetailCard({
                 src={image}
                 alt={alt ?? title}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover transition-all duration-300 group-hover:scale-[1.03] dark:brightness-[0.72] dark:contrast-[1.05] dark:saturate-[0.85]"
               />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/55 via-background/10 to-transparent opacity-0 transition-opacity duration-300 dark:opacity-100" />
+              {Icon ? (
+                <Magnetic
+                  intensity={1}
+                  className="absolute left-5 bottom-5 flex size-12 items-center justify-center rounded-2xl border border-white/30 bg-background/80 text-foreground shadow-sm backdrop-blur-sm"
+                >
+                  <Icon size={24} className="text-foreground/80" />
+                </Magnetic>
+              ) : null}
             </>
           ) : (
             <div className="flex h-full w-full items-end bg-[radial-gradient(circle_at_top,var(--color-card)_0%,var(--color-muted)_70%)] p-5">

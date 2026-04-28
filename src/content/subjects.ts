@@ -92,24 +92,32 @@ export const subjects = {
           description:
             "Bruchrechnung, Terme und Gleichungen werden sauber und ohne Lücken aufgebaut.",
           icon: Sigma,
+          image: "/subjects/maths-foundations.jpg",
+          alt: "Abstrakte Mathematik-Illustration mit Formen, Symbolen und Grundlagenmotiven",
         },
         {
           title: "Funktionen verstehen",
           description:
             "Lineare, quadratische und andere Funktionen werden grafisch und rechnerisch greifbar.",
           icon: ChartLine,
+          image: "/subjects/maths-functions.jpg",
+          alt: "Illustration einer Funktionskurve in einer abstrahierten Lernszene",
         },
         {
           title: "Analysis sicher anwenden",
           description:
             "Ableitungen und Integrale werden Schritt für Schritt aus ihrer Logik heraus erklärt.",
           icon: Pi,
+          image: "/subjects/maths-analysis.jpg",
+          alt: "Abstrakte Analysis-Illustration mit Kurvenverlauf und Flächenbezug",
         },
         {
           title: "Geometrie mit System",
           description:
             "Winkel, Flächen und Beweise werden strukturiert statt auswendig gelernt.",
           icon: DraftingCompass,
+          image: "/subjects/maths-geometry.jpg",
+          alt: "Geometrische Illustration mit Körpern, Zirkel und Konstruktionslinien",
         },
       ],
     },
@@ -143,12 +151,16 @@ export const subjects = {
           description:
             "Variablen, Bedingungen und Schleifen werden mit klaren Denkmodellen verständlich.",
           icon: Binary,
+          image: "/subjects/cs-programming.jpg",
+          alt: "Abstrakte Informatik-Illustration mit modularen Code- und Logikbausteinen",
         },
         {
           title: "Algorithmen nachvollziehen",
           description:
             "Abläufe werden so erklärt, dass du sie lesen, planen und selbst entwickeln kannst.",
           icon: Workflow,
+          image: "/subjects/cs-algorithms.jpg",
+          alt: "Illustration eines algorithmischen Ablaufs mit verbundenen Entscheidungsstrukturen",
         },
       ],
     },
@@ -182,12 +194,16 @@ export const subjects = {
           description:
             "Kräfte, Bewegung und Energie werden vom Alltag ausgehend systematisch erklärt.",
           icon: Magnet,
+          image: "/subjects/physics-mechanics.jpg",
+          alt: "Physik-Illustration mit Hebeln, Pendel und Bewegungsbahnen",
         },
         {
           title: "Elektrizität durchblicken",
           description:
             "Strom, Spannung und Schaltungen werden ohne Formeldschungel verständlich gemacht.",
           icon: Zap,
+          image: "/subjects/physics-electricity.jpg",
+          alt: "Illustration eines abstrahierten Stromkreises mit Lampe und Bauteilen",
         },
       ],
     },

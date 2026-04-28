@@ -19,7 +19,7 @@ import Link from "next/link";
 
 export function SubjectsHero() {
   return (
-    <Section gradient="bottom" containerClassName="gap-24" offsetFooter>
+    <Section gradient="bottom" containerClassName="gap-32">
       <CTA className="max-w-full">
         <CTAHeader>
           <CTABadge>
@@ -67,7 +67,7 @@ function SubjectCard({
 
   return (
     <Magnetic>
-      <Card variant="interactive">
+      <Card className="h-full" variant="interactive">
         <CardHeader>
           <div>
             <Magnetic className="w-fit p-3 bg-muted rounded-lg">
@@ -81,7 +81,7 @@ function SubjectCard({
             </CardAction>
           )}
         </CardHeader>
-        <CardContent>
+        <CardContent className="h-full">
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardContent>
