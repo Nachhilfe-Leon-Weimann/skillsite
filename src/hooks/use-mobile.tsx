@@ -19,22 +19,31 @@ export const DeviceContextProvider = ({
   );
 };
 
-export function useIsMobile() {
-  const context = React.useContext(DeviceContext);
-
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
-    context.isMobile,
+function subscribeToMobileBreakpoint(onStoreChange: () => void) {
+  const mediaQueryList = window.matchMedia(
+    `(max-width: ${MOBILE_BREAKPOINT - 1}px)`,
   );
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    return () => mql.removeEventListener("change", onChange);
-  }, []);
+  mediaQueryList.addEventListener("change", onStoreChange);
 
-  return !!isMobile;
+  return () => mediaQueryList.removeEventListener("change", onStoreChange);
+}
+
+function getMobileSnapshot() {
+  return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
+}
+
+function getServerMobileSnapshot() {
+  return false;
+}
+
+export function useIsMobile() {
+  const context = React.useContext(DeviceContext);
+  const isMobile = React.useSyncExternalStore(
+    subscribeToMobileBreakpoint,
+    getMobileSnapshot,
+    getServerMobileSnapshot,
+  );
+
+  return context.isMobile ?? isMobile;
 }
