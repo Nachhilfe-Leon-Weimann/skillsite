@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skillsite
 
-## Getting Started
+Next.js-Anwendung für die Website „Nachhilfe Leon Weimann“ mit Fokus auf Darstellung von Leistungen, Preisen und Terminbuchung.
 
-First, run the development server:
+## Kernfunktion
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+* statische Inhaltsseiten (Fächer, Preise, Kontakt)
+* konfigurationsgetriebene Inhalte (`content`, `lib`)
+* externe Terminbuchung über Cal.com
+
+## Architektur
+
+Inhalte liegen zentral in `src/content` und `src/lib`. Komponenten konsumieren ausschließlich diese Datenquellen.
+
+## Tech Stack
+
+* Framework: Next.js (App Router)
+* Sprache: TypeScript
+* Styling: Tailwind CSS
+* UI-System: shadcn/ui
+* Icons: Lucide, Simple Icons
+* Buchung: `@calcom/embed-react`
+* Package Manager: pnpm
+
+## Setup
+
+Voraussetzungen:
+
+* Node.js (empfohlen: LTS)
+* pnpm installiert
+
+```zsh
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Standard: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```zsh
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
+```
 
-## Learn More
+## Umgebungsvariablen
 
-To learn more about Next.js, take a look at the following resources:
+`.env.local`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Booking
+NEXT_PUBLIC_BOOKING_CAL_USERNAME=
+NEXT_PUBLIC_BOOKING_EVENT_SLUG_KENNENLERNEN=
+NEXT_PUBLIC_BOOKING_EVENT_SLUG_TERMIN=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Contact
+NEXT_PUBLIC_CONTACT_EMAIL=
+NEXT_PUBLIC_CONTACT_WHATSAPP=
+NEXT_PUBLIC_WHATSAPP_URL=
 
-## Deploy on Vercel
+# Socials
+NEXT_PUBLIC_DISCORD_URL=
+NEXT_PUBLIC_INSTAGRAM_URL=
+NEXT_PUBLIC_YOUTUBE_URL=
+NEXT_PUBLIC_TIKTOK_URL=
+NEXT_PUBLIC_GITHUB_URL=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Dev
+ALLOWED_DEV_ORIGINS=
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`ALLOWED_DEV_ORIGINS` wird in `next.config.ts` an `allowedDevOrigins` übergeben.
+
+## Projektstruktur
+
+```text
+src/
+  app/         Routing (App Router)
+  components/  UI und zusammengesetzte Komponenten
+  content/     Statische Inhalte (Fächer, Preise, Feedback)
+  lib/         Konfiguration (Routen, Navigation, Kontakte)
+  hooks/       Client Hooks
+  server/      Server Utilities
+public/
+  subjects/    Bildmaterial
+```
+
+## Content
+
+* Fächer: `src/content/subjects.ts`
+* Preise: `src/content/pricing*.ts`
+* Feedback: `src/content/feedback.ts`
+* Kontakte: `src/lib/contact-details.ts`
+* Navigation: `src/lib/navigation.ts`, `src/lib/routes.ts`
+
+## UI-Regeln
+
+* UI basiert auf shadcn/ui
+* Styling ausschließlich über Tailwind CSS
+* keine isolierten CSS-Dateien
+* Komposition statt monolithischer Komponenten
+* keine `any`-Typen
+
+## Deployment
+
+Noch nicht definiert.
+
+Build:
+
+```zsh
+pnpm build
+```
