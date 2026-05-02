@@ -1,11 +1,8 @@
-import Link from "next/link";
-
 import { Section } from "@/components/layout/section";
 import { ContactAction } from "@/components/shared/contact-action";
-import { Badge } from "@/components/ui/badge";
 import { H1, H2, Lead, Muted, P } from "@/components/ui/typography";
 import { subjectList } from "@/content/subjects";
-import { Button } from "@/components/ui/button";
+import { SubjectBadge } from "@/components/shared/subject-badge";
 
 export function HeroSection() {
   return (
@@ -68,33 +65,15 @@ function BottomPart() {
         <Muted>Hol dir Hilfe in</Muted>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <SubjectBadges />
+          {subjectList.map((subject) => (
+            <SubjectBadge
+              key={subject.key}
+              subject={subject}
+              className="min-w-42 "
+            />
+          ))}
         </div>
       </div>
     </div>
-  );
-}
-
-function SubjectBadges() {
-  return (
-    <>
-      {subjectList.map((subject) => (
-        <Button
-          key={subject.key}
-          variant="link"
-          className="p-0 hover:no-underline text-md"
-          asChild
-        >
-          <Link href={subject.href}>
-            <Badge
-              className="min-w-42 text-md p-3.5 hover:border-primary/40 hover:bg-primary/5"
-              variant="outline"
-            >
-              {subject.name}
-            </Badge>
-          </Link>
-        </Button>
-      ))}
-    </>
   );
 }
