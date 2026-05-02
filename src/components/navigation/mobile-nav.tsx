@@ -107,7 +107,7 @@ function MobileNavItem({ item }: { item: NavItem }) {
         <SheetClose asChild>
           <Link
             href={item.href}
-            className="block rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 hover:bg-muted hover:text-primary focus:bg-muted focus:text-primary focus:outline-none"
+            className="block rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 hover:bg-muted hover:text-primary focus:bg-muted focus:text-primary focus:outline-none active:translate-y-px"
           >
             {item.label}
           </Link>
@@ -119,7 +119,7 @@ function MobileNavItem({ item }: { item: NavItem }) {
   return (
     <li>
       <Collapsible className="group/collapsible">
-        <CollapsibleTrigger className="group/mobile-trigger flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-200 hover:bg-muted hover:text-primary focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 group-data-[state=open]/collapsible:bg-muted">
+        <CollapsibleTrigger className="group/mobile-trigger flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors duration-200 hover:bg-muted hover:text-primary focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 group-data-[state=open]/collapsible:bg-muted active:translate-y-px">
           <span>{item.label}</span>
           <ChevronDown
             className="size-4 text-muted-foreground transition-all duration-200 group-hover/mobile-trigger:text-primary group-data-[state=open]/collapsible:rotate-180"
