@@ -1,5 +1,10 @@
 import { routes } from "@/lib/routes";
 import {
+  formatLessonAmount,
+  standardLessonPricing,
+  type LessonPricing,
+} from "@/content/lesson-pricing";
+import {
   Atom,
   Binary,
   Calculator,
@@ -16,12 +21,8 @@ import {
 
 export type SubjectKey = "maths" | "computer_science" | "physics";
 
-export type SubjectPricing = {
-  amount: number;
-  currency?: string;
-  unit?: string;
-  href?: string;
-};
+export type SubjectPricing = Pick<LessonPricing, "amount"> &
+  Partial<Pick<LessonPricing, "currency" | "unit" | "href">>;
 
 export type SubjectTopic = {
   title: string;
@@ -74,10 +75,7 @@ export const subjects = {
       description:
         "Wir arbeiten an Verständnis, Struktur und sicheren Lösungswegen, damit du Aufgaben selbstständig nachvollziehen kannst.",
       pricing: {
-        amount: 30,
-        currency: "EUR",
-        unit: "pro Stunde",
-        href: routes.pricing,
+        ...standardLessonPricing,
       },
       layout: {
         type: "showcase",
@@ -136,10 +134,7 @@ export const subjects = {
       description:
         "Von den ersten Konzepten bis zu konkreten Projekten lernst du, Probleme sauber zu analysieren und strukturiert zu lösen.",
       pricing: {
-        amount: 30,
-        currency: "EUR",
-        unit: "pro Stunde",
-        href: routes.pricing,
+        ...standardLessonPricing,
       },
       layout: {
         type: "split",
@@ -179,10 +174,7 @@ export const subjects = {
       description:
         "Wir verbinden Formeln mit echten Zusammenhängen, damit Aufgaben nicht abstrakt bleiben, sondern nachvollziehbar werden.",
       pricing: {
-        amount: 30,
-        currency: "EUR",
-        unit: "pro Stunde",
-        href: routes.pricing,
+        ...standardLessonPricing,
       },
       layout: {
         type: "split",
@@ -229,11 +221,7 @@ export function formatSubjectPrice({
   currency = "EUR",
   unit = "pro Stunde",
 }: SubjectPricing) {
-  const formattedAmount = new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  const formattedAmount = formatLessonAmount({ amount, currency });
 
   return `Schon ab ${formattedAmount} ${unit}`;
 }

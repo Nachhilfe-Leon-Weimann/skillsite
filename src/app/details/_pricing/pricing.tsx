@@ -1,103 +1,48 @@
 import { CTA, CTAHeader } from "@/components/blocks/cta";
 import { Section } from "@/components/layout/section";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { IconInfoCard } from "@/components/shared/icon-info-card";
+import { PaymentCard } from "@/app/details/_pricing/payment-card";
+import { Card, CardContent } from "@/components/ui/card";
 import { H1, Lead, Muted, P, Small } from "@/components/ui/typography";
-import { subjectList } from "@/content/subjects";
 import {
-  Banknote,
-  CalendarClock,
-  CalendarRange,
-  Check,
-  CreditCard,
-  LucideIcon,
-  ReceiptText,
-  Repeat,
-} from "lucide-react";
+  formatLessonAmount,
+  formatLessonDuration,
+} from "@/content/lesson-pricing";
+import { pricingContent } from "@/content/pricing";
+import { subjectList } from "@/content/subjects";
 import { SubjectBadge } from "@/components/shared/subject-badge";
 import { Magnetic } from "@/components/effects/magnetic";
 
-type PaymentDetailData = {
-  title: string;
-  text?: string;
-  icon: LucideIcon;
-};
-
-const paymentMethods = [
-  {
-    title: "Überweisung",
-    text: "per Rechnung mit GiroCode",
-    icon: ReceiptText,
-  },
-  {
-    title: "PayPal",
-    text: "mit Zahlungslink",
-    icon: CreditCard,
-  },
-] as const;
-
-const paymentOptions = [
-  {
-    title: "Einzeln",
-    text: "Rechnung nach dem Termin",
-    icon: Banknote,
-  },
-  {
-    title: "Blockweise",
-    text: "Mehrere Termine gebündelt",
-    icon: CalendarRange,
-  },
-] as const;
-
-const policyItems = [
-  {
-    title: "Kostenfrei absagen",
-    text: "Bis 24 h vorher ohne Berechnung.",
-    icon: CalendarClock,
-  },
-  {
-    title: "Fair bei kurzfristigen Fällen",
-    text: "Wenn es knapp wird, finden wir eine sinnvolle Lösung.",
-    icon: Check,
-  },
-  {
-    title: "Flexibel planbar",
-    text: "Keine Mindestlaufzeit. Blöcke können angepasst werden.",
-    icon: Repeat,
-  },
-] as const;
-
 export function PricingSections() {
+  const pricing = pricingContent.priceSummary.pricing;
+
   return (
     <Section
-      id="preise"
+      id={pricingContent.sectionId}
       gradient="bottom"
       containerClassName="gap-6"
       offsetFooter
     >
-      <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] justify-center items-center gap-8">
+      <div className="grid items-center justify-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <CTA variant="left">
           <CTAHeader>
-            <Lead>Einfach, transparent, flexibel</Lead>
-            <H1>
-              Klare Preise
-              <br />
-              ohne Überraschungen.
-            </H1>
-            <P>Ohne versteckte Kosten, oder Verpflichtungen.</P>
+            <Lead>{pricingContent.hero.lead}</Lead>
+            <H1>{pricingContent.hero.title}</H1>
+            <P>{pricingContent.hero.description}</P>
           </CTAHeader>
         </CTA>
 
         <Card size="sm">
           <CardContent className="grid gap-8">
             <div>
-              <div className="font-heading text-6xl font-semibold tracking-tight sm:text-7xl">
-                30 €
+              <div className="font-heading text-6xl text-accent-foreground font-semibold tracking-tight sm:text-7xl">
+                {formatLessonAmount(pricing)}
               </div>
-              <Muted className="mt-2">für 60 Minuten</Muted>
+              <Muted className="mt-2">{formatLessonDuration(pricing)}</Muted>
             </div>
 
             <div className="flex flex-col gap-2">
-              <Small>Alle Fächer zum gleichen Preis:</Small>
+              <Small>{pricingContent.priceSummary.subjectsLabel}</Small>
               <div className="flex flex-wrap gap-2">
                 {subjectList.map((subject) => {
                   return (
@@ -112,75 +57,28 @@ export function PricingSections() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
-        {policyItems.map((item) => (
-          <PolicyCard key={item.title} item={item} />
+      <div className="grid gap-6 md:grid-cols-3">
+        {pricingContent.serviceDetails.map((item) => (
+          <IconInfoCard
+            key={item.title}
+            title={item.title}
+            description={item.description}
+            icon={item.icon}
+          />
         ))}
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] justify-center items-center gap-8">
-        <PaymentCard />
+      <div className="grid items-center justify-center gap-8 lg:grid-cols-2">
+        <PaymentCard sections={pricingContent.payment.sections} />
 
         <CTA variant="right">
           <CTAHeader>
-            <P>Transparent und ohne feste Vertragslaufzeit.</P>
-            <H1>So kannst du zahlen</H1>
-            <Lead>Zahlungsflow</Lead>
+            <P>{pricingContent.payment.cta.description}</P>
+            <H1>{pricingContent.payment.cta.title}</H1>
+            <Lead>{pricingContent.payment.cta.lead}</Lead>
           </CTAHeader>
         </CTA>
       </div>
     </Section>
-  );
-}
-
-function PaymentCard() {
-  return (
-    <Card size="sm">
-      <CardHeader>
-        <CardTitle>Zahlungsmethoden</CardTitle>
-      </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
-        {paymentMethods.map((detail) => (
-          <PolicyCard key={detail.title} item={detail} />
-        ))}
-      </CardContent>
-
-      <CardHeader>
-        <CardTitle>Abrechungsoptionen</CardTitle>
-      </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
-        {paymentOptions.map((detail) => (
-          <PolicyCard key={detail.title} item={detail} />
-        ))}
-      </CardContent>
-    </Card>
-  );
-}
-
-function PolicyCard({
-  item,
-}: {
-  item: {
-    title: string;
-    text: string;
-    icon: LucideIcon;
-  };
-}) {
-  const Icon = item.icon;
-
-  return (
-    <Magnetic className="grid">
-      <Card size="sm" variant="interactive">
-        <CardContent className="flex items-start gap-3">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted">
-            <Icon size={18} />
-          </span>
-          <div>
-            <p className="font-medium">{item.title}</p>
-            <Muted>{item.text}</Muted>
-          </div>
-        </CardContent>
-      </Card>
-    </Magnetic>
   );
 }
