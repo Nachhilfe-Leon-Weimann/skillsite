@@ -2,7 +2,7 @@
 
 import { HeightReporter } from "@/components/layout/metrics/height-reporter";
 import { useLayoutMetrics } from "@/components/layout/metrics/layout-metrics-provider";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navigation/navbar";
 
 export function MeasuredNavbar() {
   const { setNavHeight } = useLayoutMetrics();
