@@ -1,6 +1,5 @@
 import {
   BadgeDollarSign,
-  CalendarRange,
   CircleHelp,
   type LucideIcon,
   MessagesSquare,
@@ -52,12 +51,12 @@ export const navItems: NavItem[] = [
             {
               title: "Preise & Zahlung",
               href: routes.pricing,
-              description: "Transparent von anfang an",
+              description: "Alles im Überblick",
               icon: BadgeDollarSign,
             },
             {
               title: "Bildung und Teilhabe",
-              href: routes.pricing,
+              href: routes.educationAndPraticipation,
               description: "Für uns kein Sonderfall",
               icon: ReceiptText,
             },
@@ -69,15 +68,15 @@ export const navItems: NavItem[] = [
           items: [
             {
               title: "Discord Server",
-              href: routes.details,
+              href: routes.communication,
               description: "Unterricht & Materialien",
               icon: siDiscord,
             },
             {
-              title: "Termin planen",
-              href: routes.booking,
-              description: "Hilfe schadet nie",
-              icon: CalendarRange,
+              title: "Ablauf",
+              href: routes.process,
+              description: "Wie wir zusammen lernen",
+              icon: MessagesSquare,
             },
           ],
         },
@@ -85,14 +84,8 @@ export const navItems: NavItem[] = [
           title: "Orientierung",
           items: [
             {
-              title: "Ablauf",
-              href: routes.details,
-              description: "Wie wir zusammenarbeiten",
-              icon: MessagesSquare,
-            },
-            {
               title: "Häufige Fragen",
-              href: routes.contact,
+              href: routes.faq,
               description: "Rund um unser Angebot",
               icon: CircleHelp,
             },
