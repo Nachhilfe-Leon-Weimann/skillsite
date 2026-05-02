@@ -16,4 +16,7 @@ export const routes = {
   about: "/about",
   contact: "/kontakt",
   booking: "/termin",
+
+  impressum: "/impressum",
+  datenschutz: "/datenschutz",
 } as const;

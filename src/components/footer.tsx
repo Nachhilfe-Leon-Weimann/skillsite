@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { socials } from "@/lib/socials";
 import { SocialLink } from "@/components/social-link";
 import { Container } from "@/components/layout/container";
+import { routes } from "@/lib/routes";
 
 export function Footer() {
   return (
@@ -32,12 +33,13 @@ export function Footer() {
             aria-label="Rechtliche Links"
             className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground sm:col-start-2 sm:row-start-1"
           >
-            <Link href="/impressum" className="hover:text-foreground">
+            <Link href={routes.impressum} className="hover:text-foreground">
               Impressum
             </Link>
-            <Link href="/datenschutz" className="hover:text-foreground">
+            <Link href={routes.datenschutz} className="hover:text-foreground">
               Datenschutz
             </Link>
+            {/* // TODO: Button that opens cookie modal */}
             <Link href="/cookies" className="hover:text-foreground">
               Cookies
             </Link>
