@@ -5,6 +5,7 @@ import { socials } from "@/lib/socials";
 import { SocialLink } from "@/components/social-link";
 import { Container } from "@/components/layout/container";
 import { routes } from "@/lib/routes";
+import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
 
 export function Footer() {
   return (
@@ -39,10 +40,7 @@ export function Footer() {
             <Link href={routes.datenschutz} className="hover:text-foreground">
               Datenschutz
             </Link>
-            {/* // TODO: Button that opens cookie modal */}
-            <Link href="/cookies" className="hover:text-foreground">
-              Cookies
-            </Link>
+            <CookieSettingsButton variant="link" />
           </nav>
         </div>
 

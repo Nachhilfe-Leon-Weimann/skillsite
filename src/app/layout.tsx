@@ -9,6 +9,9 @@ import { getDevice } from "@/server/get-device";
 import { LayoutMetricsProvider } from "@/components/layout/metrics/layout-metrics-provider";
 import { MeasuredNavbar } from "@/components/layout/metrics/measured-navbar";
 import { MeasuredFooter } from "@/components/layout/metrics/measured-footer";
+import { ConsentProvider } from "@/providers/consent-provider";
+import { CookieConsentDialog } from "@/components/consent/cookie-consent-dialog";
+import { CookieConsentBanner } from "@/components/consent/cookie-consent-banner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -59,13 +62,17 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <LayoutMetricsProvider>
-              <TooltipProvider>
-                <MeasuredNavbar />
-                <main className="flex min-h-0 flex-col">{children}</main>
-                <MeasuredFooter />
-              </TooltipProvider>
-            </LayoutMetricsProvider>
+            <ConsentProvider>
+              <LayoutMetricsProvider>
+                <TooltipProvider>
+                  <MeasuredNavbar />
+                  <main className="flex min-h-0 flex-col">{children}</main>
+                  <MeasuredFooter />
+                  <CookieConsentDialog />
+                  <CookieConsentBanner />
+                </TooltipProvider>
+              </LayoutMetricsProvider>
+            </ConsentProvider>
           </ThemeProvider>
         </DeviceContextProvider>
       </body>
