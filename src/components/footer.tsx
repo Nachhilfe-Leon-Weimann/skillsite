@@ -6,6 +6,7 @@ import { SocialLink } from "@/components/social-link";
 import { Container } from "@/components/layout/container";
 import { routes } from "@/lib/routes";
 import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
@@ -32,15 +33,15 @@ export function Footer() {
           {/* Legals */}
           <nav
             aria-label="Rechtliche Links"
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground sm:col-start-2 sm:row-start-1"
+            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:col-start-2 sm:row-start-1"
           >
-            <Link href={routes.impressum} className="hover:text-foreground">
-              Impressum
-            </Link>
-            <Link href={routes.datenschutz} className="hover:text-foreground">
-              Datenschutz
-            </Link>
-            <CookieSettingsButton variant="link" />
+            <FooterLink href={routes.impressum}>Impressum</FooterLink>
+            <FooterLink href={routes.datenschutz}>Datenschutz</FooterLink>
+
+            <CookieSettingsButton
+              variant="link"
+              className="text-muted-foreground hover:text-foreground"
+            />
           </nav>
         </div>
 
@@ -57,5 +58,23 @@ export function Footer() {
         </div>
       </Container>
     </footer>
+  );
+}
+
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Button
+      variant="link"
+      className="text-sm text-muted-foreground hover:text-foreground"
+      asChild
+    >
+      <Link href={href}>{children}</Link>
+    </Button>
   );
 }
