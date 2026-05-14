@@ -19,12 +19,18 @@ import {
   logFilePurposes,
   ownAppProviders,
   privacyContact,
+  privacyPolicyEffectiveDate,
   privacySections,
   userRights,
 } from "@/content/privacy";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
 
 export default function DatenschutzPage() {
+  const effectiveDate = privacyPolicyEffectiveDate.toLocaleDateString("de-DE", {
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <DocShell sections={privacySections}>
       <DocHero
@@ -36,7 +42,7 @@ export default function DatenschutzPage() {
           {
             icon: CalendarDays,
             label: "Stand",
-            children: "September 2025",
+            children: <>{effectiveDate}</>,
           },
           {
             icon: Mail,
@@ -306,8 +312,8 @@ export default function DatenschutzPage() {
         title="8. Aktualität und Änderung dieser Datenschutzerklärung"
       >
         <P variant="doc">
-          Diese Datenschutzerklärung ist aktuell gültig und hat den Stand
-          September 2025. Änderungen können durch Anpassungen meiner Dienste
+          Diese Datenschutzerklärung ist aktuell gültig und hat den Stand{" "}
+          {effectiveDate}. Änderungen können durch Anpassungen meiner Dienste
           oder aufgrund geänderter gesetzlicher Vorgaben notwendig werden.
         </P>
       </DocSection>
