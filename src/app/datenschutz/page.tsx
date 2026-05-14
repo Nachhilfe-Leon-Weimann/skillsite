@@ -11,7 +11,8 @@ import {
   DocShell,
   DocSubSection,
 } from "@/components/docs/doc-components";
-import { Address, InlineLink, P } from "@/components/ui/typography";
+import { ContactAddress } from "@/components/shared/contact-address";
+import { InlineLink, P } from "@/components/ui/typography";
 import {
   externalPlatformPrivacyLinks,
   logFileItems,
@@ -53,15 +54,7 @@ export default function DatenschutzPage() {
         <P variant="doc">
           Verantwortlich für die Verarbeitung Ihrer personenbezogenen Daten ist:
         </P>
-        <Address variant="doc">
-          Nachhilfe Leon Weimann
-          <br />
-          Leon Weimann
-          <br />
-          Friedhofstraße 11
-          <br />
-          77963 Schwanau
-        </Address>
+        <ContactAddress />
         <P variant="doc" className="mt-6">
           E-Mail:{" "}
           <InlineLink variant="doc" href={`mailto:${privacyContact.email}`}>
@@ -302,8 +295,9 @@ export default function DatenschutzPage() {
 
       <DocSection id="datensicherheit" title="7. Datensicherheit">
         <P variant="doc">
-          Ich nutze technische und organisatorische Sicherheitsmaßnahmen, um Ihre
-          Daten gegen Verlust, Zerstörung oder unbefugten Zugriff zu schützen.
+          Ich nutze technische und organisatorische Sicherheitsmaßnahmen, um
+          Ihre Daten gegen Verlust, Zerstörung oder unbefugten Zugriff zu
+          schützen.
         </P>
       </DocSection>
 
@@ -313,8 +307,8 @@ export default function DatenschutzPage() {
       >
         <P variant="doc">
           Diese Datenschutzerklärung ist aktuell gültig und hat den Stand
-          September 2025. Änderungen können durch Anpassungen meiner Dienste oder
-          aufgrund geänderter gesetzlicher Vorgaben notwendig werden.
+          September 2025. Änderungen können durch Anpassungen meiner Dienste
+          oder aufgrund geänderter gesetzlicher Vorgaben notwendig werden.
         </P>
       </DocSection>
     </DocShell>

@@ -3,7 +3,8 @@ import {
   DocSection,
   DocShell,
 } from "@/components/docs/doc-components";
-import { Address, InlineLink, P } from "@/components/ui/typography";
+import { ContactAddress } from "@/components/shared/contact-address";
+import { InlineLink, P } from "@/components/ui/typography";
 import { legalContact } from "@/content/legal";
 import { FileText } from "lucide-react";
 
@@ -45,21 +46,5 @@ export default function ImpressumPage() {
         </P>
       </DocSection>
     </DocShell>
-  );
-}
-
-function ContactAddress() {
-  return (
-    <Address variant="doc">
-      {legalContact.businessName}
-      <br />
-      {legalContact.ownerName}
-      <br />
-      {legalContact.street}
-      <br />
-      {legalContact.city}
-      <br />
-      {legalContact.country}
-    </Address>
   );
 }
