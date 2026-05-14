@@ -1,6 +1,8 @@
+import { legalContact } from "@/content/legal";
+
 export const privacyContact = {
-  email: "nachhilfe@leonweimann.de",
-  phone: "+49 7824 6190305",
+  email: legalContact.email,
+  phone: legalContact.phone,
 };
 
 export const privacySections = [
