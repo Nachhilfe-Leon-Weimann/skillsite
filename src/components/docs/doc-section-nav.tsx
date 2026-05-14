@@ -5,16 +5,20 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-type PrivacySection = {
+export type DocNavSection = {
   id: string;
   label: string;
 };
 
-type PrivacySectionNavProps = {
-  sections: PrivacySection[];
+type DocSectionNavProps = {
+  sections: DocNavSection[];
+  title?: string;
 };
 
-export function PrivacySectionNav({ sections }: PrivacySectionNavProps) {
+export function DocSectionNav({
+  sections,
+  title = "Übersicht",
+}: DocSectionNavProps) {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id);
   const ignoreObserverUntilRef = useRef(0);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -83,12 +87,12 @@ export function PrivacySectionNav({ sections }: PrivacySectionNavProps) {
   return (
     <Card className="rounded-lg py-0 shadow-sm">
       <CardContent className="max-h-[calc(100dvh-8rem)] overflow-y-auto p-4">
-        <nav aria-labelledby="privacy-navigation-heading">
+        <nav aria-labelledby="doc-navigation-heading">
           <p
-            id="privacy-navigation-heading"
+            id="doc-navigation-heading"
             className="text-sm font-semibold tracking-tight"
           >
-            Übersicht
+            {title}
           </p>
           <ol className="mt-3 space-y-1">
             {sections.map((section, index) => {
@@ -104,10 +108,8 @@ export function PrivacySectionNav({ sections }: PrivacySectionNavProps) {
                     aria-current={isActive ? "location" : undefined}
                     onClick={() => activateSection(section.id)}
                     className={cn(
-                      "relative flex gap-2 rounded-md border border-transparent py-2 pr-2 pl-3 text-sm leading-5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      isActive
-                        ? "border-border bg-muted text-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
+                      "relative flex gap-2 rounded-md border border-transparent py-2 pr-2 pl-3 text-sm leading-5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring hover:bg-muted/70 hover:text-foreground",
+                      isActive ? "text-foreground" : "text-muted-foreground",
                     )}
                   >
                     <span
