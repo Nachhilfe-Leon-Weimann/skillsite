@@ -2,41 +2,53 @@
 
 import { Booker } from "@/components/cal/booker";
 import { Section } from "@/components/layout/section";
-import { BrandIcon } from "@/components/social-link";
-import { Button } from "@/components/ui/button";
-import { H1, H2 } from "@/components/ui/typography";
+import { H1, InlineLink, Lead } from "@/components/ui/typography";
 import { QRCodeSVG } from "qrcode.react";
-import { type ContactDetail, contactDetails } from "@/lib/contact-details";
-import { socials } from "@/lib/socials";
 import { MoveDown } from "lucide-react";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getBookingDetails } from "@/lib/booking-details";
+import { Card, CardContent } from "@/components/ui/card";
+import { CTA, CTAContent, CTAFooter, CTAHeader } from "@/components/blocks/cta";
+import {
+  contactDetails,
+  contactDetailsList,
+  type ContactDetail,
+} from "@/content/contact";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Contact() {
   const isMobile = useIsMobile();
-  const whatsAppSocial = socials.find((s) => s.id === "whatsapp");
-
   const bookerProps = getBookingDetails("kennenlernen");
 
   return (
     <>
-      <Section
-        gradient="top"
-        containerClassName="items-center justify-evenly md:py-16 gap-8 sm:gap-12 md:gap-24"
-      >
-        <H1 className="md:text-center">Kontaktiere mich noch heute</H1>
-
-        <div className="flex flex-col items-center justify-between gap-8 sm:gap-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-12">
-            <H2 className="pb-6 sm:p-6 self-center">
-              Ich freue mich auf deine Nachricht!
-            </H2>
-
-            <div className="bg-card border rounded-xl px-6 py-4 grid grid-cols-1 min-[950px]:grid-cols-2 gap-8">
-              <div className="flex flex-col items-center justify-center min-[950px]:items-start">
-                <dl>
-                  {contactDetails.map((contactDetail) => (
+      <Section gradient="top" containerClassName="gap-12">
+        <CTA>
+          <CTAHeader>
+            <H1>Kontaktiere mich noch heute</H1>
+            <Lead>Ich freue mich auf deine Nachricht</Lead>
+          </CTAHeader>
+          <CTAContent>
+            <Card>
+              <CardContent
+                className={cn(
+                  "text-left gap-8 grid grid-cols-1 items-center",
+                  isMobile ? "sm:grid-cols-1" : "sm:grid-cols-2",
+                )}
+              >
+                <dl
+                  className={cn(
+                    isMobile ? "flex flex-col sm:flex-row sm:gap-8" : "",
+                  )}
+                >
+                  {contactDetailsList.map((contactDetail) => (
                     <ContactDetailCell
                       key={contactDetail.label}
                       contactDetail={contactDetail}
@@ -44,23 +56,29 @@ export default function Contact() {
                     />
                   ))}
                 </dl>
-              </div>
 
-              {!isMobile && (
-                <div className="flex items-center justify-center min-[950px]:justify-end">
-                  <QRCode href={whatsAppSocial?.href || "#"} />
-                </div>
-              )}
-            </div>
-          </div>
-
-          <Button size="lg" asChild>
-            <Link href={whatsAppSocial?.href || "#"}>
-              {whatsAppSocial && <BrandIcon icon={whatsAppSocial.icon} />}
-              Jetzt anschreiben
-            </Link>
-          </Button>
-        </div>
+                {!isMobile && (
+                  <div className="flex flex-row items-center justify-center sm:justify-end">
+                    <Tooltip delayDuration={300}>
+                      <TooltipTrigger>
+                        <QRCode
+                          href={contactDetails.whatsapp.href}
+                          size={128}
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">Klick mich</TooltipContent>
+                    </Tooltip>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </CTAContent>
+          <CTAFooter>
+            <Button size="lg" asChild>
+              <Link href={contactDetails.whatsapp.href}>Jetzt anschreiben</Link>
+            </Button>
+          </CTAFooter>
+        </CTA>
 
         <div className="sm:text-center text-muted-foreground">
           <Link
@@ -101,7 +119,9 @@ function ContactDetailCell({
     <div className={className}>
       <dt className="text-sm text-muted-foreground">{contactDetail.label}</dt>
       <dd className="text-base font-medium">
-        <Link href={contactDetail.href || "#"}>{contactDetail.value}</Link>
+        <InlineLink href={contactDetail.href} target="_blank">
+          {contactDetail.content}
+        </InlineLink>
       </dd>
     </div>
   );
