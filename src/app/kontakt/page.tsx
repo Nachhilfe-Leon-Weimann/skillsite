@@ -2,7 +2,7 @@
 
 import { Booker } from "@/components/cal/booker";
 import { Section } from "@/components/layout/section";
-import { H1, InlineLink, Lead } from "@/components/ui/typography";
+import { H1, InlineLink, Lead, Muted, P } from "@/components/ui/typography";
 import { QRCodeSVG } from "qrcode.react";
 import { MoveDown } from "lucide-react";
 import Link from "next/link";
@@ -22,6 +22,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { routes } from "@/lib/routes";
+import { handleSectionLinkClick } from "@/lib/scroll-to-section";
+import { BrandIcon } from "@/components/social-link";
+import { siWhatsapp } from "simple-icons";
+
+const firstMeetingSectionId = "kennenlernen";
 
 export default function Contact() {
   const isMobile = useIsMobile();
@@ -29,11 +35,11 @@ export default function Contact() {
 
   return (
     <>
-      <Section gradient="top" containerClassName="gap-12">
+      <Section gradient="top" containerClassName="relative">
         <CTA>
           <CTAHeader>
             <H1>Kontaktiere mich noch heute</H1>
-            <Lead>Ich freue mich auf deine Nachricht</Lead>
+            <Lead>Ich freue mich auf deine Nachricht!</Lead>
           </CTAHeader>
           <CTAContent>
             <Card>
@@ -75,34 +81,59 @@ export default function Contact() {
           </CTAContent>
           <CTAFooter>
             <Button size="lg" asChild>
-              <Link href={contactDetails.whatsapp.href}>Jetzt anschreiben</Link>
+              <Link
+                className="gap-2"
+                href={contactDetails.whatsapp.href}
+                target="_blank"
+              >
+                <BrandIcon icon={siWhatsapp} />
+                Jetzt anschreiben
+              </Link>
             </Button>
           </CTAFooter>
         </CTA>
 
-        <div className="sm:text-center text-muted-foreground">
+        <div className="absolute inset-x-0 bottom-0 text-center text-muted-foreground">
           <Link
-            href="#"
+            href={routes.first_meeting}
+            onClick={(event) =>
+              handleSectionLinkClick(event, routes.first_meeting)
+            }
             className="flex items-center justify-center gap-4 px-2"
           >
             <MoveDown size={16} />
-            <p>Oder beginne mit einem persönlichen Erstgespräch</p>
+            <P>Oder beginne mit einem persönlichen Erstgespräch</P>
             <MoveDown size={16} />
           </Link>
         </div>
       </Section>
 
-      <Section
-        gradient="bottom"
-        containerClassName="text-center gap-8"
-        offsetFooter
-      >
-        <H1>Kennenlern-Gespräch</H1>
-
-        <Booker
-          calUsername={bookerProps.calUsername}
-          eventSlug={bookerProps.eventSlug}
-        />
+      <Section id={firstMeetingSectionId} gradient="bottom" offsetFooter>
+        <CTA className="max-w-full">
+          <CTAHeader>
+            <H1>Kennenlern-Gespräch</H1>
+            <Lead>
+              Deine Fragen klären und gemeinsam herausfinden, was dir wirklich
+              weiterhilft.
+            </Lead>
+          </CTAHeader>
+          <CTAContent>
+            <Booker
+              calUsername={bookerProps.calUsername}
+              eventSlug={bookerProps.eventSlug}
+            />
+          </CTAContent>
+          <CTAFooter>
+            <Button className="text-muted-foreground" variant="link" asChild>
+              <Link href={routes.booking}>
+                <Muted>
+                  Du möchtest gleich einen Termin? Hier kannst du das gleich
+                  machen
+                </Muted>
+              </Link>
+            </Button>
+          </CTAFooter>
+        </CTA>
       </Section>
     </>
   );

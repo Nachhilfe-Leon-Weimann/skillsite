@@ -16,6 +16,7 @@ export const routes = {
   about: "/about",
   contact: "/kontakt",
   booking: "/termin",
+  first_meeting: "/kontakt#kennenlernen",
 
   impressum: "/impressum",
   datenschutz: "/datenschutz",
