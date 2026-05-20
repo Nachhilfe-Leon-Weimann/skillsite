@@ -1,7 +1,8 @@
+import { CTA, CTAContent, CTAHeader } from "@/components/blocks/cta";
 import { Booker } from "@/components/cal/booker";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
-import { H1, P } from "@/components/ui/typography";
+import { H1, Lead } from "@/components/ui/typography";
 import { getBookingDetails } from "@/lib/booking-details";
 import { routes } from "@/lib/routes";
 import Link from "next/link";
@@ -15,25 +16,28 @@ export default function Termin() {
       containerClassName="mb-0 text-center"
       offsetFooter
     >
-      <div className="mb-8 flex flex-col gap-2">
-        <H1>Buche deinen persönlichen Nachhilfetermin</H1>
+      <CTA className="max-w-full text-left sm:text-center">
+        <CTAHeader>
+          <H1>Buche deinen persönlichen Nachhilfetermin</H1>
 
-        <div className="flex flex-row gap-8 justify-center items-center">
-          <P>
-            Wir kennen uns noch nicht? Dann ist ein Kennenlernen vermutlich eher
-            was du suchst
-          </P>
+          <div className="flex flex-row gap-6 mt-4 lg:mt-0 justify-center items-center">
+            <Lead>
+              Wir kennen uns noch nicht? Dann ist ein Kennenlernen vermutlich
+              eher, was du suchst
+            </Lead>
 
-          <Button variant="outline" asChild>
-            <Link href={routes.contact}>Mehr</Link>
-          </Button>
-        </div>
-      </div>
-
-      <Booker
-        calUsername={bookerProps.calUsername}
-        eventSlug={bookerProps.eventSlug}
-      />
+            <Button variant="outline" asChild>
+              <Link href={routes.first_meeting}>Mehr</Link>
+            </Button>
+          </div>
+        </CTAHeader>
+        <CTAContent>
+          <Booker
+            calUsername={bookerProps.calUsername}
+            eventSlug={bookerProps.eventSlug}
+          />
+        </CTAContent>
+      </CTA>
     </Section>
   );
 }
