@@ -1,0 +1,47 @@
+import { routes } from "@/lib/routes";
+
+export const brand = {
+  name: "Nachhilfe Leon Weimann",
+  tagline: "Deine Ziele – Unser Weg!",
+  logo: "/logo-icon.png",
+  owner: "Leon",
+};
+
+export type NavLink = { label: string; href: string };
+
+/** Flat primary navigation (also used in the footer). */
+export const primaryNav: NavLink[] = [
+  { label: "Fächer", href: routes.subjects },
+  { label: "Ablauf", href: routes.process },
+  { label: "Preise", href: routes.pricing },
+  { label: "Über mich", href: routes.about },
+  { label: "Kontakt", href: routes.contact },
+];
+
+export type PlatformNavItem = NavLink & { note: string };
+
+/** "Online lernen" dropdown. */
+export const platformNav: PlatformNavItem[] = [
+  {
+    label: "Discord",
+    note: "Server, Einrichtung & Funktionen",
+    href: routes.onlineLearning,
+  },
+  {
+    label: "MS Teams",
+    note: "Auch über Teams möglich",
+    href: routes.onlineLearning,
+  },
+  {
+    label: "Termin buchen",
+    note: "Freie Slots im Kalender",
+    href: routes.booking,
+  },
+];
+
+export const primaryCta = {
+  label: "Kostenloses Erstgespräch",
+  href: routes.firstMeeting,
+};
+
+export const trustLine = "Unverbindlich, kostenlos und ohne Anmeldung.";

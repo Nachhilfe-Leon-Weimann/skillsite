@@ -1,120 +1,237 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* Dark mode is driven by [data-theme="dark"] on <html> (set by next-themes). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-
-  --color-gradient-from: var(--gradient-from);
-  --color-gradient-to: var(--gradient-to);
-
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-}
-
+/* ---------------------------------------------------------------------------
+   Design tokens — derived from the Nachhilfe Leon Weimann design system.
+   Warm cream surfaces, navy ink, coral accent.
+--------------------------------------------------------------------------- */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --bg: #faf6f0;
+  --surface: #ffffff;
+  --surface-2: #f4ece1;
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --ink: #16293d;
+  --ink-soft: #55677a;
+  --line: rgba(22, 41, 61, 0.12);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --navy: #13283f;
+  --coral: #ff6a45;
+  --coral-2: #ff9248;
+  --blue: #4f7cc4;
 
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --shadow:
+    0 2px 4px rgba(16, 29, 45, 0.04), 0 18px 40px -22px rgba(16, 29, 45, 0.28);
 
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-
-  --gradient-from: oklch(0.95 0.02 260);
-  --gradient-to: oklch(0.97 0.02 20);
-
-  --radius: 0.625rem;
+  --maxw: 1180px;
+  color-scheme: light;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+[data-theme="dark"] {
+  --bg: #0c1825;
+  --surface: #13263a;
+  --surface-2: #1b3047;
+  --ink: #eee7dc;
+  --ink-soft: #9fb1c2;
+  --line: rgba(255, 255, 255, 0.13);
+  --navy: #0a1420;
+  --blue: #7aa0db;
 
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35), 0 18px 44px -20px rgba(0, 0, 0, 0.65);
 
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-
-  --gradient-from: oklch(0.25 0.05 260);
-  --gradient-to: oklch(0.3 0.05 20);
+  color-scheme: dark;
 }
 
+/* ---------------------------------------------------------------------------
+   Tailwind theme mapping. `inline` keeps the var() references live so utilities
+   react to [data-theme] switches without recompiling.
+--------------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+
+  --color-navy: var(--navy);
+  --color-coral: var(--coral);
+  --color-coral-2: var(--coral-2);
+  --color-blue: var(--blue);
+
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-heading: var(--font-bricolage), system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 28px;
+
+  --shadow-card: var(--shadow);
+
+  /* Page width — single source of truth; bump to widen the whole site. */
+  --container-page: 1280px;
+
+  /* Accent shades for navy surfaces (theme-independent). */
+  --color-on-navy: #eaf1fa;
+  --color-on-navy-soft: #b9c8db;
+  --color-on-navy-muted: #8298ae;
+  --color-accent-blue: #9fc0ff;
+  --color-coral-light: #ff8a5c;
+
+  /* Type scale — one class sets size + line-height + tracking + weight. */
+  --text-display: clamp(2.7rem, 6.4vw, 4.7rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 800;
+
+  --text-h1: clamp(2.4rem, 5vw, 3.6rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h1--font-weight: 800;
+
+  --text-h2: clamp(1.9rem, 3.4vw, 2.7rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.6rem, 3vw, 2.3rem);
+  --text-h3--line-height: 1.14;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 1.4rem;
+  --text-h4--line-height: 1.2;
+  --text-h4--letter-spacing: -0.01em;
+  --text-h4--font-weight: 700;
+
+  --text-title: 1.12rem;
+  --text-title--line-height: 1.3;
+  --text-title--font-weight: 700;
+
+  --text-eyebrow: 0.8rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 700;
+
+  --text-lead: clamp(1.05rem, 1.6vw, 1.2rem);
+  --text-lead--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+
+  --text-small: 0.92rem;
+  --text-small--line-height: 1.5;
+
+  --text-caption: 0.8rem;
+  --text-caption--line-height: 1.45;
+}
+
+/* ---------------------------------------------------------------------------
+   Base layer
+--------------------------------------------------------------------------- */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
+    box-sizing: border-box;
   }
 
   html {
-    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
+  ::selection {
+    background: var(--coral);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--coral);
+    outline-offset: 3px;
+  }
+
+  /* Honour reduced-motion preferences globally. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Reusable coral accent gradient (buttons, CTAs, accent surfaces). */
+@utility bg-coral-gradient {
+  background-image: linear-gradient(135deg, var(--coral), var(--coral-2));
+}
+
+/* Vertical section rhythm. */
+@utility py-section {
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+@utility py-section-sm {
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+}
+@utility pt-section {
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+}
+@utility pb-section {
+  padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+/* Scrollable region without a visible scrollbar (booker time list). */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Entrance animations. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

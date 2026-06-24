@@ -1,171 +1,125 @@
-"use client";
-
-import { Booker } from "@/components/cal/booker";
-import { Section } from "@/components/layout/section";
-import { H1, InlineLink, Lead, Muted, P } from "@/components/ui/typography";
-import { QRCodeSVG } from "qrcode.react";
-import { MoveDown } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { getBookingDetails } from "@/lib/booking-details";
-import { Card, CardContent } from "@/components/ui/card";
-import { CTA, CTAContent, CTAFooter, CTAHeader } from "@/components/blocks/cta";
-import {
-  contactDetails,
-  contactDetailsList,
-  type ContactDetail,
-} from "@/content/contact";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { PageHeader } from "@/components/layout/page-header";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Heading, Text } from "@/components/ui/typography";
+import { Booker } from "@/components/booking/booker";
+import { WhatsappQr } from "@/components/sections/whatsapp-qr";
+import { CtaSection } from "@/components/sections/cta-section";
+import { contactDetails } from "@/content/contact";
 import { routes } from "@/lib/routes";
-import { handleSectionLinkClick } from "@/lib/scroll-to-section";
-import { BrandIcon } from "@/components/social-link";
-import { siWhatsapp } from "simple-icons";
 
-const firstMeetingSectionId = "kennenlernen";
+export const metadata: Metadata = {
+  title: "Kontakt",
+  description:
+    "Schreib mir einfach – per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
+};
 
-export default function Contact() {
-  const isMobile = useIsMobile();
-  const bookerProps = getBookingDetails("kennenlernen");
+const sideCardClass =
+  "flex flex-1 flex-col justify-center rounded-2xl border border-line bg-surface p-6 shadow-card transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-coral";
+const sideLabelClass = "text-eyebrow uppercase text-coral";
+
+export default function ContactPage() {
+  const whatsapp = contactDetails.whatsapp.href;
+  const email = contactDetails.eMail.content;
 
   return (
     <>
-      <Section gradient="top" containerClassName="relative">
-        <CTA>
-          <CTAHeader>
-            <H1>Kontaktiere mich noch heute</H1>
-            <Lead>Ich freue mich auf deine Nachricht!</Lead>
-          </CTAHeader>
-          <CTAContent>
-            <Card>
-              <CardContent
-                className={cn(
-                  "text-left gap-8 grid grid-cols-1 items-center",
-                  isMobile ? "sm:grid-cols-1" : "sm:grid-cols-2",
-                )}
-              >
-                <dl
-                  className={cn(
-                    isMobile ? "flex flex-col sm:flex-row sm:gap-8" : "",
-                  )}
-                >
-                  {contactDetailsList.map((contactDetail) => (
-                    <ContactDetailCell
-                      key={contactDetail.label}
-                      contactDetail={contactDetail}
-                      className="py-2"
-                    />
-                  ))}
-                </dl>
-
-                {!isMobile && (
-                  <div className="flex flex-row items-center justify-center sm:justify-end">
-                    <Tooltip delayDuration={300}>
-                      <TooltipTrigger>
-                        <QRCode
-                          href={contactDetails.whatsapp.href}
-                          size={128}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent side="right">Klick mich</TooltipContent>
-                    </Tooltip>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </CTAContent>
-          <CTAFooter>
-            <Button size="lg" asChild>
-              <Link
-                className="gap-2"
-                href={contactDetails.whatsapp.href}
-                target="_blank"
-              >
-                <BrandIcon icon={siWhatsapp} />
-                Jetzt anschreiben
-              </Link>
-            </Button>
-          </CTAFooter>
-        </CTA>
-
-        <div className="absolute inset-x-0 bottom-0 text-center text-muted-foreground">
-          <Link
-            href={routes.first_meeting}
-            onClick={(event) =>
-              handleSectionLinkClick(event, routes.first_meeting)
-            }
-            className="flex items-center justify-center gap-4 px-2"
-          >
-            <MoveDown size={16} />
-            <P>Oder beginne mit einem persönlichen Erstgespräch</P>
-            <MoveDown size={16} />
-          </Link>
-        </div>
-      </Section>
-
-      <Section id={firstMeetingSectionId} gradient="bottom" offsetFooter>
-        <CTA className="max-w-full">
-          <CTAHeader>
-            <H1>Kennenlern-Gespräch</H1>
-            <Lead>
-              Deine Fragen klären und gemeinsam herausfinden, was dir wirklich
-              weiterhilft.
-            </Lead>
-          </CTAHeader>
-          <CTAContent>
-            <Booker
-              calUsername={bookerProps.calUsername}
-              eventSlug={bookerProps.eventSlug}
-            />
-          </CTAContent>
-          <CTAFooter>
-            <Button className="text-muted-foreground" variant="link" asChild>
-              <Link href={routes.booking}>
-                <Muted>
-                  Du möchtest gleich einen Termin? Hier kannst du das gleich
-                  machen
-                </Muted>
-              </Link>
-            </Button>
-          </CTAFooter>
-        </CTA>
-      </Section>
-    </>
-  );
-}
-
-function ContactDetailCell({
-  contactDetail,
-  className,
-}: {
-  contactDetail: ContactDetail;
-  className?: string;
-}) {
-  return (
-    <div className={className}>
-      <dt className="text-sm text-muted-foreground">{contactDetail.label}</dt>
-      <dd className="text-base font-medium">
-        <InlineLink href={contactDetail.href} target="_blank">
-          {contactDetail.content}
-        </InlineLink>
-      </dd>
-    </div>
-  );
-}
-
-function QRCode({ href, size }: { href: string; size?: number }) {
-  return (
-    <Link target="_blank" rel="noopener noreferrer" href={href}>
-      <QRCodeSVG
-        value={href}
-        size={size}
-        className="rounded-md border bg-white p-2"
+      <PageHeader
+        eyebrow="Kontakt"
+        title="Schreib mir einfach."
+        lead="Eine kurze Nachricht reicht – meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
       />
-    </Link>
+
+      <Container className="py-section-sm">
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.25fr_1fr]">
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] transition-transform duration-300 ease-out hover:-translate-y-1"
+          >
+            <span className="text-eyebrow uppercase text-white/90">
+              Am liebsten · WhatsApp
+            </span>
+            <Heading size="h3" className="mt-2.5 mb-1.5">
+              Schreib mir auf WhatsApp.
+            </Heading>
+            <Text
+              size="lead"
+              tone="inherit"
+              className="max-w-[24em] text-white/90"
+            >
+              Der schnellste Weg – Antwort meistens noch am selben Tag. Einfach
+              kurz dein Anliegen schicken.
+            </Text>
+            <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/35 bg-white/20 px-5 py-2.5 font-semibold">
+              Jetzt anschreiben →
+            </span>
+            <div className="mt-7 hidden items-center gap-4 sm:flex">
+              <WhatsappQr value={whatsapp} />
+              <Text
+                size="small"
+                tone="inherit"
+                className="max-w-[12em] text-white/85"
+              >
+                Oder den QR-Code mit dem Handy scannen.
+              </Text>
+            </div>
+          </a>
+
+          <div className="flex flex-col gap-5">
+            <a href={`mailto:${email}`} className={sideCardClass}>
+              <span className={sideLabelClass}>E-Mail</span>
+              <Heading
+                as="h2"
+                size="title"
+                className="mt-2 mb-1 wrap-break-word"
+              >
+                {email}
+              </Heading>
+              <Text size="small" tone="muted">
+                Lieber schriftlich &amp; ausführlich? Auch gut.
+              </Text>
+            </a>
+            <Link href={routes.onlineLearning} className={sideCardClass}>
+              <span className={sideLabelClass}>Discord &amp; MS Teams</span>
+              <Heading as="h2" size="title" className="mt-2 mb-1">
+                Unser Klassenzimmer
+              </Heading>
+              <Text size="small" tone="muted">
+                Unterricht, Materialien &amp; kurze Fragen. Mehr erfahren →
+              </Text>
+            </Link>
+          </div>
+        </div>
+      </Container>
+
+      <Section id="kennenlernen" surface>
+        <div className="mx-auto mb-[clamp(1.75rem,4vw,2.5rem)] max-w-[40em] text-center">
+          <div className="flex justify-center">
+            <Eyebrow>Erstgespräch</Eyebrow>
+          </div>
+          <Heading size="h3" className="mt-4 mb-3.5">
+            Lernen wir uns kennen.
+          </Heading>
+          <Text tone="muted">
+            Such dir einen freien Termin aus. Im kostenlosen, telefonischen
+            Erstgespräch klären wir Situation, Fach und Ziel – ganz
+            unverbindlich, Eltern herzlich willkommen.
+          </Text>
+        </div>
+        <Booker
+          event="kennenlernen"
+          title="Kostenloses Erstgespräch"
+          subtitle="Telefonisches Kennenlernen – Situation, Fach und Ziel klären."
+        />
+      </Section>
+
+      <CtaSection />
+    </>
   );
 }

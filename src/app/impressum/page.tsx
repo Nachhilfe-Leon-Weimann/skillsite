@@ -7,6 +7,13 @@ import { ContactAddress } from "@/components/shared/contact-address";
 import { InlineLink, P } from "@/components/ui/typography";
 import { legalContact } from "@/content/legal";
 import { FileText } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Impressum",
+  description:
+    "Anbieterkennzeichnung und rechtliche Angaben zu Nachhilfe Leon Weimann.",
+};
 
 export default function ImpressumPage() {
   return (

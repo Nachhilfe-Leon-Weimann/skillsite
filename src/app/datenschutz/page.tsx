@@ -24,6 +24,13 @@ import {
   userRights,
 } from "@/content/privacy";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Datenschutz",
+  description:
+    "Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website und im Rahmen der Nachhilfetätigkeit.",
+};
 
 export default function DatenschutzPage() {
   const effectiveDate = privacyPolicyEffectiveDate.toLocaleDateString("de-DE", {
@@ -78,7 +85,7 @@ export default function DatenschutzPage() {
         id="website"
         title="2. Datenverarbeitung beim Besuch der Website"
       >
-        <P variant="doc" className="text-muted-foreground">
+        <P variant="doc" className="text-ink-soft">
           Beim Besuch der Website werden technische Abrufe, Kontaktaufnahmen,
           Terminbuchungen, externe Links sowie notwendige und optionale
           Speicherungen getrennt betrachtet.

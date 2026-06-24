@@ -1,49 +1,28 @@
-"use client";
-
-import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
+import { Container } from "@/components/layout/container";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { LinkButton } from "@/components/ui/button";
+import { Heading, Text } from "@/components/ui/typography";
 import { routes } from "@/lib/routes";
-import { CircleQuestionMark } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 
 export default function NotFound() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const search = searchParams.toString();
-  const currentUrl = search ? `${pathname}?${search}` : pathname;
-
   return (
-    <Section gradient="bottom" offsetFooter>
-      <Empty>
-        <EmptyHeader className="max-w-md">
-          <EmptyMedia variant="icon">
-            <CircleQuestionMark />
-          </EmptyMedia>
-          <EmptyTitle>404 - Seite nicht gefunden</EmptyTitle>
-          <EmptyDescription>
-            <span className="font-semibold">{currentUrl}</span> existiert nicht
-            oder wurde verschoben.
-          </EmptyDescription>
-        </EmptyHeader>
-        <EmptyContent className="max-w-md flex-row justify-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href={routes.subjects}>Zu den Fächern</Link>
-          </Button>
-          <Button asChild>
-            <Link href={routes.home}>Zur Startseite</Link>
-          </Button>
-        </EmptyContent>
-      </Empty>
-    </Section>
+    <Container className="flex min-h-[60vh] flex-col items-center justify-center py-section text-center">
+      <Eyebrow>Fehler 404</Eyebrow>
+      <Heading as="h1" size="h1" className="mt-4">
+        Seite nicht gefunden.
+      </Heading>
+      <Text size="lead" tone="muted" className="mt-4 max-w-[34em]">
+        Diese Seite gibt es (noch) nicht. Vielleicht hilft dir eine dieser
+        Optionen weiter.
+      </Text>
+      <div className="mt-8 flex flex-wrap justify-center gap-3.5">
+        <LinkButton href={routes.home} variant="primary" size="lg">
+          Zur Startseite
+        </LinkButton>
+        <LinkButton href={routes.contact} variant="outline" size="lg">
+          Kontakt aufnehmen
+        </LinkButton>
+      </div>
+    </Container>
   );
 }

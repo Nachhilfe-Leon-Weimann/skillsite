@@ -1,13 +1,9 @@
 import { Address } from "@/components/ui/typography";
 import { legalContact } from "@/content/legal";
 
-export function ContactAddress({
-  variant = "doc",
-  className,
-  ...props
-}: React.ComponentProps<typeof Address>) {
+export function ContactAddress({ className }: { className?: string }) {
   return (
-    <Address variant={variant} className={className} {...props}>
+    <Address className={className}>
       {legalContact.businessName}
       <br />
       {legalContact.ownerName}

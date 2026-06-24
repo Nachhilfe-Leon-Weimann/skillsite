@@ -1,117 +1,46 @@
-import {
-  Banknote,
-  CalendarClock,
-  CalendarRange,
-  Check,
-  CreditCard,
-  ReceiptText,
-  Repeat,
-  type LucideIcon,
-} from "lucide-react";
+import type { Step } from "@/content/process";
 
-import {
-  standardLessonPricing,
-  type LessonPricing,
-} from "@/content/lesson-pricing";
-
-export type PricingInfoItem = {
-  title: string;
-  description: string;
-  icon: LucideIcon;
+export const lessonPrice = {
+  amount: "30 €",
+  unit: "/ 60 Min.",
+  note: "Einheitlich für Mathe, Informatik und Physik – jede Klassenstufe.",
 };
 
-export type PaymentDetailSection = {
-  title: string;
-  items: readonly PricingInfoItem[];
-};
+export const priceIncludes: string[] = [
+  "Keine Anmeldegebühr, keine versteckten Kosten",
+  "Keine Mindestlaufzeit – flexibel planbar",
+  "Bis 24 h vorher kostenfrei absagen",
+  "Materialien & Notizen inklusive",
+  "Förderung über Bildung & Teilhabe möglich",
+];
 
-type PricingPageContent = {
-  sectionId: string;
-  hero: {
-    lead: string;
-    title: string;
-    description: string;
-  };
-  priceSummary: {
-    pricing: LessonPricing;
-    subjectsLabel: string;
-  };
-  serviceDetails: readonly PricingInfoItem[];
-  payment: {
-    cta: {
-      description: string;
-      title: string;
-      lead: string;
-    };
-    sections: readonly PaymentDetailSection[];
-  };
-};
+export type Condition = { strong?: string; text: string };
 
-export const pricingContent = {
-  sectionId: "preise",
-  hero: {
-    lead: "Einfach, transparent, flexibel",
-    title: "Klare Preise ohne Überraschungen.",
-    description: "Ohne versteckte Kosten oder Verpflichtungen.",
+export const fairConditions: Condition[] = [
+  {
+    strong: "Bis 24 Stunden vorher",
+    text: "kostenfrei absagen oder verschieben.",
   },
-  priceSummary: {
-    pricing: standardLessonPricing,
-    subjectsLabel: "Alle Fächer zum gleichen Preis:",
-  },
-  serviceDetails: [
+  { text: "Bei kurzfristigen Notfällen finden wir eine faire Lösung." },
+  { text: "Flexibel planbar, keine Mindestlaufzeit – Blöcke nach Bedarf." },
+];
+
+export const paymentOptions: Condition[] = [
+  { strong: "Überweisung", text: "– Rechnung mit GiroCode." },
+  { strong: "PayPal", text: "– einfacher Zahlungslink." },
+  { text: "Abrechnung einzeln nach dem Termin oder gebündelt als Block." },
+];
+
+export const but = {
+  intro:
+    "Über das Bildungs- und Teilhabepaket (z. B. bei Bürgergeld, Wohngeld mit Kinderzuschlag oder Asylbewerberleistungen). Kein Sonderfall – die Abrechnung übernehme ich direkt mit der Stelle.",
+  steps: [
+    { n: "1", title: "", text: "Förderbedarf von der Schule bestätigen lassen." },
+    { n: "2", title: "", text: "Antrag beim Jobcenter oder Landratsamt stellen." },
     {
-      title: "Kostenfrei absagen",
-      description: "Bis 24 h vorher ohne Berechnung.",
-      icon: CalendarClock,
+      n: "3",
+      title: "",
+      text: "Unterricht startet – Abrechnung übernehme ich direkt.",
     },
-    {
-      title: "Fair bei kurzfristigen Fällen",
-      description: "Wenn es knapp wird, finden wir eine sinnvolle Lösung.",
-      icon: Check,
-    },
-    {
-      title: "Flexibel planbar",
-      description: "Keine Mindestlaufzeit. Blöcke können angepasst werden.",
-      icon: Repeat,
-    },
-  ],
-  payment: {
-    cta: {
-      description: "Transparent und ohne feste Vertragslaufzeit.",
-      title: "So kannst du zahlen",
-      lead: "Zahlungsflow",
-    },
-    sections: [
-      {
-        title: "Zahlungsmethoden",
-        items: [
-          {
-            title: "Überweisung",
-            description: "per Rechnung mit GiroCode",
-            icon: ReceiptText,
-          },
-          {
-            title: "PayPal",
-            description: "mit Zahlungslink",
-            icon: CreditCard,
-          },
-        ],
-      },
-      {
-        title: "Abrechnungsoptionen",
-        items: [
-          {
-            title: "Einzeln",
-            description: "Rechnung nach dem Termin",
-            icon: Banknote,
-          },
-          {
-            title: "Blockweise",
-            description: "Mehrere Termine gebündelt",
-            icon: CalendarRange,
-          },
-        ],
-      },
-    ],
-  },
-} satisfies PricingPageContent;
+  ] satisfies Step[],
+};

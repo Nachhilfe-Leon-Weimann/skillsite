@@ -1,115 +1,44 @@
-"use client";
-
-import { CSSProperties, ComponentProps } from "react";
-
-import { useLayoutMetrics } from "@/components/layout/metrics/layout-metrics-provider";
-import { Container } from "@/components/layout/container";
 import { cn } from "@/lib/utils";
+import { Container } from "@/components/layout/container";
 
-type SectionProps = ComponentProps<"section"> & {
-  variant?: "auto" | "content";
-  gradient?: "top" | "bottom" | "filled" | "none";
-  offsetFooter?: boolean;
-  containerClassName?: ComponentProps<typeof Container>["className"];
+type SectionProps = React.ComponentProps<"section"> & {
+  /** Full-bleed surface background with top/bottom hairlines. */
+  surface?: boolean;
+  /** Skip the inner Container (caller controls width). */
+  bleed?: boolean;
+  containerClassName?: string;
 };
 
-function getSectionMinHeight({
-  variant,
-  navHeight,
-  footerHeight,
-  offsetFooter,
-}: {
-  variant: SectionProps["variant"];
-  navHeight: number;
-  footerHeight: number;
-  offsetFooter: boolean;
-}) {
-  if (variant !== "auto") return undefined;
-
-  const footerOffset = offsetFooter ? ` - ${footerHeight}px` : "";
-  return `calc(100dvh - ${navHeight}px${footerOffset})`;
-}
-
-function getGradientStyle(
-  gradient: SectionProps["gradient"],
-): CSSProperties | undefined {
-  if (gradient === "none") return undefined;
-
-  const linearGradient = `
-      linear-gradient(
-        120deg,
-        var(--gradient-from) 0%,
-        var(--gradient-to) 100%
-      )
-    `;
-
-  if (gradient === "filled") return { background: linearGradient };
-
-  const radialGradient =
-    gradient === "top"
-      ? `
-        radial-gradient(
-          150% 65% at 50% 0%,
-          oklch(from var(--background) l c h / 0) 20%,
-          oklch(from var(--background) l c h / 0.6) 55%,
-          oklch(from var(--background) l c h / 1) 85%
-        )
-      `
-      : `
-          radial-gradient(
-          150% 65% at 50% 100%,
-          oklch(from var(--background) l c h / 0) 20%,
-          oklch(from var(--background) l c h / 0.6) 55%,
-          oklch(from var(--background) l c h / 1) 85%
-        )
-      `;
-
-  return {
-    background: `${radialGradient}, ${linearGradient}`,
-  };
-}
-
+/**
+ * Page section. Wraps content in a centered Container with vertical rhythm.
+ * Use `surface` for the alternating cream/white bands from the design.
+ */
 export function Section({
+  surface,
+  bleed,
+  id,
   className,
-  children,
-  style,
-  variant = "auto",
-  gradient = "none",
-  offsetFooter = false,
   containerClassName,
+  children,
   ...props
 }: SectionProps) {
-  const { navHeight, footerHeight } = useLayoutMetrics();
-
-  const minHeight = getSectionMinHeight({
-    variant,
-    navHeight,
-    footerHeight,
-    offsetFooter,
-  });
-
-  const gradientStyle = getGradientStyle(gradient);
-
-  const sectionStyle: CSSProperties = {
-    ...style,
-    ...gradientStyle,
-    ...(minHeight ? { minHeight } : {}),
-  };
-
   return (
     <section
-      className={cn("flex w-full", className)}
-      style={sectionStyle}
+      id={id}
+      className={cn(
+        surface && "border-y border-line bg-surface",
+        id && "scroll-mt-24",
+        className,
+      )}
       {...props}
     >
-      <Container
-        className={cn(
-          "flex w-full flex-1 flex-col justify-center my-12",
-          containerClassName,
-        )}
-      >
-        {children}
-      </Container>
+      {bleed ? (
+        children
+      ) : (
+        <Container className={cn("py-section", containerClassName)}>
+          {children}
+        </Container>
+      )}
     </section>
   );
 }

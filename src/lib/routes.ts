@@ -3,21 +3,30 @@ export const routes = {
 
   subjects: "/faecher",
   maths: "/faecher#mathematik",
-  computer_science: "/faecher#informatik",
+  computerScience: "/faecher#informatik",
   physics: "/faecher#physik",
+  subjectsFaq: "/faecher#faq",
 
-  details: "/details",
-  pricing: "/details#preise",
-  educationAndPraticipation: "/details#but",
-  communication: "/details#kommunikation",
-  process: "/details#ablauf",
-  faq: "/details#faq",
+  process: "/ablauf",
+  discordSection: "/ablauf#discord",
+  processFaq: "/ablauf#faq",
 
-  about: "/about",
+  pricing: "/preise",
+  educationParticipation: "/preise#but",
+
+  about: "/ueber-mich",
+
   contact: "/kontakt",
+  firstMeeting: "/kontakt#kennenlernen",
+
   booking: "/termin",
-  first_meeting: "/kontakt#kennenlernen",
+
+  onlineLearning: "/online-lernen",
+
+  login: "/login",
 
   impressum: "/impressum",
   datenschutz: "/datenschutz",
 } as const;
+
+export type RouteKey = keyof typeof routes;

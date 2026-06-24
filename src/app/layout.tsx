@@ -1,80 +1,64 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
+
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
-import { DeviceContextProvider } from "@/hooks/use-mobile";
-import { getDevice } from "@/server/get-device";
-import { LayoutMetricsProvider } from "@/components/layout/metrics/layout-metrics-provider";
-import { MeasuredNavbar } from "@/components/layout/metrics/measured-navbar";
-import { MeasuredFooter } from "@/components/layout/metrics/measured-footer";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { ConsentProvider } from "@/providers/consent-provider";
-import { CookieConsentDialog } from "@/components/consent/cookie-consent-dialog";
 import { CookieConsentBanner } from "@/components/consent/cookie-consent-banner";
+import { CookieConsentDialog } from "@/components/consent/cookie-consent-dialog";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
+  variable: "--font-hanken",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nachhilfe.leonweimann.de"),
   title: {
-    default: "Nachhilfe Leon Weimann",
-    template: "%s | Nachhilfe Leon Weimann",
+    default: "Nachhilfe Leon Weimann – Mathe, Informatik & Physik",
+    template: "%s · Nachhilfe Leon Weimann",
   },
   description:
-    "Erfahrene Nachhilfe für Schüler aller Klassenstufen. Individuelle Betreuung, flexible Zeiten und bewährte Lernmethoden.",
+    "Online-Nachhilfe in Mathematik, Informatik und Physik – persönlich, ohne Vertrag, 30 € pro Stunde. Lernen, bis es klick macht.",
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    siteName: "Nachhilfe Leon Weimann",
+    title: "Nachhilfe Leon Weimann – Mathe, Informatik & Physik",
+    description:
+      "Online-Nachhilfe in Mathematik, Informatik und Physik – persönlich, ohne Vertrag. Lernen, bis es klick macht.",
+  },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const isMobile = await getDevice();
-
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="de"
       suppressHydrationWarning
-      className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-sans",
-        inter.variable,
-      )}
+      className={cn(bricolage.variable, hanken.variable)}
     >
-      <body className="grid min-h-dvh grid-rows-[auto_minmax(0,1fr)_auto]">
-        <DeviceContextProvider isMobile={isMobile}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ConsentProvider>
-              <LayoutMetricsProvider>
-                <TooltipProvider>
-                  <MeasuredNavbar />
-                  <main className="flex min-h-0 flex-col">{children}</main>
-                  <MeasuredFooter />
-                  <CookieConsentDialog />
-                  <CookieConsentBanner />
-                </TooltipProvider>
-              </LayoutMetricsProvider>
-            </ConsentProvider>
-          </ThemeProvider>
-        </DeviceContextProvider>
+      <body className="flex min-h-dvh flex-col">
+        <ThemeProvider>
+          <ConsentProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CookieConsentBanner />
+            <CookieConsentDialog />
+          </ConsentProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

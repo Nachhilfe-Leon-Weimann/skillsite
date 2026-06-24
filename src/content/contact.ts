@@ -1,3 +1,7 @@
+const CONTACT_EMAIL = "nachhilfe@leonweimann.de";
+const CONTACT_WHATSAPP = "+49 7824 6190305";
+const CONTANCT_WHATSAPP_URL = "https://wa.me/message/LN3P6IQ7LDPQH1";
+
 export type ContactDetailKey = "eMail" | "whatsapp";
 
 export type ContactDetail = {
@@ -11,14 +15,14 @@ export const contactDetails = {
   eMail: {
     key: "eMail",
     label: "eMail",
-    content: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""}`,
+    content: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
   },
   whatsapp: {
     key: "whatsapp",
     label: "WhatsApp",
-    content: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "",
-    href: process.env.NEXT_PUBLIC_WHATSAPP_URL || "",
+    content: CONTACT_WHATSAPP,
+    href: CONTANCT_WHATSAPP_URL,
   },
 } satisfies Record<ContactDetailKey, ContactDetail>;
 

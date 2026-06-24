@@ -1,43 +1,47 @@
-import { CTA, CTAContent, CTAHeader } from "@/components/blocks/cta";
-import { Booker } from "@/components/cal/booker";
-import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
-import { H1, Lead } from "@/components/ui/typography";
-import { getBookingDetails } from "@/lib/booking-details";
-import { routes } from "@/lib/routes";
+import type { Metadata } from "next";
 import Link from "next/link";
 
-export default function Termin() {
-  const bookerProps = getBookingDetails("nachhilfe");
+import { Container } from "@/components/layout/container";
+import { PageHeader } from "@/components/layout/page-header";
+import { Text } from "@/components/ui/typography";
+import { Booker } from "@/components/booking/booker";
+import { CtaSection } from "@/components/sections/cta-section";
+import { routes } from "@/lib/routes";
 
+export const metadata: Metadata = {
+  title: "Termin buchen",
+  description:
+    "Für bestehende Schüler:innen: freie Slots direkt im Kalender wählen. Bis 24 h vorher kostenfrei verschieben oder absagen.",
+};
+
+export default function BookingPage() {
   return (
-    <Section
-      gradient="bottom"
-      containerClassName="mb-0 text-center"
-      offsetFooter
-    >
-      <CTA className="max-w-full text-left sm:text-center">
-        <CTAHeader>
-          <H1>Buche deinen persönlichen Nachhilfetermin</H1>
+    <>
+      <PageHeader
+        eyebrow="Termin buchen"
+        title="Buche deine nächste Nachhilfestunde."
+        titleClassName="max-w-[14em]"
+        lead="Für bestehende Schüler:innen: freie Slots direkt im Kalender wählen. Bis 24 h vorher kostenfrei verschieben oder absagen."
+      />
 
-          <div className="flex flex-row gap-6 mt-4 lg:mt-0 justify-center items-center">
-            <Lead>
-              Wir kennen uns noch nicht? Dann ist ein Kennenlernen vermutlich
-              eher, was du suchst
-            </Lead>
+      <Container className="py-section-sm">
+        <Booker
+          event="nachhilfe"
+          title="Nachhilfestunde buchen"
+          subtitle="Such dir einen freien Slot – wöchentlich oder nach Bedarf."
+        />
+        <Text tone="muted" className="mt-6">
+          Noch keine Schülerin / kein Schüler?{" "}
+          <Link
+            href={routes.firstMeeting}
+            className="font-semibold text-coral underline underline-offset-[3px]"
+          >
+            Starte mit dem kostenlosen Erstgespräch →
+          </Link>
+        </Text>
+      </Container>
 
-            <Button variant="outline" asChild>
-              <Link href={routes.first_meeting}>Mehr</Link>
-            </Button>
-          </div>
-        </CTAHeader>
-        <CTAContent>
-          <Booker
-            calUsername={bookerProps.calUsername}
-            eventSlug={bookerProps.eventSlug}
-          />
-        </CTAContent>
-      </CTA>
-    </Section>
+      <CtaSection />
+    </>
   );
 }

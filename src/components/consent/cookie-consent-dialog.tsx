@@ -3,34 +3,25 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { Muted, P } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 import type { ConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/routes";
 import { useConsent } from "@/providers/consent-provider";
 
+const TITLE_ID = "cookie-dialog-title";
+const DESC_ID = "cookie-dialog-desc";
+
 export function CookieConsentDialog() {
-  const { consent, preferences, isOpen, openSettings, closeSettings } =
-    useConsent();
+  const { consent, preferences, isOpen, closeSettings } = useConsent();
 
   return (
     <Dialog
       open={isOpen}
-      onOpenChange={(open) => {
-        if (open) {
-          openSettings();
-        } else {
-          closeSettings();
-        }
-      }}
+      onClose={closeSettings}
+      labelledBy={TITLE_ID}
+      describedBy={DESC_ID}
     >
       <CookieConsentDialogBody
         key={consent?.savedAt ?? (isOpen ? "open" : "closed")}
@@ -49,64 +40,65 @@ function CookieConsentDialogBody({
   const [external, setExternal] = useState(initialPreferences.external);
 
   return (
-    <DialogContent className="sm:max-w-lg">
-      <DialogHeader>
-        <DialogTitle>Cookie-Einstellungen</DialogTitle>
-        <DialogDescription>
-          Passe hier an, ob externe Dienste geladen werden dürfen.
-        </DialogDescription>
-      </DialogHeader>
+    <>
+      <h2 id={TITLE_ID} className="font-heading text-xl font-bold text-ink">
+        Cookie-Einstellungen
+      </h2>
+      <p id={DESC_ID} className="mt-1.5 text-sm text-ink-soft">
+        Passe hier an, ob externe Dienste geladen werden dürfen.
+      </p>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
+      <div className="mt-5 space-y-3">
+        <div className="flex items-center justify-between gap-4 rounded-xl border border-line p-4">
           <div>
-            <P>Notwendig</P>
-            <Muted>
+            <p className="font-semibold text-ink">Notwendig</p>
+            <p className="text-sm text-ink-soft">
               Erforderlich für Grundfunktionen und zum Speichern deiner Auswahl.
-            </Muted>
+            </p>
           </div>
-          <Switch checked disabled />
+          <Switch checked disabled aria-label="Notwendig (immer aktiv)" />
         </div>
 
-        <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
+        <div className="flex items-center justify-between gap-4 rounded-xl border border-line p-4">
           <div>
-            <P>Externe Dienste</P>
-            <Muted>
-              Lädt externe Inhalte wie die Terminbuchung über Cal.com.
-            </Muted>
+            <p className="font-semibold text-ink">Externe Dienste</p>
+            <p className="text-sm text-ink-soft">
+              Erlaubt optionale externe Einbettungen (z. B. Videos oder Karten).
+            </p>
           </div>
-          <Switch checked={external} onCheckedChange={setExternal} />
+          <Switch
+            checked={external}
+            onCheckedChange={setExternal}
+            aria-label="Externe Dienste"
+          />
         </div>
       </div>
 
-      <Muted>
+      <p className="mt-4 text-sm text-ink-soft">
         Weitere Informationen stehen in der{" "}
         <Link
           href={routes.datenschutz}
-          className="underline underline-offset-4"
+          className="font-medium text-coral underline underline-offset-4"
         >
           Datenschutzerklärung
         </Link>
         .
-      </Muted>
+      </p>
 
-      <div className="grid gap-2 sm:grid-cols-3">
-        <Button type="button" variant="outline" onClick={rejectAll}>
+      <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
+        <Button variant="outline" onClick={rejectAll}>
           Ablehnen
         </Button>
-
         <Button
-          type="button"
-          variant="secondary"
+          variant="navy"
           onClick={() => saveConsent({ necessary: true, external })}
         >
           Auswahl speichern
         </Button>
-
-        <Button type="button" onClick={acceptAll}>
+        <Button variant="primary" onClick={acceptAll}>
           Alle akzeptieren
         </Button>
       </div>
-    </DialogContent>
+    </>
   );
 }
