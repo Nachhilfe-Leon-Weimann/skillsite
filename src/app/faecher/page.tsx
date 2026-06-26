@@ -61,7 +61,7 @@ export default function SubjectsPage() {
                 {subject.description}
               </Text>
               <LinkButton
-                href={routes.firstMeeting}
+                href={`${routes.contact}?fach=${subject.anchorId}#kennenlernen`}
                 variant="navy"
                 className="mt-6"
               >

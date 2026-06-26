@@ -17,6 +17,7 @@ type KennenlernenFormProps = {
   slotLabel: string;
   /** Exact Cal.com ISO start instant. */
   slotStart: string;
+  initialSubject?: string;
   onBack: () => void;
   /** Hand the validated request to the parent, which submits optimistically. */
   onSubmit: (payload: FirstMeetingRequest) => void;
@@ -25,6 +26,7 @@ type KennenlernenFormProps = {
 export function KennenlernenForm({
   slotLabel,
   slotStart,
+  initialSubject,
   onBack,
   onSubmit,
 }: KennenlernenFormProps) {
@@ -32,7 +34,12 @@ export function KennenlernenForm({
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(() =>
+    initialSubject &&
+    subjectChoices.some((subject) => subject.name === initialSubject)
+      ? [initialSubject]
+      : [],
+  );
   const [note, setNote] = useState("");
   const [honeypot, setHoneypot] = useState("");
   // Form mount time (lazy initializer runs once); the server time-trap checks the elapsed time.

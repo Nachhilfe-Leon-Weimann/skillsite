@@ -73,6 +73,7 @@ type BookerProps = {
   event: BookingEventKey;
   title: string;
   subtitle: string;
+  initialSubject?: string;
 };
 
 type Step = "select" | "form" | "account" | "result";
@@ -80,7 +81,7 @@ type Step = "select" | "form" | "account" | "result";
 /** Lifecycle of the background Cal.com booking shown on the result step. */
 type BookingPhase = "pending" | "confirmed" | "failed";
 
-export function Booker({ event, title, subtitle }: BookerProps) {
+export function Booker({ event, title, subtitle, initialSubject }: BookerProps) {
   const config = bookingEvents[event];
 
   const [duration, setDuration] = useState(config.defaultDuration);
@@ -347,6 +348,7 @@ export function Booker({ event, title, subtitle }: BookerProps) {
               <KennenlernenForm
                 slotLabel={summary}
                 slotStart={selectedSlot.start}
+                initialSubject={initialSubject}
                 onBack={backToSelect}
                 onSubmit={submitBooking}
               />

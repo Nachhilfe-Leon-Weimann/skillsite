@@ -10,6 +10,7 @@ import { Booker } from "@/components/booking/booker";
 import { WhatsappQr } from "@/components/sections/whatsapp-qr";
 import { CtaSection } from "@/components/sections/cta-section";
 import { contactDetails } from "@/content/contact";
+import { subjects } from "@/content/subjects";
 import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {
@@ -22,7 +23,22 @@ const sideCardClass =
   "flex flex-1 flex-col justify-center rounded-2xl border border-line bg-surface p-6 shadow-card transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-coral";
 const sideLabelClass = "text-eyebrow uppercase text-coral";
 
-export default function ContactPage() {
+type ContactPageProps = {
+  searchParams?: Promise<{
+    fach?: string | string[];
+  }>;
+};
+
+function firstSearchParam(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const params = await searchParams;
+  const requestedSubject = firstSearchParam(params?.fach);
+  const initialSubject = subjects.find(
+    (subject) => subject.anchorId === requestedSubject,
+  )?.name;
   const whatsapp = contactDetails.whatsapp.href;
   const email = contactDetails.eMail.content;
 
@@ -116,6 +132,7 @@ export default function ContactPage() {
           event="kennenlernen"
           title="Kostenloses Erstgespräch"
           subtitle="Telefonisches Kennenlernen – Situation, Fach und Ziel klären."
+          initialSubject={initialSubject}
         />
       </Section>
 
