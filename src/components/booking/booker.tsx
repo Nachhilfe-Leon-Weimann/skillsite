@@ -28,6 +28,7 @@ import {
   type BookingEventKey,
   type BookingSlot,
   type FirstMeetingRequest,
+  type SubmitFailureReason,
 } from "@/lib/booking/config";
 import {
   bookingToday,
@@ -99,7 +100,7 @@ export function Booker({ event, title, subtitle }: BookerProps) {
   const [bookingPhase, setBookingPhase] = useState<BookingPhase>("pending");
   const [bookingError, setBookingError] = useState<{
     message: string;
-    slotTaken: boolean;
+    reason: SubmitFailureReason;
   } | null>(null);
   const [bookingPayload, setBookingPayload] =
     useState<FirstMeetingRequest | null>(null);
@@ -219,7 +220,7 @@ export function Booker({ event, title, subtitle }: BookerProps) {
       } else {
         setBookingError({
           message: result.error,
-          slotTaken: Boolean(result.slotTaken),
+          reason: result.reason,
         });
         setBookingPhase("failed");
       }
@@ -227,7 +228,7 @@ export function Booker({ event, title, subtitle }: BookerProps) {
       setBookingError({
         message:
           "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.",
-        slotTaken: false,
+        reason: "generic",
       });
       setBookingPhase("failed");
     }
@@ -423,33 +424,67 @@ export function Booker({ event, title, subtitle }: BookerProps) {
                 ) : null}
               </CenteredState>
             ) : (
-              <CenteredState
-                icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
-                title={
-                  bookingError?.slotTaken
-                    ? "Termin schon vergeben"
-                    : "Das hat nicht ganz geklappt"
+              (() => {
+                const reason = bookingError?.reason ?? "generic";
+                const message =
+                  bookingError?.message ??
+                  "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.";
+
+                if (reason === "rate_limited") {
+                  return (
+                    <CenteredState
+                      icon={
+                        <CalendarX2 className="size-7 text-coral" aria-hidden />
+                      }
+                      title="Zu viele Anfragen"
+                    >
+                      <Text tone="muted" className="mb-5">
+                        {message}
+                      </Text>
+                      <LinkButton href={routes.contact} variant="primary">
+                        Direkt anfragen
+                      </LinkButton>
+                    </CenteredState>
+                  );
                 }
-              >
-                <Text tone="muted" className="mb-5">
-                  {bookingError?.message ??
-                    "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt."}
-                </Text>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {bookingError?.slotTaken ? (
-                    <Button onClick={chooseAnotherSlot}>
-                      Anderen Termin wählen
-                    </Button>
-                  ) : (
-                    <>
+
+                if (reason === "slot_taken") {
+                  return (
+                    <CenteredState
+                      icon={
+                        <CalendarX2 className="size-7 text-coral" aria-hidden />
+                      }
+                      title="Termin schon vergeben"
+                    >
+                      <Text tone="muted" className="mb-5">
+                        {message}
+                      </Text>
+                      <Button onClick={chooseAnotherSlot}>
+                        Anderen Termin wählen
+                      </Button>
+                    </CenteredState>
+                  );
+                }
+
+                return (
+                  <CenteredState
+                    icon={
+                      <CalendarX2 className="size-7 text-coral" aria-hidden />
+                    }
+                    title="Das hat nicht ganz geklappt"
+                  >
+                    <Text tone="muted" className="mb-5">
+                      {message}
+                    </Text>
+                    <div className="flex flex-wrap justify-center gap-3">
                       <Button onClick={retryBooking}>Erneut senden</Button>
                       <Button variant="outline" onClick={chooseAnotherSlot}>
                         Anderen Termin wählen
                       </Button>
-                    </>
-                  )}
-                </div>
-              </CenteredState>
+                    </div>
+                  </CenteredState>
+                );
+              })()
             )
           ) : null}
         </AnimatedHeight>

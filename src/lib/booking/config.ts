@@ -10,7 +10,7 @@ export const calUsername = process.env.NEXT_PUBLIC_BOOKING_CAL_USERNAME || "";
 
 export type BookingEventConfig = {
   calEventSlug: string;
-  /** Selectable durations (Nachhilfe). `null` → fixed-length event (Kennenlernen). */
+  /** Selectable tutoring durations; `null` means a fixed-length first-meeting event. */
   durations: BookingDuration[] | null;
   /** Minutes — the fixed length or the default selected duration. */
   defaultDuration: number;
@@ -80,4 +80,18 @@ export type FirstMeetingRequest = {
   note?: string;
   /** Selected slot — the exact Cal.com ISO start instant. */
   slot: string;
+  /** Anti-spam honeypot — bots fill it, humans never see it. */
+  honeypot?: string;
+  /** Anti-spam: client ms timestamp at form mount (time-trap). */
+  formLoadedAt?: number;
 };
+
+export type SubmitFailureReason =
+  | "validation"
+  | "slot_taken"
+  | "rate_limited"
+  | "generic";
+
+export type SubmitResult =
+  | { ok: true }
+  | { ok: false; error: string; reason: SubmitFailureReason };

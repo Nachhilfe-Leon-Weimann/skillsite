@@ -34,6 +34,9 @@ export function KennenlernenForm({
   const [phone, setPhone] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [note, setNote] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  // Form mount time (lazy initializer runs once); the server time-trap checks the elapsed time.
+  const [formLoadedAt] = useState(() => Date.now());
 
   const toggleSubject = (name: string) =>
     setSelected((current) =>
@@ -64,11 +67,29 @@ export function KennenlernenForm({
       subjects: selected,
       note: note.trim() || undefined,
       slot: slotStart,
+      honeypot,
+      formLoadedAt,
     });
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {/* Honeypot: off-screen, invisible to humans; bots auto-fill it and the booking is dropped server-side. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-2500 top-0 h-0 w-0 overflow-hidden"
+      >
+        <label htmlFor="company">Firma (bitte leer lassen)</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(event) => setHoneypot(event.target.value)}
+        />
+      </div>
       <div className="flex items-center gap-3">
         <button
           type="button"
