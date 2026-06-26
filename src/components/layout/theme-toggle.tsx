@@ -1,53 +1,160 @@
 "use client";
 
+import { useEffect, useId, useState } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useHydrated } from "@/lib/use-hydrated";
 
-/** Segmented light/dark switch. Styled for the navy footer. */
-export function ThemeToggle({ className }: { className?: string }) {
-  const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useHydrated();
+type ThemeOverride = "light" | "dark";
 
-  const isDark = mounted && resolvedTheme === "dark";
+type ThemeOption = {
+  value: ThemeOverride;
+  label: string;
+  Icon: typeof Sun;
+  activeClassName: string;
+};
+
+const SYSTEM_THEME = "system";
+
+const segmentClass =
+  "relative z-10 inline-flex min-h-9 min-w-0 items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-[0.85rem] font-semibold transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:min-w-24 sm:px-4";
+
+const inactiveSegmentClass = "text-on-navy-soft hover:text-white";
+
+const themeOptions = [
+  { value: "light", label: "Hell", Icon: Sun, activeClassName: "text-navy" },
+  { value: "dark", label: "Dunkel", Icon: Moon, activeClassName: "text-white" },
+] satisfies readonly ThemeOption[];
+
+function isThemeOverride(theme: string | undefined): theme is ThemeOverride {
+  return theme === "light" || theme === "dark";
+}
+
+function getSelectedTheme(theme: string | undefined, mounted: boolean) {
+  return mounted && isThemeOverride(theme) ? theme : undefined;
+}
+
+function useThemeIndicator(selectedTheme: ThemeOverride | undefined) {
+  // The animated indicator is driven by a local mirror of the selected theme,
+  // updated on the next frame instead of synchronously. Two reasons:
+  //   1. next-themes runs with `disableTransitionOnChange`, which injects
+  //      `* { transition: none !important }` for ~1ms on every theme switch to
+  //      avoid a page-wide colour flash. Moving the indicator a frame later lets
+  //      its glide escape that suppression window — otherwise it snaps.
+  //   2. `ready` gates the transition so the indicator snaps to the stored theme
+  //      on first load instead of sliding in.
+  // `indicatorTheme` drives visibility (opacity) and the active label colour;
+  // `indicatorPosition` drives the pill's horizontal position and background.
+  // They are split so that deselecting (indicatorTheme → null) fades the pill out
+  // in place instead of sliding it back to the light slot.
+  const [indicatorTheme, setIndicatorTheme] = useState<ThemeOverride | null>(
+    null,
+  );
+  const [indicatorPosition, setIndicatorPosition] =
+    useState<ThemeOverride>("light");
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const targetTheme = selectedTheme ?? null;
+    // Two frames, not one: next-themes closes its `transition: none` window via
+    // `setTimeout(remove, 1)`. A single rAF fired right at a frame boundary can
+    // win that race and commit the transform while suppression is still active,
+    // making the indicator snap. The second frame clears the 1ms window for good.
+    let innerFrame = 0;
+    const outerFrame = requestAnimationFrame(() => {
+      innerFrame = requestAnimationFrame(() => {
+        setIndicatorTheme(targetTheme);
+        // Position only follows an actual override; on deselect it stays put so
+        // the pill fades out where it is rather than gliding to the light slot.
+        if (targetTheme !== null) setIndicatorPosition(targetTheme);
+      });
+    });
+    return () => {
+      cancelAnimationFrame(outerFrame);
+      cancelAnimationFrame(innerFrame);
+    };
+  }, [selectedTheme]);
+
+  useEffect(() => {
+    let innerFrame = 0;
+    const outerFrame = requestAnimationFrame(() => {
+      innerFrame = requestAnimationFrame(() => setIsReady(true));
+    });
+    return () => {
+      cancelAnimationFrame(outerFrame);
+      cancelAnimationFrame(innerFrame);
+    };
+  }, []);
+
+  return {
+    indicatorTheme,
+    indicatorPosition,
+    isReady,
+  };
+}
+
+/** Segmented light/dark override. No active segment means system theme. */
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const mounted = useHydrated();
+  const resetId = useId();
+
+  const selectedTheme = getSelectedTheme(theme, mounted);
+  const hasOverride = selectedTheme !== undefined;
+  const { indicatorTheme, indicatorPosition, isReady } =
+    useThemeIndicator(selectedTheme);
+
+  function toggleTheme(target: ThemeOverride) {
+    setTheme(selectedTheme === target ? SYSTEM_THEME : target);
+  }
 
   return (
     <div
       role="group"
-      aria-label="Farbschema wählen"
-      className={cn(
-        "inline-flex rounded-full border border-white/15 bg-white/[0.07] p-1",
-        className,
-      )}
+      aria-label="Farbschema überschreiben"
+      aria-describedby={hasOverride ? resetId : undefined}
+      className="relative grid grid-cols-2 rounded-full border border-white/15 bg-white/[0.07] p-1"
     >
-      <button
-        type="button"
-        aria-pressed={mounted ? !isDark : undefined}
-        onClick={() => setTheme("light")}
+      <span
+        aria-hidden
+        // The indicator moves via an inline transform, not a Tailwind
+        // `translate-x-*` utility: in Tailwind v4 those write the
+        // `--tw-translate-x` custom property (registered `syntax: "*"`,
+        // non-interpolatable), so the `translate` longhand's specified value
+        // never changes and the transition never fires. Setting `transform`
+        // directly keeps the glide animatable.
+        style={{
+          transform:
+            indicatorPosition === "dark" ? "translateX(100%)" : "translateX(0)",
+        }}
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[0.85rem] font-semibold transition-colors",
-          !isDark
-            ? "bg-white text-navy"
-            : "text-on-navy-soft hover:text-white",
+          "pointer-events-none absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] rounded-full",
+          isReady &&
+            "transition-[transform,background-color,opacity] duration-300 ease-out",
+          indicatorPosition === "dark" ? "bg-white/20" : "bg-white",
+          indicatorTheme ? "opacity-100" : "opacity-0",
         )}
-      >
-        <Sun className="size-4" aria-hidden />
-        Hell
-      </button>
-      <button
-        type="button"
-        aria-pressed={mounted ? isDark : undefined}
-        onClick={() => setTheme("dark")}
-        className={cn(
-          "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[0.85rem] font-semibold transition-colors",
-          isDark ? "bg-white/20 text-white" : "text-on-navy-soft hover:text-white",
-        )}
-      >
-        <Moon className="size-4" aria-hidden />
-        Dunkel
-      </button>
+      />
+      {themeOptions.map(({ value, label, Icon, activeClassName }) => (
+        <button
+          key={value}
+          type="button"
+          aria-pressed={mounted ? selectedTheme === value : undefined}
+          onClick={() => toggleTheme(value)}
+          className={cn(
+            segmentClass,
+            indicatorTheme === value ? activeClassName : inactiveSegmentClass,
+          )}
+        >
+          <Icon className="size-4 shrink-0" aria-hidden />
+          <span className="truncate">{label}</span>
+        </button>
+      ))}
+      <span id={resetId} className="sr-only">
+        Aktive Auswahl erneut wählen, um der Systemeinstellung zu folgen.
+      </span>
     </div>
   );
 }
