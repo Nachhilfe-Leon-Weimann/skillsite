@@ -1,12 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BadgeEuro,
   CalendarClock,
   CalendarX2,
   Check,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { Button, LinkButton } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 import { Heading, Text } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import { KennenlernenForm } from "@/components/booking/kennenlernen-form";
@@ -55,7 +55,12 @@ const MONTHS = [
 ];
 const MAX_MONTH_OFFSET = 3;
 
-/** 0 = Mon … 6 = Sun. */
+const EUR = new Intl.NumberFormat("de-DE", {
+  style: "currency",
+  currency: "EUR",
+});
+
+/** 0 = Mon ... 6 = Sun. */
 const firstWeekdayIndex = (year: number, month: number) =>
   (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7;
 
@@ -78,10 +83,14 @@ type BookerProps = {
 
 type Step = "select" | "form" | "account" | "result";
 
-/** Lifecycle of the background Cal.com booking shown on the result step. */
 type BookingPhase = "pending" | "confirmed" | "failed";
 
-export function Booker({ event, title, subtitle, initialSubject }: BookerProps) {
+export function Booker({
+  event,
+  title,
+  subtitle,
+  initialSubject,
+}: BookerProps) {
   const config = bookingEvents[event];
 
   const [duration, setDuration] = useState(config.defaultDuration);
@@ -109,6 +118,7 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
   // change). Manual month navigation switches this off so going "back" into an
   // empty month doesn't bounce the user forward again.
   const autoAdvance = useRef(true);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const shown = useMemo(() => shownMonth(monthOffset), [monthOffset]);
 
@@ -154,6 +164,22 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
       });
     return () => controller.abort();
   }, [event, duration, shown.year, shown.month, reloadKey, monthOffset]);
+
+  // Leaving the slot picker shrinks the card; if its top scrolled out of view
+  // (e.g. a slot picked far down a long mobile list), bring it back so the next
+  // step isn't stranded off-screen.
+  useEffect(() => {
+    if (step === "select") return;
+    const card = cardRef.current;
+    if (!card || card.getBoundingClientRect().top >= 0) return;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    card.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [step]);
 
   const resetSelection = () => {
     setSelectedDate(null);
@@ -255,16 +281,23 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
   const daySlots =
     availability?.days.find((day) => day.date === selectedDate)?.slots ?? [];
   const summary = selectedSlot
-    ? `${dateLabel(selectedSlot.date)} · ${selectedSlot.time} Uhr`
+    ? `${dateLabel(selectedSlot.date)} - ${selectedSlot.time} Uhr`
     : null;
 
   const durationLabel = config.durations
     ? `${duration} Minuten`
     : `${config.defaultDuration} Minuten`;
   const priceLabel = config.priceLabel;
+  const slotPrice =
+    config.pricePerHour != null
+      ? EUR.format((config.pricePerHour * duration) / 60)
+      : null;
 
   return (
-    <div className="mx-auto @container overflow-hidden rounded-3xl border border-line bg-surface shadow-card">
+    <div
+      ref={cardRef}
+      className="mx-auto @container scroll-mt-20 overflow-hidden rounded-3xl border border-line bg-surface shadow-card"
+    >
       <div className="grid @2xl:grid-cols-[20rem_1fr]">
         <aside className="flex flex-col bg-navy p-[clamp(1.5rem,3vw,2.25rem)] text-on-navy">
           <span className="inline-flex items-center gap-2.25 text-eyebrow uppercase text-accent-blue">
@@ -279,12 +312,6 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
           </Text>
 
           <div className="flex flex-col gap-3">
-            <InfoRow icon={<Clock className="size-4" aria-hidden />}>
-              {durationLabel}
-            </InfoRow>
-            <InfoRow icon={<BadgeEuro className="size-4" aria-hidden />}>
-              {priceLabel}
-            </InfoRow>
             <InfoRow
               icon={
                 config.medium === "phone" ? (
@@ -296,6 +323,27 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
             >
               {config.mediumLabel}
             </InfoRow>
+            <InfoRow icon={<BadgeEuro className="size-4" aria-hidden />}>
+              {priceLabel}
+            </InfoRow>
+            {config.durations ? (
+              <Select
+                label=""
+                tone="on-navy"
+                icon={<Clock className="size-4" aria-hidden />}
+                value={duration}
+                onChange={changeDuration}
+                disabled={selectedSlot !== null}
+                options={config.durations.map((value) => ({
+                  value,
+                  label: `${value} Minuten`,
+                }))}
+              />
+            ) : (
+              <InfoRow icon={<Clock className="size-4" aria-hidden />}>
+                {durationLabel}
+              </InfoRow>
+            )}
           </div>
 
           {summary && step !== "result" ? (
@@ -306,6 +354,11 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
               <p className="mt-1.5 font-heading font-bold text-white">
                 {summary}
               </p>
+              {slotPrice ? (
+                <p className="mt-1 text-small font-semibold text-on-navy-soft">
+                  {slotPrice}
+                </p>
+              ) : null}
             </div>
           ) : null}
 
@@ -323,9 +376,6 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
         <AnimatedHeight className="flex min-h-96 flex-col p-[clamp(1.25rem,2.5vw,2rem)]">
           {step === "select" ? (
             <SelectStep
-              config={config}
-              duration={duration}
-              onDuration={changeDuration}
               monthOffset={monthOffset}
               shown={shown}
               loading={loading}
@@ -356,138 +406,18 @@ export function Booker({ event, title, subtitle, initialSubject }: BookerProps) 
           ) : null}
 
           {step === "account" ? (
-            <CenteredState
-              icon={<Lock className="size-7 text-coral" aria-hidden />}
-              title="Fast geschafft"
-            >
-              <Text tone="muted" className="mb-1">
-                Reguläre Nachhilfestunden buchst du über dein Konto.
-              </Text>
-              {summary ? (
-                <Text className="mb-5">
-                  Dein Wunschtermin:{" "}
-                  <strong className="text-ink">{summary}</strong>
-                </Text>
-              ) : null}
-              <div className="flex flex-wrap justify-center gap-3">
-                <LinkButton href={routes.login} variant="primary">
-                  Konto erstellen
-                </LinkButton>
-                <Button variant="outline" onClick={backToSelect}>
-                  Anderen Termin wählen
-                </Button>
-              </div>
-            </CenteredState>
+            <AccountStep summary={summary} onBack={backToSelect} />
           ) : null}
 
           {step === "result" ? (
-            bookingPhase === "pending" ? (
-              <CenteredState
-                icon={
-                  <span
-                    className="size-6 animate-spin rounded-full border-2 border-coral border-t-transparent"
-                    aria-hidden
-                  />
-                }
-                title="Anfrage wird gesendet …"
-              >
-                <Text tone="muted" aria-live="polite">
-                  Einen Moment – ich bestätige deinen Termin.
-                </Text>
-              </CenteredState>
-            ) : bookingPhase === "confirmed" ? (
-              <CenteredState
-                icon={<Check className="size-7 text-coral" aria-hidden />}
-                title="Anfrage gesendet!"
-              >
-                {summary ? (
-                  <div className="mx-auto mb-5 flex max-w-xs items-center gap-3 rounded-2xl border border-line bg-bg p-3.5 text-left">
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_srgb,var(--coral)_12%,transparent)] text-coral">
-                      <Phone className="size-4" aria-hidden />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-eyebrow uppercase text-ink-soft">
-                        Dein Termin
-                      </p>
-                      <p className="font-heading font-bold text-ink">
-                        {summary}
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
-                <Text tone="muted" className="mb-6">
-                  Ich melde mich telefonisch zum Termin und bestätige vorab kurz
-                  per Mail.
-                </Text>
-                {event === "nachhilfe" ? (
-                  <Button variant="outline" onClick={chooseAnotherSlot}>
-                    Weiteren Termin anfragen
-                  </Button>
-                ) : null}
-              </CenteredState>
-            ) : (
-              (() => {
-                const reason = bookingError?.reason ?? "generic";
-                const message =
-                  bookingError?.message ??
-                  "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.";
-
-                if (reason === "rate_limited") {
-                  return (
-                    <CenteredState
-                      icon={
-                        <CalendarX2 className="size-7 text-coral" aria-hidden />
-                      }
-                      title="Zu viele Anfragen"
-                    >
-                      <Text tone="muted" className="mb-5">
-                        {message}
-                      </Text>
-                      <LinkButton href={routes.contact} variant="primary">
-                        Direkt anfragen
-                      </LinkButton>
-                    </CenteredState>
-                  );
-                }
-
-                if (reason === "slot_taken") {
-                  return (
-                    <CenteredState
-                      icon={
-                        <CalendarX2 className="size-7 text-coral" aria-hidden />
-                      }
-                      title="Termin schon vergeben"
-                    >
-                      <Text tone="muted" className="mb-5">
-                        {message}
-                      </Text>
-                      <Button onClick={chooseAnotherSlot}>
-                        Anderen Termin wählen
-                      </Button>
-                    </CenteredState>
-                  );
-                }
-
-                return (
-                  <CenteredState
-                    icon={
-                      <CalendarX2 className="size-7 text-coral" aria-hidden />
-                    }
-                    title="Das hat nicht ganz geklappt"
-                  >
-                    <Text tone="muted" className="mb-5">
-                      {message}
-                    </Text>
-                    <div className="flex flex-wrap justify-center gap-3">
-                      <Button onClick={retryBooking}>Erneut senden</Button>
-                      <Button variant="outline" onClick={chooseAnotherSlot}>
-                        Anderen Termin wählen
-                      </Button>
-                    </div>
-                  </CenteredState>
-                );
-              })()
-            )
+            <ResultStep
+              phase={bookingPhase}
+              summary={summary}
+              event={event}
+              error={bookingError}
+              onRetry={retryBooking}
+              onChooseAnother={chooseAnotherSlot}
+            />
           ) : null}
         </AnimatedHeight>
       </div>
@@ -513,8 +443,6 @@ function AnimatedHeight({
     return () => observer.disconnect();
   }, []);
 
-  // No mount-in animation needed: the first measured height equals the current
-  // auto height, so that initial set transitions from the same value (no-op).
   return (
     <div
       style={{ height }}
@@ -607,9 +535,6 @@ function UnavailableNotice({
 }
 
 type SelectStepProps = {
-  config: (typeof bookingEvents)[BookingEventKey];
-  duration: number;
-  onDuration: (value: number) => void;
   monthOffset: number;
   shown: { year: number; month: number };
   loading: boolean;
@@ -624,9 +549,6 @@ type SelectStepProps = {
 };
 
 function SelectStep({
-  config,
-  duration,
-  onDuration,
   monthOffset,
   shown,
   loading,
@@ -651,33 +573,8 @@ function SelectStep({
 
   return (
     <div className="mx-auto flex w-full flex-1 flex-col justify-start motion-safe:animate-[fade-up_0.28s_ease-out]">
-      {config.durations ? (
-        <div className="mb-5">
-          <p className="mb-2 text-small font-semibold text-ink">Dauer wählen</p>
-          <div className="flex gap-2">
-            {config.durations.map((value) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => onDuration(value)}
-                aria-pressed={value === duration}
-                className={cn(
-                  "flex-1 rounded-xl border px-3 py-2 text-small font-semibold transition-colors",
-                  value === duration
-                    ? "border-coral bg-coral text-white"
-                    : "border-line bg-bg text-ink hover:border-coral",
-                )}
-              >
-                {value} Min.
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
       <div className="grid gap-x-[clamp(1.25rem,2.5vw,2rem)] gap-y-5 @4xl:grid-cols-[3fr_1fr]">
         <div>
-          {/* Month selection */}
           <div className="mb-4 flex items-center justify-between">
             <button
               type="button"
@@ -702,7 +599,6 @@ function SelectStep({
             </button>
           </div>
 
-          {/* Weekdays */}
           <div className="mb-2 grid grid-cols-7 gap-1.5">
             {WEEKDAYS.map((day) => (
               <div
@@ -714,7 +610,6 @@ function SelectStep({
             ))}
           </div>
 
-          {/* Days grid */}
           <div
             key={`${shown.year}-${shown.month}`}
             className="grid grid-cols-7 gap-1.5 motion-safe:animate-[fade_0.25s_ease-out]"
@@ -763,8 +658,7 @@ function SelectStep({
           </div>
         </div>
 
-        {/* Timeslots */}
-        <div className="flex min-h-0 flex-col">
+        <div>
           {selectedDate ? (
             <TimeSlots
               selectedDate={selectedDate}
@@ -788,11 +682,6 @@ function SelectStep({
   );
 }
 
-/**
- * Free-time list for the selected day. Fills the full column height (matching
- * the calendar) and scrolls without a visible scrollbar — soft fades at the
- * top/bottom hint that there is more above/below instead of a hard mid-cut.
- */
 function TimeSlots({
   selectedDate,
   slots,
@@ -802,68 +691,179 @@ function TimeSlots({
   slots: BookingSlot[];
   onPick: (slot: BookingSlot) => void;
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [edges, setEdges] = useState({ top: false, bottom: false });
-
-  const update = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setEdges({
-      top: el.scrollTop > 4,
-      bottom: el.scrollTop + el.clientHeight < el.scrollHeight - 4,
-    });
-  }, []);
-
-  useEffect(() => {
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [slots, update]);
-
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      {/* Header rows mirror the calendar's month-nav + weekday rows so the
-          slot list lines up with the day grid to the left. */}
+    <div className="flex flex-col">
+      {/* Empty h-9 row mirrors the calendar's month-nav height so the slots
+          line up with the day grid beside them. */}
       <div className="mb-4 flex h-9 items-center">
         <p className="text-small font-semibold text-ink">Freie Uhrzeiten</p>
       </div>
       <p className="mb-2 text-caption text-ink-soft">
         {dateLabel(selectedDate)}
       </p>
-      <div className="relative min-h-0 flex-1">
-        <div
-          ref={scrollRef}
-          onScroll={update}
-          className="no-scrollbar flex max-h-72 flex-col gap-2 overflow-y-auto @4xl:absolute @4xl:inset-0 @4xl:max-h-none"
-        >
-          {slots.map((slot) => (
-            <button
-              key={slot.start}
-              type="button"
-              onClick={() => onPick(slot)}
-              className="w-full shrink-0 rounded-lg border border-coral px-3 py-2.5 text-center text-small font-semibold text-coral transition-colors hover:bg-coral hover:text-white"
-            >
-              {slot.time} Uhr
-            </button>
-          ))}
-        </div>
-        <div
-          aria-hidden
-          className={cn(
-            "pointer-events-none absolute inset-x-0 top-0 h-5 bg-linear-to-b from-surface to-transparent transition-opacity duration-200",
-            edges.top ? "opacity-100" : "opacity-0",
-          )}
-        />
-        <div
-          aria-hidden
-          className={cn(
-            "pointer-events-none absolute inset-x-0 bottom-0 flex h-9 items-end justify-center bg-linear-to-t from-surface to-transparent transition-opacity duration-200",
-            edges.bottom ? "opacity-100" : "opacity-0",
-          )}
-        >
-          <ChevronDown className="size-4 text-coral" aria-hidden />
-        </div>
+      <div className="flex flex-col gap-2">
+        {slots.map((slot) => (
+          <button
+            key={slot.start}
+            type="button"
+            onClick={() => onPick(slot)}
+            className="rounded-lg border border-coral px-3 py-2.5 text-center text-small font-semibold text-coral transition-colors hover:bg-coral hover:text-white"
+          >
+            {slot.time} Uhr
+          </button>
+        ))}
       </div>
     </div>
+  );
+}
+
+function AccountStep({
+  summary,
+  onBack,
+}: {
+  summary: string | null;
+  onBack: () => void;
+}) {
+  return (
+    <CenteredState
+      icon={<Lock className="size-7 text-coral" aria-hidden />}
+      title="Fast geschafft"
+    >
+      <Text tone="muted" className="mb-1">
+        Reguläre Nachhilfestunden buchst du über dein Konto.
+      </Text>
+      {summary ? (
+        <Text className="mb-5">
+          Dein Wunschtermin: <strong className="text-ink">{summary}</strong>
+        </Text>
+      ) : null}
+      <div className="flex flex-wrap justify-center gap-3">
+        <LinkButton href={routes.login} variant="primary">
+          Konto erstellen
+        </LinkButton>
+        <Button variant="outline" onClick={onBack}>
+          Anderen Termin wählen
+        </Button>
+      </div>
+    </CenteredState>
+  );
+}
+
+type ResultStepProps = {
+  phase: BookingPhase;
+  summary: string | null;
+  event: BookingEventKey;
+  error: { message: string; reason: SubmitFailureReason } | null;
+  onRetry: () => void;
+  onChooseAnother: () => void;
+};
+
+function ResultStep({
+  phase,
+  summary,
+  event,
+  error,
+  onRetry,
+  onChooseAnother,
+}: ResultStepProps) {
+  if (phase === "pending") {
+    return (
+      <CenteredState
+        icon={
+          <span
+            className="size-6 animate-spin rounded-full border-2 border-coral border-t-transparent"
+            aria-hidden
+          />
+        }
+        title="Anfrage wird gesendet …"
+      >
+        <Text tone="muted" aria-live="polite">
+          Einen Moment – ich bestätige deinen Termin.
+        </Text>
+      </CenteredState>
+    );
+  }
+
+  if (phase === "confirmed") {
+    return (
+      <CenteredState
+        icon={<Check className="size-7 text-coral" aria-hidden />}
+        title="Anfrage gesendet!"
+      >
+        {summary ? (
+          <div className="mx-auto mb-5 flex max-w-xs items-center gap-3 rounded-2xl border border-line bg-bg p-3.5 text-left">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_srgb,var(--coral)_12%,transparent)] text-coral">
+              <Phone className="size-4" aria-hidden />
+            </span>
+            <div className="min-w-0">
+              <p className="text-eyebrow uppercase text-ink-soft">
+                Dein Termin
+              </p>
+              <p className="font-heading font-bold text-ink">{summary}</p>
+            </div>
+          </div>
+        ) : null}
+        <Text tone="muted" className="mb-6">
+          Ich melde mich telefonisch zum Termin und bestätige vorab kurz per
+          Mail.
+        </Text>
+        {event === "nachhilfe" ? (
+          <Button variant="outline" onClick={onChooseAnother}>
+            Weiteren Termin anfragen
+          </Button>
+        ) : null}
+      </CenteredState>
+    );
+  }
+
+  const message =
+    error?.message ??
+    "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.";
+
+  if (error?.reason === "rate_limited") {
+    return (
+      <CenteredState
+        icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
+        title="Zu viele Anfragen"
+      >
+        <Text tone="muted" className="mb-5">
+          {message}
+        </Text>
+        <LinkButton href={routes.contact} variant="primary">
+          Direkt anfragen
+        </LinkButton>
+      </CenteredState>
+    );
+  }
+
+  if (error?.reason === "slot_taken") {
+    return (
+      <CenteredState
+        icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
+        title="Termin schon vergeben"
+      >
+        <Text tone="muted" className="mb-5">
+          {message}
+        </Text>
+        <Button onClick={onChooseAnother}>Anderen Termin wählen</Button>
+      </CenteredState>
+    );
+  }
+
+  return (
+    <CenteredState
+      icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
+      title="Das hat nicht ganz geklappt"
+    >
+      <Text tone="muted" className="mb-5">
+        {message}
+      </Text>
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button onClick={onRetry}>Erneut senden</Button>
+        <Button variant="outline" onClick={onChooseAnother}>
+          Anderen Termin wählen
+        </Button>
+      </div>
+    </CenteredState>
   );
 }

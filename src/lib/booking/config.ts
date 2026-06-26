@@ -19,6 +19,8 @@ export type BookingEventConfig = {
   /** How the session happens. */
   medium: "phone" | "online";
   mediumLabel: string;
+  /** € per hour, scaled linearly by the selected duration; null when free. */
+  pricePerHour: number | null;
   /** Price shown in the booking sidebar. */
   priceLabel: string;
 };
@@ -32,6 +34,7 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
     requiresAccount: false,
     medium: "phone",
     mediumLabel: "Telefonisches Erstgespräch",
+    pricePerHour: null,
     priceLabel: "Komplett kostenlos",
   },
   nachhilfe: {
@@ -42,6 +45,7 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
     requiresAccount: true,
     medium: "online",
     mediumLabel: "Online via Discord oder MS Teams",
+    pricePerHour: 30,
     priceLabel: "30 € pro Stunde",
   },
 };

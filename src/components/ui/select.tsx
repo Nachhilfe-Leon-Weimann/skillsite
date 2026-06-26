@@ -1,0 +1,306 @@
+"use client";
+
+import { useEffect, useId, useRef, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+export type SelectOption<T extends string | number> = {
+  value: T;
+  label: string;
+  /** Optional second line shown under the label in the open panel. */
+  hint?: string;
+};
+
+type SelectTone = "default" | "on-navy";
+
+type SelectProps<T extends string | number> = {
+  value: T;
+  options: SelectOption<T>[];
+  onChange: (value: T) => void;
+  /** Eyebrow shown above the value and used as the accessible name. */
+  label: string;
+  /** Leading icon, rendered in a small chip to echo neighbouring info rows. */
+  icon?: React.ReactNode;
+  tone?: SelectTone;
+  disabled?: boolean;
+  className?: string;
+};
+
+const tones: Record<
+  SelectTone,
+  {
+    trigger: string;
+    chip: string;
+    eyebrow: string;
+    value: string;
+    chevron: string;
+    panel: string;
+    option: string;
+    optionActive: string;
+    optionSelected: string;
+    hint: string;
+  }
+> = {
+  default: {
+    trigger: "border-line bg-bg text-ink hover:bg-surface-2",
+    chip: "bg-surface-2 text-coral",
+    eyebrow: "text-ink-soft",
+    value: "text-ink",
+    chevron: "text-ink-soft",
+    panel: "border-line bg-surface shadow-card",
+    option: "text-ink-soft hover:bg-surface-2",
+    optionActive: "bg-surface-2",
+    optionSelected: "font-semibold text-ink",
+    hint: "text-ink-soft",
+  },
+  "on-navy": {
+    trigger:
+      "border-white/12 bg-white/[0.06] text-on-navy hover:border-white/22 hover:bg-white/[0.1]",
+    chip: "bg-white/8 text-accent-blue",
+    eyebrow: "text-accent-blue",
+    value: "text-on-navy",
+    chevron: "text-on-navy-soft",
+    panel:
+      "border-white/14 bg-[color-mix(in_srgb,#ffffff_7%,var(--navy))] shadow-[0_24px_50px_-18px_rgba(0,0,0,0.6)]",
+    option: "text-on-navy-soft hover:bg-white/8",
+    optionActive: "bg-white/8",
+    optionSelected: "font-semibold text-on-navy",
+    hint: "text-on-navy-muted",
+  },
+};
+
+/**
+ * Accessible custom select: a button trigger with a rotating chevron and an
+ * animated popover listbox. Built custom (not a native `<select>`) so the panel
+ * and chevron can animate, and so it can sit on dark surfaces via `tone`.
+ *
+ * Keyboard: arrows / Home / End move the active option, Enter or Space picks it,
+ * Escape closes. Clicking outside or tabbing away closes it too.
+ */
+export function Select<T extends string | number>({
+  value,
+  options,
+  onChange,
+  label,
+  icon,
+  tone = "default",
+  disabled,
+  className,
+}: SelectProps<T>) {
+  const t = tones[tone];
+  const listId = useId();
+
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const selectedIndex = Math.max(
+    0,
+    options.findIndex((option) => option.value === value),
+  );
+  const selectedLabel = options[selectedIndex]?.label ?? "";
+
+  const openMenu = () => {
+    if (disabled) return;
+    setActiveIndex(selectedIndex);
+    setOpen(true);
+  };
+
+  const closeMenu = (focusTrigger = false) => {
+    setOpen(false);
+    if (focusTrigger) triggerRef.current?.focus();
+  };
+
+  const focusOption = (index: number) => {
+    setActiveIndex(index);
+    optionRefs.current[index]?.focus();
+  };
+
+  const selectOption = (index: number) => {
+    onChange(options[index].value);
+    closeMenu(true);
+  };
+
+  // Move focus onto the active option once the panel becomes interactive.
+  useEffect(() => {
+    if (!open) return;
+    const frame = window.requestAnimationFrame(() =>
+      optionRefs.current[activeIndex]?.focus(),
+    );
+    return () => window.cancelAnimationFrame(frame);
+    // Runs on open only: activeIndex is set together with `open` in openMenu,
+    // and arrow navigation focuses options directly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  // Close on outside pointer / Escape while open.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+        closeMenu(true);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn("relative", className)}
+      onBlur={(event) => {
+        // Tab-out closes the control. A null relatedTarget (tapping a
+        // non-focusable element - e.g. the trigger on iOS, which doesn't focus
+        // buttons) is left to the outside-pointer listener and trigger toggle,
+        // so onBlur doesn't pre-close and fight the toggle into reopening.
+        if (
+          event.relatedTarget &&
+          !containerRef.current?.contains(event.relatedTarget as Node)
+        )
+          setOpen(false);
+      }}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-label={`${label}: ${selectedLabel}`}
+        onClick={() => (open ? closeMenu() : openMenu())}
+        onKeyDown={(event) => {
+          if (!open && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+            event.preventDefault();
+            openMenu();
+          }
+        }}
+        className={cn(
+          "flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors",
+          t.trigger,
+          disabled && "pointer-events-none opacity-60",
+        )}
+      >
+        {icon ? (
+          <span
+            className={cn(
+              "flex size-8 shrink-0 items-center justify-center rounded-lg",
+              t.chip,
+            )}
+          >
+            {icon}
+          </span>
+        ) : null}
+        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className={cn("text-eyebrow uppercase", t.eyebrow)}>
+            {label}
+          </span>
+          <span className={cn("truncate text-small font-semibold", t.value)}>
+            {selectedLabel}
+          </span>
+        </span>
+        <ChevronDown
+          aria-hidden
+          className={cn(
+            "size-4 shrink-0 transition-transform duration-200",
+            t.chevron,
+            open && "rotate-180",
+          )}
+        />
+      </button>
+
+      <div
+        id={listId}
+        role="listbox"
+        aria-label={label}
+        aria-activedescendant={open ? `${listId}-${activeIndex}` : undefined}
+        inert={!open}
+        onKeyDown={(event) => {
+          switch (event.key) {
+            case "ArrowDown":
+              event.preventDefault();
+              focusOption(Math.min(options.length - 1, activeIndex + 1));
+              break;
+            case "ArrowUp":
+              event.preventDefault();
+              focusOption(Math.max(0, activeIndex - 1));
+              break;
+            case "Home":
+              event.preventDefault();
+              focusOption(0);
+              break;
+            case "End":
+              event.preventDefault();
+              focusOption(options.length - 1);
+              break;
+            case "Enter":
+            case " ":
+              event.preventDefault();
+              selectOption(activeIndex);
+              break;
+            case "Tab":
+              setOpen(false);
+              break;
+          }
+        }}
+        className={cn(
+          "absolute inset-x-0 top-full z-20 mt-2 origin-top rounded-xl border p-1.5",
+          "transition-[opacity,transform] ease-out",
+          t.panel,
+          open
+            ? "translate-y-0 scale-100 opacity-100 duration-200"
+            : "pointer-events-none -translate-y-1 scale-[0.97] opacity-0 duration-300",
+        )}
+      >
+        {options.map((option, index) => {
+          const isSelected = index === selectedIndex;
+          return (
+            <button
+              key={option.value}
+              id={`${listId}-${index}`}
+              ref={(element) => {
+                optionRefs.current[index] = element;
+              }}
+              type="button"
+              role="option"
+              aria-selected={isSelected}
+              tabIndex={-1}
+              onClick={() => selectOption(index)}
+              className={cn(
+                "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-small font-medium transition-colors",
+                t.option,
+                index === activeIndex && t.optionActive,
+                isSelected && t.optionSelected,
+              )}
+            >
+              <span className="flex min-w-0 flex-col">
+                <span className="truncate">{option.label}</span>
+                {option.hint ? (
+                  <span className={cn("text-caption", t.hint)}>
+                    {option.hint}
+                  </span>
+                ) : null}
+              </span>
+              {isSelected ? (
+                <Check className="size-4 shrink-0 text-coral" aria-hidden />
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
