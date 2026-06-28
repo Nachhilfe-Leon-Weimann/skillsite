@@ -16,8 +16,7 @@ import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Fächer",
-  description:
-    "Mathematik, Informatik und Physik aus einer Hand – ein fairer Festpreis von 30 € pro Stunde für jede Klassenstufe.",
+  description: "Mathematik, Informatik und Physik aus einer Hand.",
 };
 
 export default function SubjectsPage() {

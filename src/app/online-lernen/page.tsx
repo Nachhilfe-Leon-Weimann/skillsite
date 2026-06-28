@@ -21,7 +21,7 @@ import { routes } from "@/lib/routes";
 export const metadata: Metadata = {
   title: "Online lernen",
   description:
-    "Nachhilfe über Discord oder MS Teams – live mit geteiltem Bildschirm, schnell eingerichtet, Materialien dauerhaft abrufbar.",
+    "Nachhilfe über Discord oder MS Teams - live mit geteiltem Bildschirm, schnell eingerichtet, Materialien dauerhaft abrufbar.",
 };
 
 export default function OnlineLearningPage() {

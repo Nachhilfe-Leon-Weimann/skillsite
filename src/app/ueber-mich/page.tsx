@@ -20,7 +20,7 @@ import { routes } from "@/lib/routes";
 export const metadata: Metadata = {
   title: "Über mich",
   description:
-    "Hi, ich bin Leon. Ich gebe Nachhilfe in Mathe, Informatik und Physik – individuell statt nach Schema, auf Augenhöhe und ohne Druck.",
+    "Hi, ich bin Leon. Ich gebe Nachhilfe in Mathe, Informatik und Physik - individuell statt nach Schema, auf Augenhöhe und ohne Druck.",
 };
 
 export default function AboutPage() {
@@ -52,7 +52,7 @@ export default function AboutPage() {
       </Container>
 
       <Container className="pb-section-sm">
-        <div className="mx-auto max-w-[880px] rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.75rem)] shadow-card">
+        <div className="mx-auto max-w-220 rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.75rem)] shadow-card">
           <p className="font-heading text-[clamp(1.3rem,2.6vw,1.9rem)] font-medium leading-[1.35] text-white">
             „{aboutQuote}“
           </p>
