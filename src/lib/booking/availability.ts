@@ -37,7 +37,9 @@ async function fetchCalSlots(
     url.searchParams.set("duration", String(durationMinutes));
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4000);
+  // Cal.com's slots endpoint is regularly slow to respond; 4s tripped the
+  // timeout too often. Give it more headroom before giving up.
+  const timeout = setTimeout(() => controller.abort(), 12000);
   try {
     const res = await fetch(url, {
       headers: {

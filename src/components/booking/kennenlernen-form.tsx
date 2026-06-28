@@ -156,7 +156,7 @@ export function KennenlernenForm({
             type="tel"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
-            placeholder="+49 …"
+            placeholder="+49 ..."
             autoComplete="tel"
             maxLength={FIELD_LIMITS.phone}
           />
@@ -205,7 +205,7 @@ export function KennenlernenForm({
           rows={2}
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          placeholder="Klassenstufe, Thema, Ziel …"
+          placeholder="Klassenstufe, Thema, Ziel ..."
           maxLength={FIELD_LIMITS.note}
         />
       </Field>
@@ -223,7 +223,7 @@ export function KennenlernenForm({
           className="text-center text-caption text-ink-soft"
         >
           Noch offen:{" "}
-          <span className="font-semibold text-ink">{missing.join(" · ")}</span>
+          <span className="font-semibold text-ink">{missing.join(" - ")}</span>
         </p>
       )}
     </form>
