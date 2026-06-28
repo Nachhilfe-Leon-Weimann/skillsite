@@ -168,6 +168,7 @@ export function KennenlernenForm({
         <div className="flex flex-wrap gap-2">
           {subjectChoices.map(({ name, glyph }) => {
             const active = selected.includes(name);
+            const Icon = glyph;
             return (
               <button
                 key={name}
@@ -188,7 +189,7 @@ export function KennenlernenForm({
                     active ? "text-white/75" : "text-coral",
                   )}
                 >
-                  {glyph}
+                  <Icon className="size-5" />
                 </span>
                 {name}
               </button>

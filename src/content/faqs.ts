@@ -4,34 +4,34 @@ export const subjectsFaq: Faq[] = [
   {
     question: "Welche Fächer unterrichtest du?",
     answer:
-      "Mathematik, Informatik und Physik – von der Mittelstufe bis zum Abitur, bei Bedarf auch Studiumsgrundlagen und Prüfungsvorbereitung.",
+      "Mathematik, Informatik und Physik - von der Mittelstufe bis zum Abitur. Bei Bedarf auch Prüfungsvorbereitung und ausgewählte Grundlagen aus dem Studium.",
   },
   {
     question: "Für welches Niveau ist das geeignet?",
     answer:
-      "Vom Lückenschließen bis zur Spitzennote. Wir starten genau dort, wo du wirklich stehst – notfalls zwei Schuljahre zurück.",
+      "Für Lücken, sichere Noten und Spitzennoten. Wir starten dort, wo du stehst, und bauen fehlende Grundlagen gezielt nach.",
   },
   {
     question: "Wie läuft eine Stunde ab?",
     answer:
-      "60 Minuten: Ziel klären, gemeinsam rechnen oder programmieren, am Ende festhalten, was bleibt und was du übst.",
+      "60 Minuten: Ziel klären, gemeinsam rechnen oder programmieren und am Ende festhalten, was verstanden wurde und was du weiter übst.",
   },
   {
     question: "Muss ich mich vorbereiten?",
     answer:
-      "Bring einfach deine Aufgaben, Klausuren oder Themen mit. Den Rest sortieren wir gemeinsam.",
+      "Nein. Bring einfach Aufgaben, Klausuren, Mitschriften oder Themen mit. Den Rest sortieren wir gemeinsam.",
   },
 ];
 export const processFaq: Faq[] = [
   {
     question: "Läuft der Unterricht wirklich komplett online?",
     answer:
-      "Ja – live über Discord oder MS Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
+      "Ja - live über Discord oder MS Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
   },
   {
     question: "Welche Technik brauche ich?",
     answer:
-      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos – bei der Einrichtung helfe ich.",
+      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos - bei der Einrichtung helfe ich.",
   },
   {
     question: "Wie oft sollten wir uns sehen?",
@@ -46,7 +46,7 @@ export const processFaq: Faq[] = [
   {
     question: "Können Eltern beim Erstgespräch dabei sein?",
     answer:
-      "Sehr gerne. Viele Erstgespräche führen wir gemeinsam – so haben alle das gleiche Bild.",
+      "Sehr gerne. Viele Erstgespräche führen wir gemeinsam - so haben alle das gleiche Bild.",
   },
 ];
 
