@@ -16,6 +16,7 @@ import {
   software,
 } from "@/content/about";
 import { routes } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Über mich",
@@ -40,7 +41,8 @@ export default function AboutPage() {
               size="lg"
               className="mt-7"
             >
-              Finde heraus, ob wir zusammenpassen →
+              Finde heraus, ob wir zusammenpassen{" "}
+              <ArrowRight className="size-4" />
             </LinkButton>
           </div>
 
@@ -99,15 +101,13 @@ export default function AboutPage() {
               <span className="text-accent-blue">verstehen</span>
               {"(stoff) {"}
             </div>
-            <div>
-              {"  "}
+            <div className="ml-4">
               <span className="text-coral-light">if</span>
               {" (stoff.klickt) "}
               <span className="text-coral-light">return</span>{" "}
               <span className="text-[#8FD49B]">{"'kann ich selbst'"}</span>;
             </div>
-            <div>
-              {"  "}
+            <div className="ml-4">
               <span className="text-coral-light">return</span>{" "}
               <span className="text-accent-blue">nochmal</span>
               {"(stoff, anderswie);"}
