@@ -111,7 +111,7 @@ export async function getAvailability(params: {
 }): Promise<AvailabilityResponse> {
   if (!process.env.CAL_API_KEY || !calUsername) {
     console.error(
-      "[booking] Cal.com is not configured (CAL_API_KEY / NEXT_PUBLIC_BOOKING_CAL_USERNAME missing) - no availability served.",
+      "[booking] Cal.com is not configured (CAL_API_KEY missing) - no availability served.",
     );
     return { status: "unconfigured", timeZone: BOOKING_TIMEZONE, days: [] };
   }

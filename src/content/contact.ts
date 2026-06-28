@@ -1,6 +1,6 @@
 const CONTACT_EMAIL = "nachhilfe@leonweimann.de";
 const CONTACT_WHATSAPP = "+49 7824 6190305";
-const CONTANCT_WHATSAPP_URL = "https://wa.me/message/LN3P6IQ7LDPQH1";
+const CONTACT_WHATSAPP_URL = "https://wa.me/message/LN3P6IQ7LDPQH1";
 
 export type ContactDetailKey = "eMail" | "whatsapp";
 
@@ -22,7 +22,7 @@ export const contactDetails = {
     key: "whatsapp",
     label: "WhatsApp",
     content: CONTACT_WHATSAPP,
-    href: CONTANCT_WHATSAPP_URL,
+    href: CONTACT_WHATSAPP_URL,
   },
 } satisfies Record<ContactDetailKey, ContactDetail>;
 
