@@ -22,7 +22,6 @@ export const subjectsFaq: Faq[] = [
       "Bring einfach deine Aufgaben, Klausuren oder Themen mit. Den Rest sortieren wir gemeinsam.",
   },
 ];
-
 export const processFaq: Faq[] = [
   {
     question: "Läuft der Unterricht wirklich komplett online?",
@@ -32,17 +31,17 @@ export const processFaq: Faq[] = [
   {
     question: "Welche Technik brauche ich?",
     answer:
-      "Computer oder Laptop, stabiles Internet, Headset empfohlen. Discord ist kostenlos – bei der Einrichtung helfe ich.",
+      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos – bei der Einrichtung helfe ich.",
   },
   {
     question: "Wie oft sollten wir uns sehen?",
     answer:
-      "Ganz wie es passt: wöchentlich, vor Klausuren intensiver oder einfach nach Bedarf. Du buchst selbst.",
+      "Das hängt vom Ziel ab: wöchentlich, vor Klausuren intensiver oder nach Bedarf. Du buchst deine Termine selbst.",
   },
   {
     question: "Wie sage ich ab?",
     answer:
-      "Bis 24 Stunden vorher kostenfrei verschieben oder absagen. Bei kurzfristigen Notfällen finden wir eine faire Lösung.",
+      "Bis 24 Stunden vorher kannst du kostenfrei verschieben oder absagen. Bei echten Notfällen finden wir eine faire Lösung.",
   },
   {
     question: "Können Eltern beim Erstgespräch dabei sein?",
@@ -60,11 +59,11 @@ export const pricingFaq: Faq[] = [
   {
     question: "Wie bezahle ich?",
     answer:
-      "Per Überweisung (Rechnung mit GiroCode) oder PayPal-Link. Abrechnung einzeln nach dem Termin oder gebündelt als Block.",
+      "Per Überweisung mit Rechnung und GiroCode oder per PayPal-Link. Die Abrechnung erfolgt einzeln nach dem Termin oder gesammelt für mehrere Stunden.",
   },
   {
     question: "Was ist Bildung & Teilhabe?",
     answer:
-      "Nachhilfe kann über das BuT-Paket gefördert werden. Die Abrechnung übernehme ich direkt mit der Stelle.",
+      "Nachhilfe kann über Bildung & Teilhabe gefördert werden. Ich helfe dir bei der Einordnung und rechne bei passender Bewilligung direkt mit der zuständigen Stelle ab.",
   },
 ];

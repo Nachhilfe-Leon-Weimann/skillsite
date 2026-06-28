@@ -13,6 +13,7 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { startSteps, lessonFlow, discordHighlights } from "@/content/process";
 import { processFaq } from "@/content/faqs";
 import { routes } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Ablauf",
@@ -27,7 +28,7 @@ export default function ProcessPage() {
         eyebrow="Ablauf"
         title="So läuft die Nachhilfe bei mir ab."
         titleClassName="max-w-[13em]"
-        lead="Kein Schema F. Wir starten dort, wo du wirklich stehst, und finden gemeinsam deinen Rhythmus."
+        lead="Kein Schema F. Wir klären zuerst, wo du stehst, und bauen daraus einen Plan, der zu deinem Ziel passt."
       />
 
       <Container className="py-section-sm">
@@ -40,7 +41,7 @@ export default function ProcessPage() {
       <Section surface>
         <div className="grid items-center gap-[clamp(1.75rem,4vw,3.5rem)] lg:grid-cols-2">
           <div>
-            <Eyebrow>Eine Stunde · 60 Minuten</Eyebrow>
+            <Eyebrow>Eine Stunde - 60 Minuten</Eyebrow>
             <Heading size="h3" className="mt-4 mb-6">
               So ist eine Stunde aufgebaut.
             </Heading>
@@ -72,7 +73,7 @@ export default function ProcessPage() {
               Unterricht über Discord oder MS Teams
             </Heading>
             <Text tone="on-navy-soft" className="mb-4">
-              Live mit geteiltem Bildschirm – wie am selben Tisch, nur ohne
+              Live mit geteiltem Bildschirm: wie am selben Tisch, nur ohne
               Anfahrt. Du wählst die Plattform, die für dich am einfachsten ist.
             </Text>
             <div className="mb-5 flex flex-wrap gap-2">
@@ -101,7 +102,7 @@ export default function ProcessPage() {
               variant="white"
               className="mt-6"
             >
-              So richtest du Discord ein →
+              So richtest du Discord ein <ArrowRight className="size-4" />
             </LinkButton>
           </div>
         </div>
@@ -110,11 +111,11 @@ export default function ProcessPage() {
       <Container className="py-section-sm text-center">
         <Heading size="h3">Termine selbst buchen</Heading>
         <Text tone="muted" className="mx-auto mt-3 mb-7 max-w-[32em]">
-          Freie Slots direkt im Kalender wählen – wöchentlich, vor Klausuren
+          Freie Slots direkt im Kalender wählen - wöchentlich, vor Klausuren
           intensiver oder nach Bedarf. Bis 24&nbsp;h vorher kostenfrei absagen.
         </Text>
         <LinkButton href={routes.booking} variant="primary" size="lg">
-          Verfügbare Termine ansehen →
+          Verfügbare Termine ansehen <ArrowRight className="size-4" />
         </LinkButton>
       </Container>
 

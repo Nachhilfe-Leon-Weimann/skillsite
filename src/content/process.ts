@@ -5,28 +5,36 @@ export const startSteps: Step[] = [
   {
     n: "1",
     title: "Kostenloses Erstgespräch",
-    text: "Wir klären Situation, Fach und Ziel – und schauen, ob die Chemie stimmt.",
+    text: "Wir klären Fach, Ziel, aktuelle Probleme und ob die Zusammenarbeit passt.",
   },
   {
     n: "2",
     title: "Erste Stunde",
-    text: "Gemeinsam finden wir heraus, wo die Lücken wirklich liegen, und machen einen Plan.",
+    text: "Wir schauen uns echte Aufgaben an, finden Lücken und legen fest, womit wir starten.",
   },
   {
     n: "3",
-    title: "Euer Rhythmus",
-    text: "Wöchentlich, vor Klausuren intensiver oder nach Bedarf – du buchst selbst.",
+    title: "Unser Rhythmus",
+    text: "Danach buchst du flexibel: regelmäßig, vor Klausuren intensiver oder nach Bedarf.",
   },
 ];
 
 export const lessonFlow: Step[] = [
-  { n: "1", title: "Ziel klären", text: "Was wollen wir heute schaffen?" },
+  {
+    n: "1",
+    title: "Kurz sortieren",
+    text: "Was ist heute das Ziel? Hausaufgabe, Klausurthema oder Verständnisproblem?",
+  },
   {
     n: "2",
-    title: "Gemeinsam arbeiten",
-    text: "Rechnen, programmieren, knobeln.",
+    title: "Gemeinsam lösen",
+    text: "Wir arbeiten an echten Aufgaben, bis der Denkweg sitzt.",
   },
-  { n: "3", title: "Festhalten", text: "Was bleibt – und was du übst." },
+  {
+    n: "3",
+    title: "Festhalten",
+    text: "Am Ende ist klar, was du verstanden hast, und was du bis zum nächsten Mal übst.",
+  },
 ];
 
 export const discordHighlights: string[] = [
