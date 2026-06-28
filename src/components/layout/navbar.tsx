@@ -53,9 +53,10 @@ export function Navbar() {
           ))}
 
           <div className="group relative">
-            <button
-              type="button"
+            <Link
+              href={routes.onlineLearning}
               aria-haspopup="true"
+              onClick={(event) => event.currentTarget.blur()}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.95rem] transition-colors hover:bg-surface-2",
                 isActive(routes.onlineLearning)
@@ -68,22 +69,25 @@ export function Navbar() {
                 className="size-3.5 transition-transform duration-200 group-hover:rotate-180"
                 aria-hidden
               />
-            </button>
-            <div className="invisible absolute right-0 top-[calc(100%+6px)] z-10 flex w-64 translate-y-2 flex-col gap-0.5 rounded-2xl border border-line bg-surface p-2 opacity-0 shadow-card transition-[opacity,transform,visibility] duration-300 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              {platformNav.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex flex-col gap-0.5 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2"
-                >
-                  <span className="text-[0.95rem] font-semibold text-ink">
-                    {item.label}
-                  </span>
-                  <span className="text-[0.82rem] text-ink-soft">
-                    {item.note}
-                  </span>
-                </Link>
-              ))}
+            </Link>
+            <div className="invisible absolute right-0 top-full z-10 w-64 translate-y-2 pt-1.5 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <div className="flex flex-col gap-0.5 rounded-2xl border border-line bg-surface p-2 shadow-card">
+                {platformNav.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={(event) => event.currentTarget.blur()}
+                    className="flex flex-col gap-0.5 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2"
+                  >
+                    <span className="text-[0.95rem] font-semibold text-ink">
+                      {item.label}
+                    </span>
+                    <span className="text-[0.82rem] text-ink-soft">
+                      {item.note}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </nav>
