@@ -2,170 +2,314 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
-import { LinkButton } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { primaryCta, primaryNav, platformNav } from "@/content/site";
+import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { routes } from "@/lib/routes";
+
+const DESKTOP_NAV_QUERY = "(min-width: 1080px)";
+
+/** Whether `href` points at the section the user is currently on. */
+function isActive(pathname: string, href: string) {
+  const base = href.split("#")[0];
+  return base === "/" ? pathname === "/" : pathname.startsWith(base);
+}
+
+/** Shared text emphasis for nav links, depending on active state. */
+function activeText(active: boolean) {
+  return active ? "font-semibold text-ink" : "font-medium text-ink-soft";
+}
+
+function isPlatformNavActive(pathname: string) {
+  return platformNav.some((item) => isActive(pathname, item.href));
+}
 
 export function Navbar() {
   const pathname = usePathname();
+
+  return <NavbarContent key={pathname} pathname={pathname} />;
+}
+
+function NavbarContent({ pathname }: { pathname: string }) {
+  const isDesktopNav = useMediaQuery(DESKTOP_NAV_QUERY);
   const [open, setOpen] = useState(false);
-  const [lastPathname, setLastPathname] = useState(pathname);
+  const isPlatformActive = isPlatformNavActive(pathname);
 
-  // Close the mobile menu whenever the route changes (render-time reset).
-  if (pathname !== lastPathname) {
-    setLastPathname(pathname);
-    setOpen(false);
-  }
+  const closeMobileMenu = () => setOpen(false);
+  const toggleMobileMenu = () => setOpen((value) => !value);
 
-  const isActive = (href: string) => {
-    const base = href.split("#")[0];
-    return base === "/" ? pathname === "/" : pathname.startsWith(base);
-  };
+  useBodyScrollLock(open && !isDesktopNav);
+
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia(DESKTOP_NAV_QUERY);
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+
+    mediaQueryList.addEventListener("change", closeOnDesktop);
+    return () => {
+      mediaQueryList.removeEventListener("change", closeOnDesktop);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-[color-mix(in_srgb,var(--bg)_84%,transparent)] backdrop-blur-[14px]">
-      <Container className="flex items-center gap-4 py-3">
-        <Link href={routes.home} aria-label="Startseite" className="shrink-0">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b border-line bg-[color-mix(in_srgb,var(--bg)_84%,transparent)] backdrop-blur-lg",
+        open &&
+          "max-[1079px]:fixed max-[1079px]:inset-0 max-[1079px]:flex max-[1079px]:flex-col max-[1079px]:border-b-0 max-[1079px]:bg-bg",
+      )}
+    >
+      <Container className="flex items-center gap-2.5 py-3 min-[1278px]:gap-4">
+        <Link
+          href={routes.home}
+          aria-label="Startseite"
+          onClick={closeMobileMenu}
+          className="shrink-0"
+        >
           <Logo />
         </Link>
 
-        {/* Desktop navigation */}
-        <nav className="hidden flex-1 items-center justify-end gap-1 min-[880px]:flex">
-          {primaryNav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "rounded-full px-3.5 py-2 text-[0.95rem] transition-colors hover:bg-surface-2",
-                isActive(item.href)
-                  ? "font-semibold text-ink"
-                  : "text-ink-soft",
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <DesktopNav pathname={pathname} platformActive={isPlatformActive} />
 
-          <div className="group relative">
-            <Link
-              href={routes.onlineLearning}
-              aria-haspopup="true"
-              onClick={(event) => event.currentTarget.blur()}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.95rem] transition-colors hover:bg-surface-2",
-                isActive(routes.onlineLearning)
-                  ? "font-semibold text-ink"
-                  : "text-ink-soft",
-              )}
-            >
-              Online lernen
-              <ChevronDown
-                className="size-3.5 transition-transform duration-200 group-hover:rotate-180"
-                aria-hidden
-              />
-            </Link>
-            <div className="invisible absolute right-0 top-full z-10 w-64 translate-y-2 pt-1.5 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <div className="flex flex-col gap-0.5 rounded-2xl border border-line bg-surface p-2 shadow-card">
-                {platformNav.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={(event) => event.currentTarget.blur()}
-                    className="flex flex-col gap-0.5 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2"
-                  >
-                    <span className="text-[0.95rem] font-semibold text-ink">
-                      {item.label}
-                    </span>
-                    <span className="text-[0.82rem] text-ink-soft">
-                      {item.note}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        {/* Right cluster */}
-        <div className="ml-auto flex items-center gap-2.5 min-[880px]:ml-0">
-          <Link
+        <div className="ml-auto flex items-center gap-2 min-[1080px]:ml-0 min-[1278px]:gap-2.5">
+          <LinkButton
             href={routes.login}
-            className="hidden rounded-full px-3 py-2 text-[0.95rem] font-semibold text-ink-soft transition-colors hover:bg-surface-2 hover:text-ink min-[880px]:inline-flex"
+            variant="ghost"
+            className={cn(
+              "hidden min-[1080px]:inline-flex",
+              activeText(isActive(pathname, routes.login)),
+            )}
           >
             Login
-          </Link>
+          </LinkButton>
           <LinkButton
             href={primaryCta.href}
             variant="primary"
             size="md"
-            className="hidden min-[880px]:inline-flex"
+            className="hidden px-4 min-[1080px]:inline-flex min-[1278px]:px-5"
           >
-            {primaryCta.label}
+            {/* Short label in the compact range, full label once there is room. */}
+            <span className="min-[1278px]:hidden">{primaryCta.shortLabel}</span>
+            <span className="hidden min-[1278px]:inline">
+              {primaryCta.label}
+            </span>
           </LinkButton>
           <button
             type="button"
             aria-label="Menü"
             aria-expanded={open}
-            onClick={() => setOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-line bg-surface text-ink min-[880px]:hidden"
+            onClick={toggleMobileMenu}
+            className="inline-flex size-10 items-center justify-center rounded-full border border-line bg-surface text-ink min-[1080px]:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
       </Container>
 
-      {/* Mobile panel */}
       {open ? (
-        <div className="border-t border-line bg-bg min-[880px]:hidden">
-          <Container className="flex flex-col gap-1 py-4">
-            {primaryNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "border-b border-line py-3 text-[1.05rem]",
-                  isActive(item.href)
-                    ? "font-semibold text-ink"
-                    : "text-ink-soft",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              href={routes.onlineLearning}
-              className="border-b border-line py-3 text-[1.05rem] font-semibold text-ink-soft"
-            >
-              Discord &amp; MS Teams
-            </Link>
-            <Link
-              href={routes.booking}
-              className="border-b border-line py-3 text-[1.05rem] font-semibold text-ink-soft"
-            >
-              Termin buchen
-            </Link>
-            <Link
-              href={routes.login}
-              className="py-3 text-[1.05rem] font-semibold text-ink-soft"
-            >
-              Login
-            </Link>
-            <LinkButton
-              href={primaryCta.href}
-              variant="primary"
-              className="mt-2 w-full"
-            >
-              {primaryCta.label}
-            </LinkButton>
-          </Container>
-        </div>
+        <MobileMenu
+          pathname={pathname}
+          platformActive={isPlatformActive}
+          onNavigate={closeMobileMenu}
+        />
       ) : null}
     </header>
+  );
+}
+
+function DesktopNav({
+  pathname,
+  platformActive,
+}: {
+  pathname: string;
+  platformActive: boolean;
+}) {
+  return (
+    <nav className="hidden flex-1 items-center justify-end gap-0.5 min-[1080px]:flex min-[1278px]:gap-1">
+      {primaryNav.map((item) => (
+        <LinkButton
+          key={item.href}
+          href={item.href}
+          variant="ghost"
+          className={cn(
+            "px-3 min-[1278px]:px-3.5",
+            activeText(isActive(pathname, item.href)),
+          )}
+        >
+          {item.label}
+        </LinkButton>
+      ))}
+
+      <PlatformDropdown active={platformActive} />
+    </nav>
+  );
+}
+
+function PlatformDropdown({ active }: { active: boolean }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} data-open={open || undefined} className="group relative">
+      <Button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        variant="ghost"
+        onClick={() => setOpen((value) => !value)}
+        className={cn("px-3 min-[1278px]:px-3.5", activeText(active))}
+      >
+        Online lernen
+        <ChevronDown
+          className="size-3.5 transition-transform duration-200 group-hover:rotate-180 group-data-open:rotate-180"
+          aria-hidden
+        />
+      </Button>
+
+      <div className="invisible absolute right-0 top-full z-10 w-64 translate-y-2 pt-1.5 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-data-open:visible group-data-open:translate-y-0 group-data-open:opacity-100">
+        <div className="flex flex-col gap-0.5 rounded-2xl border border-line bg-surface p-2 shadow-card">
+          {platformNav.map((item) => (
+            <LinkButton
+              key={`${item.href}:${item.label}`}
+              href={item.href}
+              variant="ghost"
+              onClick={() => setOpen(false)}
+              className="flex flex-col items-start gap-0.5 rounded-xl px-3 py-2.5"
+            >
+              <span className="text-body font-semibold text-ink">
+                {item.label}
+              </span>
+              <span className="text-caption text-ink-soft">{item.note}</span>
+            </LinkButton>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileMenu({
+  pathname,
+  platformActive,
+  onNavigate,
+}: {
+  pathname: string;
+  platformActive: boolean;
+  onNavigate: () => void;
+}) {
+  const [platformOpen, setPlatformOpen] = useState(false);
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col min-[1080px]:hidden motion-safe:animate-[fade-down_0.2s_ease-out]">
+      <Container className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto py-4">
+        {primaryNav.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onNavigate}
+            className={cn(
+              "border-b border-line py-3 text-body",
+              activeText(isActive(pathname, item.href)),
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+
+        <button
+          type="button"
+          aria-expanded={platformOpen}
+          aria-controls="mobile-platform-nav"
+          onClick={() => setPlatformOpen((value) => !value)}
+          className={cn(
+            "flex items-center justify-between border-b border-line py-3 text-body",
+            activeText(platformActive),
+          )}
+        >
+          Online lernen
+          <ChevronDown
+            className={cn(
+              "size-4 transition-transform duration-200",
+              platformOpen && "rotate-180",
+            )}
+            aria-hidden
+          />
+        </button>
+
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-300 ease-out",
+            platformOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+        >
+          <div
+            id="mobile-platform-nav"
+            inert={!platformOpen}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col">
+              {platformNav.map((item) => (
+                <Link
+                  key={`${item.href}:${item.label}`}
+                  href={item.href}
+                  onClick={onNavigate}
+                  className={cn(
+                    "border-b border-line py-2.5 pl-4 text-small",
+                    activeText(isActive(pathname, item.href)),
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      <Container className="flex flex-col gap-2 border-t border-line py-4">
+        <LinkButton
+          href={routes.login}
+          variant="ghost"
+          onClick={onNavigate}
+          className={cn("w-full", activeText(isActive(pathname, routes.login)))}
+        >
+          Login
+        </LinkButton>
+        <LinkButton
+          href={primaryCta.href}
+          variant="primary"
+          onClick={onNavigate}
+          className="w-full"
+        >
+          {primaryCta.label}
+        </LinkButton>
+      </Container>
+    </div>
   );
 }

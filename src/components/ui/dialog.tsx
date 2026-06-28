@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
+import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
 import { useHydrated } from "@/lib/use-hydrated";
 
 type DialogProps = {
@@ -29,13 +30,12 @@ export function Dialog({
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
 
     previousFocus.current = document.activeElement as HTMLElement | null;
-    const { body } = document;
-    const previousOverflow = body.style.overflow;
-    body.style.overflow = "hidden";
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -46,7 +46,6 @@ export function Dialog({
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      body.style.overflow = previousOverflow;
       window.cancelAnimationFrame(frame);
       previousFocus.current?.focus?.();
     };
