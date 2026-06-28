@@ -15,6 +15,7 @@ import { homeStats, benefits } from "@/content/home";
 import { startSteps } from "@/content/process";
 import { primaryCta, trustLine } from "@/content/site";
 import { routes } from "@/lib/routes";
+import { ArrowRight, Check } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -32,7 +33,7 @@ export default function HomePage() {
                   viewBox="0 0 200 22"
                   preserveAspectRatio="none"
                   aria-hidden
-                  className="absolute left-[-2%] -bottom-[0.16em] h-[0.42em] w-[104%] overflow-visible"
+                  className="absolute left-[-2%] bottom-[-0.16em] h-[0.42em] w-[104%] overflow-visible"
                 >
                   <path
                     d="M4 14 C 46 5, 150 4, 196 12"
@@ -47,12 +48,12 @@ export default function HomePage() {
             </Heading>
             <Lead className="mt-6 max-w-[30em]">
               Hi, ich bin Leon. Ich erkläre dir den Stoff so lange, bis er
-              wirklich Sinn ergibt – persönlich, online und ohne Vertrag.
+              wirklich Sinn ergibt - persönlich, online und ohne Vertrag.
               Verstehen statt auswendig lernen.
             </Lead>
             <div className="mt-8 flex flex-wrap gap-3.5">
               <LinkButton href={primaryCta.href} variant="primary" size="lg">
-                {primaryCta.label} →
+                {primaryCta.label} <ArrowRight className="size-4" />
               </LinkButton>
               <LinkButton href={routes.subjects} variant="outline" size="lg">
                 Fächer ansehen
@@ -75,8 +76,8 @@ export default function HomePage() {
                 alle Fächer
               </Text>
             </div>
-            <div className="absolute -right-3.5 top-6 rounded-[14px] bg-navy px-4 py-2.5 text-[0.84rem] font-semibold text-white shadow-card">
-              Kein Vertrag ✓
+            <div className="absolute -right-3.5 top-6 rounded-[14px] flex flex-row gap-2 items-center bg-navy px-4 py-2.5 text-[0.84rem] font-semibold text-white shadow-card">
+              Ohne Vertragsbindung <Check className="size-4" />
             </div>
           </div>
         </div>
@@ -91,7 +92,7 @@ export default function HomePage() {
       <Section>
         <SectionHeader
           eyebrow="Drei Fächer, ein Anspruch"
-          title="Mathe, Informatik und Physik – verstanden, nicht auswendig gelernt."
+          title="Mathe, Informatik und Physik - verstanden, nicht auswendig gelernt."
           titleClassName="max-w-[16em]"
         />
         <div className="mt-9">

@@ -16,7 +16,7 @@ type CtaSectionProps = {
 export function CtaSection({
   eyebrow = "Bereit?",
   title = "Der erste Schritt kostet nichts.",
-  subtitle = "Buch dir ein kostenloses, unverbindliches Erstgespräch – wir schauen gemeinsam, ob es passt.",
+  subtitle = "Buch dir ein kostenloses, unverbindliches Erstgespräch - wir schauen gemeinsam, ob es passt.",
   cta = primaryCta,
   trust = trustLine,
 }: CtaSectionProps) {

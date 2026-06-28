@@ -14,7 +14,7 @@ export const startSteps: Step[] = [
   },
   {
     n: "3",
-    title: "Unser Rhythmus",
+    title: "Flexibel weiterlernen",
     text: "Danach buchst du flexibel: regelmäßig, vor Klausuren intensiver oder nach Bedarf.",
   },
 ];

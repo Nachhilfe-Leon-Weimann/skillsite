@@ -28,7 +28,7 @@ export const benefits: Benefit[] = [
   },
   {
     title: "Kostenloses Erstgespräch",
-    text: "Der erste Schritt kostet nichts – unverbindlich.",
+    text: "Der erste Schritt kostet nichts - unverbindlich.",
   },
   {
     title: "Immer dieselbe Person",
