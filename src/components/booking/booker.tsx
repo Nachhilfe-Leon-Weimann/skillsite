@@ -807,11 +807,13 @@ function ResultStep({
           Ich melde mich telefonisch zum Termin und bestätige vorab kurz per
           Mail.
         </Text>
-        {event === "nachhilfe" ? (
-          <Button variant="outline" onClick={onChooseAnother}>
-            Weiteren Termin anfragen
-          </Button>
-        ) : null}
+        <Button variant="outline" onClick={onChooseAnother}>
+          {event === "kennenlernen" ? (
+            <>Fertig</>
+          ) : (
+            <>Weiteren Termin anfragen</>
+          )}
+        </Button>
       </CenteredState>
     );
   }
