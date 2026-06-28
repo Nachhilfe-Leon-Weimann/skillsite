@@ -575,28 +575,32 @@ function SelectStep({
     <div className="mx-auto flex w-full flex-1 flex-col justify-start motion-safe:animate-[fade-up_0.28s_ease-out]">
       <div className="grid gap-x-[clamp(1.25rem,2.5vw,2rem)] gap-y-5 @4xl:grid-cols-[3fr_1fr]">
         <div>
-          <div className="mb-4 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => onChangeMonth(-1)}
-              disabled={monthOffset === 0}
-              aria-label="Vorheriger Monat"
-              className="flex size-9 items-center justify-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-ink disabled:pointer-events-none disabled:opacity-40"
-            >
-              <ChevronLeft className="size-4" aria-hidden />
-            </button>
-            <strong className="font-heading text-[1.05rem] text-ink">
-              {MONTHS[shown.month - 1]} {shown.year}
-            </strong>
-            <button
-              type="button"
-              onClick={() => onChangeMonth(1)}
-              disabled={monthOffset >= MAX_MONTH_OFFSET}
-              aria-label="Nächster Monat"
-              className="flex size-9 items-center justify-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-ink disabled:pointer-events-none disabled:opacity-40"
-            >
-              <ChevronRight className="size-4" aria-hidden />
-            </button>
+          <div className="mb-4 flex">
+            <div className="m-auto">
+              <strong className="font-heading text-[1.05rem] text-ink">
+                {MONTHS[shown.month - 1]} {shown.year}
+              </strong>
+            </div>
+            <div className="flex flex-row gap-3">
+              <button
+                type="button"
+                onClick={() => onChangeMonth(-1)}
+                disabled={monthOffset === 0}
+                aria-label="Vorheriger Monat"
+                className="flex size-9 items-center justify-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-ink disabled:pointer-events-none disabled:opacity-40"
+              >
+                <ChevronLeft className="size-4" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={() => onChangeMonth(1)}
+                disabled={monthOffset >= MAX_MONTH_OFFSET}
+                aria-label="Nächster Monat"
+                className="flex size-9 items-center justify-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-ink disabled:pointer-events-none disabled:opacity-40"
+              >
+                <ChevronRight className="size-4" aria-hidden />
+              </button>
+            </div>
           </div>
 
           <div className="mb-2 grid grid-cols-7 gap-1.5">
