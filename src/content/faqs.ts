@@ -65,6 +65,6 @@ export const pricingFaq: Faq[] = [
   {
     question: "Was ist Bildung & Teilhabe?",
     answer:
-      "Nachhilfe kann über das BuT-Paket gefördert werden. Die Abrechnung übernehme ich direkt mit der Stelle – kein Sonderfall.",
+      "Nachhilfe kann über das BuT-Paket gefördert werden. Die Abrechnung übernehme ich direkt mit der Stelle.",
   },
 ];

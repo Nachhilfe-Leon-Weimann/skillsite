@@ -19,6 +19,7 @@ import {
 } from "@/content/pricing";
 import { pricingFaq } from "@/content/faqs";
 import { routes } from "@/lib/routes";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Preise",
@@ -59,7 +60,7 @@ export default function PricingPage() {
                 variant="primary"
                 className="w-full sm:w-fit"
               >
-                Kostenloses Erstgespräch →
+                Kostenloses Erstgespräch <ArrowRight className="size-4" />
               </LinkButton>
             </div>
             <div className="flex flex-col justify-center gap-3.5 bg-surface p-[clamp(2rem,4vw,2.75rem)]">
@@ -110,13 +111,33 @@ export default function PricingPage() {
       </Container>
 
       <Section id="but" surface>
-        <Eyebrow>Bildung &amp; Teilhabe</Eyebrow>
-        <Heading size="h3" className="mt-4 mb-2.5 max-w-[18em]">
-          Nachhilfe kann gefördert werden – ganz normaler Unterricht.
-        </Heading>
-        <Text tone="muted" className="mb-8 max-w-[38em]">
-          {but.intro}
-        </Text>
+        <div className="mb-8 flex flex-wrap justify-between items-end">
+          <div>
+            <Eyebrow>Bildung &amp; Teilhabe</Eyebrow>
+            <Heading size="h3" className="mt-4 mb-2.5 max-w-[18em]">
+              Nachhilfe kann gefördert werden - ganz normaler Unterricht.
+            </Heading>
+            <Text tone="muted" className="max-w-[38em]">
+              {but.intro}
+            </Text>
+          </div>
+          <div className="mt-8 flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+            <Text as="span" tone="muted" className="text-sm">
+              Quelle: {but.officialInfo.source}
+            </Text>
+            <LinkButton
+              href={but.officialInfo.href}
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${but.officialInfo.label} auf ${but.officialInfo.source} öffnen`}
+            >
+              {but.officialInfo.label}
+              <ExternalLink className="size-4" aria-hidden="true" />
+            </LinkButton>
+          </div>
+        </div>
+
         <div className="grid gap-5 sm:grid-cols-3">
           {but.steps.map((step) => (
             <div
