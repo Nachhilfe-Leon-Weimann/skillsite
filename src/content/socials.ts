@@ -1,5 +1,8 @@
+import { contactDetails } from "@/content/contact";
+
 export type SocialKey =
   | "discord"
+  | "whatsapp"
   | "instagram"
   | "youtube"
   | "tiktok"
@@ -16,6 +19,11 @@ export const socials: Social[] = [
     key: "discord",
     label: "Discord",
     href: "https://discord.com/invite/6DuZYhtuf2",
+  },
+  {
+    key: "whatsapp",
+    label: "WhatsApp",
+    href: contactDetails.whatsapp.href,
   },
   {
     key: "instagram",

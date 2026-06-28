@@ -7,12 +7,14 @@ type LogoProps = {
   showText?: boolean;
   onDark?: boolean;
   className?: string;
+  textClassName?: string;
 };
 
 export function Logo({
   showText = true,
   onDark = false,
   className,
+  textClassName,
 }: LogoProps) {
   return (
     <span className={cn("flex items-center gap-3", className)}>
@@ -25,7 +27,7 @@ export function Logo({
         className="rounded-xl shadow-[0_5px_14px_-5px_rgba(16,29,45,0.5)]"
       />
       {showText ? (
-        <span className="flex flex-col leading-[1.08]">
+        <span className={cn("flex flex-col leading-[1.08]", textClassName)}>
           <span
             className={cn(
               "font-heading text-[1.04rem] font-bold tracking-[-0.01em]",

@@ -19,7 +19,7 @@ type ThemeOption = {
 const SYSTEM_THEME = "system";
 
 const segmentClass =
-  "relative z-10 inline-flex min-h-9 min-w-0 items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-[0.85rem] font-semibold transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:min-w-24 sm:px-4";
+  "relative z-10 inline-flex min-h-0 min-w-0 items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-caption font-semibold transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:px-4";
 
 const inactiveSegmentClass = "text-on-navy-soft hover:text-white";
 
@@ -149,7 +149,7 @@ export function ThemeToggle() {
           )}
         >
           <Icon className="size-4 shrink-0" aria-hidden />
-          <span className="truncate">{label}</span>
+          <span className="truncate max-lg:hidden text-caption">{label}</span>
         </button>
       ))}
       <span id={resetId} className="sr-only">
