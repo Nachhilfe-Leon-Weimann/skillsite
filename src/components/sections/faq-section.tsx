@@ -15,7 +15,7 @@ export function FaqSection({
 }: FaqSectionProps) {
   return (
     <section id={id} className={cn(id && "scroll-mt-24")}>
-      <div className="mx-auto max-w-[820px] px-6 py-section">
+      <div className="mx-auto max-w-205 px-6 py-section">
         <Heading size="h3" className="mb-7 text-center">
           {title}
         </Heading>

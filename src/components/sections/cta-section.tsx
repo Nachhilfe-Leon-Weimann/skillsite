@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/container";
 import { LinkButton } from "@/components/ui/button";
 import { Heading, Text } from "@/components/ui/typography";
 import { primaryCta, trustLine } from "@/content/site";
+import { ArrowRight } from "lucide-react";
 
 type CtaSectionProps = {
   eyebrow?: string;
@@ -26,12 +27,16 @@ export function CtaSection({
         <Heading size="h2" className="mx-auto mt-4 max-w-[14em]">
           {title}
         </Heading>
-        <Text size="lead" tone="inherit" className="mx-auto mt-4 max-w-[30em] text-white/90">
+        <Text
+          size="lead"
+          tone="inherit"
+          className="mx-auto mt-4 max-w-[30em] text-white/90"
+        >
           {subtitle}
         </Text>
         <div className="mt-8 flex flex-wrap justify-center gap-3.5">
           <LinkButton href={cta.href} variant="white" size="lg">
-            {cta.label} →
+            {cta.label} <ArrowRight className="size-4" />
           </LinkButton>
         </div>
         <Text size="small" tone="inherit" className="mt-4 text-white/85">
