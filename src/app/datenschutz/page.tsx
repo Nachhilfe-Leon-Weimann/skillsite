@@ -112,16 +112,40 @@ export default function DatenschutzPage() {
           <DocLegalBasis>Art. 6 Abs. 1 lit. f DSGVO.</DocLegalBasis>
         </DocSubSection>
 
-        <DocSubSection title="b) Terminbuchung über cal.com">
+        <DocSubSection title="b) Terminbuchung über Cal.com">
           <P variant="doc">
-            Für Terminbuchungen nutze ich den Dienst cal.com (cal.com S.L.,
-            Spanien). Die von Ihnen eingegebenen Daten (z. B. Name,
-            E-Mail-Adresse) werden an cal.com übermittelt.
+            Für Terminbuchungen nutze ich den Dienst Cal.com (Cal.com, Inc.,
+            2261 Market Street #4382, San Francisco, CA 94114, USA). Die
+            Anzeige freier Termine und die Buchung erfolgen serverseitig über
+            meinen eigenen Server. Beim Ausfüllen des Formulars lädt Ihr Browser
+            kein Cal.com-Widget und baut keine direkte Verbindung zu Cal.com
+            auf; Cal.com setzt dabei keine Cookies in Ihrem Browser.
+          </P>
+          <P variant="doc">
+            Zur Buchung übermittle ich nach Absenden des Formulars die
+            eingegebenen Daten an Cal.com: Name, E-Mail-Adresse, Telefonnummer,
+            gewählter Termin, gebuchte Leistung bzw. Fächer sowie freiwillige
+            Angaben im Hinweisfeld. Zweck ist das Anlegen, Verwalten und
+            Nachbereiten des Erstgesprächs.
+          </P>
+          <P variant="doc">
+            Cal.com wird für die Terminverwaltung als Auftragsverarbeiter gemäß
+            Art. 28 DSGVO eingesetzt. Eine Verarbeitung personenbezogener Daten
+            in den USA kann stattfinden. Die Drittlandübermittlung erfolgt auf
+            Grundlage geeigneter Transfermechanismen nach Art. 44 ff. DSGVO,
+            insbesondere auf Grundlage des EU-US Data Privacy Frameworks, sofern
+            Cal.com hierfür zertifiziert ist, und ergänzend über
+            EU-Standardvertragsklauseln im Auftragsverarbeitungsvertrag.
           </P>
           <DocProviderLink href="https://cal.com/privacy">
-            Datenschutzerklärung von cal.com
+            Datenschutzerklärung von Cal.com
           </DocProviderLink>
-          <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+          <DocLegalBasis>
+            Art. 6 Abs. 1 lit. b DSGVO, soweit die Buchung der Durchführung
+            vorvertraglicher Maßnahmen oder eines Vertrags dient; ergänzend Art.
+            6 Abs. 1 lit. f DSGVO für die technische Bereitstellung und
+            Organisation der Terminbuchung.
+          </DocLegalBasis>
         </DocSubSection>
 
         <DocSubSection title="c) Verlinkung zu externen Plattformen">
@@ -136,20 +160,20 @@ export default function DatenschutzPage() {
 
         <DocSubSection title="d) Cookies und lokale Speicherung">
           <P variant="doc">
-            Diese Website verwendet technisch notwendige Speicherungen, um
-            Grundfunktionen bereitzustellen und Ihre Cookie-Auswahl zu
-            speichern. Die Cookie-Auswahl wird lokal in Ihrem Browser
-            gespeichert.
+            Diese Website setzt keine Cookies zu Werbe- oder Analysezwecken ein
+            und bindet keine einwilligungspflichtigen Inhalte Dritter ein.
+            Lediglich technisch notwendige Einstellungen - etwa Ihre gewählte
+            Darstellung (helles oder dunkles Design) - werden lokal in Ihrem
+            Browser gespeichert, damit sie bei Ihrem nächsten Besuch erhalten
+            bleiben. Diese Speicherung erfordert keine Einwilligung.
           </P>
           <P variant="doc">
-            Optionale externe Dienste, insbesondere eingebettete Inhalte wie die
-            Terminbuchung über cal.com, werden erst geladen, wenn Sie externe
-            Dienste akzeptieren. Diese Anbieter können eigene Cookies oder
-            vergleichbare Technologien einsetzen.
+            Die Terminbuchung über Cal.com wird serverseitig abgewickelt und
+            setzt keine Cookies in Ihrem Browser (siehe Abschnitt b).
           </P>
           <DocLegalBasis>
-            Art. 6 Abs. 1 lit. f DSGVO für technisch notwendige Speicherungen;
-            Art. 6 Abs. 1 lit. a DSGVO für optionale externe Dienste.
+            § 25 Abs. 2 TDDDG sowie Art. 6 Abs. 1 lit. f DSGVO für technisch
+            notwendige Speicherungen.
           </DocLegalBasis>
         </DocSubSection>
       </DocSection>
@@ -217,7 +241,9 @@ export default function DatenschutzPage() {
               Datenschutzerklärung von WhatsApp
             </DocProviderLink>
             <DocLegalBasis>
-              Art. 6 Abs. 1 lit. a DSGVO oder lit. b DSGVO.
+              Art. 6 Abs. 1 lit. b DSGVO, soweit die Kommunikation der
+              Vertragsdurchführung oder vorvertraglichen Maßnahmen dient; im
+              Übrigen Art. 6 Abs. 1 lit. f DSGVO.
             </DocLegalBasis>
           </DocSubSection>
 
@@ -293,12 +319,26 @@ export default function DatenschutzPage() {
         </P>
       </DocSection>
 
-      <DocSection id="rechte" title="5. Ihre Rechte">
+      <DocSection id="speicherdauer" title="5. Speicherdauer">
+        <P variant="doc">
+          Ich speichere personenbezogene Daten nur so lange, wie es für die
+          jeweiligen Zwecke erforderlich ist oder gesetzliche
+          Aufbewahrungspflichten bestehen. Buchungs-, Vertrags- und
+          Abrechnungsdaten werden für die Dauer der Vertragsdurchführung und
+          anschließend im Rahmen gesetzlicher Aufbewahrungspflichten gespeichert.
+          Kontaktanfragen werden gelöscht, sobald sie erledigt sind und keine
+          gesetzlichen Aufbewahrungspflichten entgegenstehen. Server-Logfiles
+          werden nur temporär gespeichert, soweit sie für Betrieb, Sicherheit und
+          Fehleranalyse der Website erforderlich sind.
+        </P>
+      </DocSection>
+
+      <DocSection id="rechte" title="6. Ihre Rechte">
         <P variant="doc">Sie haben jederzeit das Recht,</P>
         <DocList items={userRights} />
       </DocSection>
 
-      <DocSection id="widerspruch" title="6. Widerspruchsrecht">
+      <DocSection id="widerspruch" title="7. Widerspruchsrecht">
         <P variant="doc">
           Sofern Ihre Daten auf Grundlage von berechtigten Interessen (Art. 6
           Abs. 1 lit. f DSGVO) verarbeitet werden, haben Sie das Recht, dieser
@@ -306,7 +346,7 @@ export default function DatenschutzPage() {
         </P>
       </DocSection>
 
-      <DocSection id="datensicherheit" title="7. Datensicherheit">
+      <DocSection id="datensicherheit" title="8. Datensicherheit">
         <P variant="doc">
           Ich nutze technische und organisatorische Sicherheitsmaßnahmen, um
           Ihre Daten gegen Verlust, Zerstörung oder unbefugten Zugriff zu
@@ -316,7 +356,7 @@ export default function DatenschutzPage() {
 
       <DocSection
         id="aktualitaet"
-        title="8. Aktualität und Änderung dieser Datenschutzerklärung"
+        title="9. Aktualität und Änderung dieser Datenschutzerklärung"
       >
         <P variant="doc">
           Diese Datenschutzerklärung ist aktuell gültig und hat den Stand{" "}

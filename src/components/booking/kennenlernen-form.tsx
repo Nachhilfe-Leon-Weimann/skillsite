@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea } from "@/components/ui/field";
-import { Text } from "@/components/ui/typography";
+import { InlineLink, Text } from "@/components/ui/typography";
+import { routes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import type { FirstMeetingRequest } from "@/lib/booking/config";
 import { EMAIL_RE, FIELD_LIMITS, PHONE_RE } from "@/lib/booking/validation";
@@ -114,7 +115,6 @@ export function KennenlernenForm({
           </span>
         </div>
       </div>
-
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Vorname" htmlFor="firstName">
           <Input
@@ -137,7 +137,6 @@ export function KennenlernenForm({
           />
         </Field>
       </div>
-
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="E-Mail" htmlFor="email">
           <Input
@@ -162,7 +161,6 @@ export function KennenlernenForm({
           />
         </Field>
       </div>
-
       <div>
         <p className="mb-1.5 text-small font-semibold text-ink">
           Fach / Fächer
@@ -209,10 +207,14 @@ export function KennenlernenForm({
           maxLength={FIELD_LIMITS.note}
         />
       </Field>
-
       <Button type="submit" disabled={!canSubmit} className="mt-1">
-        Erstgespräch anfragen →
+        Erstgespräch anfragen <ArrowRight className="size-4" />
       </Button>
+      <Text tone="muted" className="text-center text-sm">
+        Mit Absenden der Anfrage werden deine Angaben zur Terminbuchung an
+        Cal.com übermittelt. Details findest du in der{" "}
+        <InlineLink href={routes.datenschutz}>Datenschutzerklärung</InlineLink>.
+      </Text>
       {canSubmit ? (
         <Text size="caption" tone="muted" className="text-center">
           Unverbindlich &amp; kostenlos. Ich rufe dich zum gewählten Termin an.

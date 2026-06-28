@@ -6,7 +6,7 @@ Next.js-Anwendung für die Website „Nachhilfe Leon Weimann“ mit Fokus auf Da
 
 * statische Inhaltsseiten (Fächer, Preise, Kontakt)
 * konfigurationsgetriebene Inhalte (`content`, `lib`)
-* externe Terminbuchung über Cal.com
+* serverseitige Terminbuchung über die Cal.com API
 
 ## Architektur
 
@@ -19,7 +19,7 @@ Inhalte liegen zentral in `src/content` und `src/lib`. Komponenten konsumieren a
 * Styling: Tailwind CSS
 * UI-System: shadcn/ui
 * Icons: Lucide, Simple Icons
-* Buchung: `@calcom/embed-react`
+* Buchung: serverseitige Cal.com API (Slots/Bookings)
 * Package Manager: pnpm
 
 ## Setup

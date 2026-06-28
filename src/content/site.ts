@@ -4,7 +4,7 @@ export const brand = {
   name: "Nachhilfe Leon Weimann",
   tagline: "Deine Ziele – Unser Weg!",
   logo: "/logo-icon.png",
-  owner: "Leon",
+  owner: "Leon Weimann",
 };
 
 export type NavLink = { label: string; href: string };

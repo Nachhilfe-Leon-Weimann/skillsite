@@ -7,8 +7,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ConsentProvider } from "@/providers/consent-provider";
-import { CookieConsentBanner } from "@/components/consent/cookie-consent-banner";
-import { CookieConsentDialog } from "@/components/consent/cookie-consent-dialog";
+// Cookie consent temporarily disabled: there is currently no storage that
+// requires consent. Banner/dialog remain for later use.
+// import { CookieConsentBanner } from "@/components/consent/cookie-consent-banner";
+// import { CookieConsentDialog } from "@/components/consent/cookie-consent-dialog";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -55,8 +57,9 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
-            <CookieConsentBanner />
-            <CookieConsentDialog />
+            {/* Cookie consent temporarily disabled - see note in the imports. */}
+            {/* <CookieConsentBanner /> */}
+            {/* <CookieConsentDialog /> */}
           </ConsentProvider>
         </ThemeProvider>
       </body>

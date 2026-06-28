@@ -3,15 +3,16 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
+// Cookie settings are temporarily disabled (see layout.tsx) - the button remains
+// available for later use.
+// import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
 import { primaryNav } from "@/content/site";
 import { legalContact } from "@/content/legal";
 import { routes } from "@/lib/routes";
 
 const linkClass =
   "text-small text-on-navy-soft transition-colors hover:text-white";
-const legalLinkClass =
-  "text-on-navy-muted transition-colors hover:text-white";
+const legalLinkClass = "text-on-navy-muted transition-colors hover:text-white";
 
 export function Footer() {
   return (
@@ -53,7 +54,7 @@ export function Footer() {
             <Link href={routes.datenschutz} className={legalLinkClass}>
               Datenschutz
             </Link>
-            <CookieSettingsButton className={legalLinkClass} />
+            {/* <CookieSettingsButton className={legalLinkClass} /> */}
           </div>
         </div>
       </Container>
