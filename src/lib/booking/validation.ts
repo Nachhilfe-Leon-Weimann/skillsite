@@ -5,6 +5,20 @@ export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // (space, (), /, -), requiring at least 6 actual digits.
 export const PHONE_RE = /^\+?(?:[\s()/-]*\d){6,}[\s()/-]*$/;
 
+/**
+ * Best-effort E.164 for Cal.com, which wants international numbers, not national
+ * ones. Assumes German numbers: a leading `0` is the national trunk prefix and
+ * becomes `+49`, `00` is the international prefix -> `+`, and a number already in
+ * `+...` form is kept as-is.
+ */
+export function toE164(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  if (raw.trim().startsWith("+")) return `+${digits}`;
+  if (digits.startsWith("00")) return `+${digits.slice(2)}`;
+  if (digits.startsWith("0")) return `+49${digits.slice(1)}`;
+  return `+49${digits}`;
+}
+
 /** The subjects we actually offer, the booking action only forwards these. */
 export const VALID_SUBJECTS: ReadonlySet<string> = new Set(
   subjects.map((subject) => subject.name),

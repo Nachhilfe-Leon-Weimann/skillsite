@@ -17,6 +17,7 @@ import {
   EMAIL_RE,
   FIELD_LIMITS,
   PHONE_RE,
+  toE164,
   VALID_SUBJECTS,
 } from "@/lib/booking/validation";
 
@@ -151,7 +152,7 @@ export async function requestFirstMeeting(
         attendee: {
           name: `${firstName} ${lastName}`,
           email,
-          phoneNumber: phone,
+          phoneNumber: toE164(phone),
           timeZone: BOOKING_TIMEZONE,
           language: "de",
         },
