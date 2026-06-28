@@ -42,7 +42,7 @@ async function clientIp(): Promise<string> {
 export async function requestFirstMeeting(
   data: FirstMeetingRequest,
 ): Promise<SubmitResult> {
-  // Layer 1 — per-IP rate limit (counts every attempt, including ones dropped below).
+  // Layer 1 - per-IP rate limit (counts every attempt, including ones dropped below).
   const ip = await clientIp();
   if (!checkRateLimit(ip).ok) {
     return {
@@ -53,13 +53,13 @@ export async function requestFirstMeeting(
     };
   }
 
-  // Layer 2 — honeypot: a human never touches this hidden field, so any value
+  // Layer 2 - honeypot: a human never touches this hidden field, so any value
   // (even whitespace) is a bot. Feign success so the bot gets no signal.
   if (data.honeypot && data.honeypot.length > 0) {
     return { ok: true };
   }
 
-  // Layer 3 — time-trap: humans don't fill the form faster than minFillMs; a
+  // Layer 3 - time-trap: humans don't fill the form faster than minFillMs; a
   // missing timestamp counts as suspicious. Feign success too.
   if (
     !data.formLoadedAt ||
@@ -123,7 +123,7 @@ export async function requestFirstMeeting(
   const apiKey = process.env.CAL_API_KEY;
   if (!apiKey || !calUsername) {
     console.error(
-      "[booking] Cal.com is not configured — first-meeting request could not be created.",
+      "[booking] Cal.com is not configured - first-meeting request could not be created.",
     );
     return {
       ok: false,

@@ -11,7 +11,7 @@ import { bookingToday, daysInMonth, pad } from "@/lib/booking/dates";
 
 /**
  * Fetch real availability from Cal.com. Returns the bookable days (possibly an
- * empty array — that simply means nothing is free) or `null` when Cal.com could
+ * empty array - that simply means nothing is free) or `null` when Cal.com could
  * not be reached or answered badly.
  */
 async function fetchCalSlots(
@@ -33,7 +33,8 @@ async function fetchCalSlots(
   url.searchParams.set("start", start);
   url.searchParams.set("end", end);
   url.searchParams.set("timeZone", BOOKING_TIMEZONE);
-  if (config.durations) url.searchParams.set("duration", String(durationMinutes));
+  if (config.durations)
+    url.searchParams.set("duration", String(durationMinutes));
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 4000);
@@ -71,7 +72,12 @@ async function fetchCalSlots(
         date,
         slots: entries.flatMap((entry) =>
           entry.start
-            ? [{ time: formatter.format(new Date(entry.start)), start: entry.start }]
+            ? [
+                {
+                  time: formatter.format(new Date(entry.start)),
+                  start: entry.start,
+                },
+              ]
             : [],
         ),
       }))
@@ -91,7 +97,7 @@ async function fetchCalSlots(
 
 /**
  * Month availability for a booking event. Only ever reports what Cal.com
- * actually offers — there is no synthetic fallback. When Cal.com is not
+ * actually offers - there is no synthetic fallback. When Cal.com is not
  * configured or unreachable, availability is reported as empty with a status the
  * UI surfaces, never as fabricated slots.
  */
@@ -103,7 +109,7 @@ export async function getAvailability(params: {
 }): Promise<AvailabilityResponse> {
   if (!process.env.CAL_API_KEY || !calUsername) {
     console.error(
-      "[booking] Cal.com is not configured (CAL_API_KEY / NEXT_PUBLIC_BOOKING_CAL_USERNAME missing) — no availability served.",
+      "[booking] Cal.com is not configured (CAL_API_KEY / NEXT_PUBLIC_BOOKING_CAL_USERNAME missing) - no availability served.",
     );
     return { status: "unconfigured", timeZone: BOOKING_TIMEZONE, days: [] };
   }

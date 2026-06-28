@@ -12,11 +12,12 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { contactDetails } from "@/content/contact";
 import { subjects } from "@/content/subjects";
 import { routes } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Kontakt",
   description:
-    "Schreib mir einfach – per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
+    "Schreib mir einfach - per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
 };
 
 const sideCardClass =
@@ -47,7 +48,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       <PageHeader
         eyebrow="Kontakt"
         title="Schreib mir einfach."
-        lead="Eine kurze Nachricht reicht – meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
+        lead="Eine kurze Nachricht reicht - meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
       />
 
       <Container className="py-section-sm">
@@ -59,7 +60,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             className="flex flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] transition-transform duration-300 ease-out hover:-translate-y-1"
           >
             <span className="text-eyebrow uppercase text-white/90">
-              Am liebsten · WhatsApp
+              Am liebsten - WhatsApp
             </span>
             <Heading size="h3" className="mt-2.5 mb-1.5">
               Schreib mir auf WhatsApp.
@@ -69,11 +70,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               tone="inherit"
               className="max-w-[24em] text-white/90"
             >
-              Der schnellste Weg – Antwort meistens noch am selben Tag. Einfach
+              Der schnellste Weg: Antwort meistens noch am selben Tag. Einfach
               kurz dein Anliegen schicken.
             </Text>
             <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/35 bg-white/20 px-5 py-2.5 font-semibold">
-              Jetzt anschreiben →
+              Jetzt anschreiben <ArrowRight className="size-4" />
             </span>
             <div className="mt-7 hidden items-center gap-4 sm:flex">
               <WhatsappQr value={whatsapp} />
@@ -106,8 +107,13 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               <Heading as="h2" size="title" className="mt-2 mb-1">
                 Unser Klassenzimmer
               </Heading>
-              <Text size="small" tone="muted">
-                Unterricht, Materialien &amp; kurze Fragen. Mehr erfahren →
+              <Text
+                size="small"
+                tone="muted"
+                className="inline-flex items-center gap-1.5"
+              >
+                Unterricht, Materialien &amp; kurze Fragen. Mehr erfahren{" "}
+                <ArrowRight className="size-4" />
               </Text>
             </Link>
           </div>
@@ -124,14 +130,14 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </Heading>
           <Text tone="muted">
             Such dir einen freien Termin aus. Im kostenlosen, telefonischen
-            Erstgespräch klären wir Situation, Fach und Ziel – ganz
+            Erstgespräch klären wir Situation, Fach und Ziel - ganz
             unverbindlich, Eltern herzlich willkommen.
           </Text>
         </div>
         <Booker
           event="kennenlernen"
           title="Kostenloses Erstgespräch"
-          subtitle="Telefonisches Kennenlernen – Situation, Fach und Ziel klären."
+          subtitle="Wir klären Situation, Fach und Ziel."
           initialSubject={initialSubject}
         />
       </Section>

@@ -4,7 +4,7 @@ export type RateLimitResult =
   | { ok: true }
   | { ok: false; retryAfterMs: number };
 
-// IP → recent attempt timestamps (ms). Module scope persists per Node process,
+// IP -> recent attempt timestamps (ms). Module scope persists per Node process,
 // so this is correct only for a single replica; scaling to >1 needs a shared store.
 const attempts = new Map<string, number[]>();
 
