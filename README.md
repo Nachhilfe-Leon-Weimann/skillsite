@@ -1,100 +1,30 @@
 # Skillsite
 
-Next.js-Anwendung für die Website „Nachhilfe Leon Weimann“ mit Fokus auf Darstellung von Leistungen, Preisen und Terminbuchung.
+Website von Nachhilfe Leon Weimann mit den Kernfunktionen
 
-## Kernfunktion
+- Marketing und Information
+- Terminbuchung (via Cal.com)
+- Kundenportal
 
-* statische Inhaltsseiten (Fächer, Preise, Kontakt)
-* konfigurationsgetriebene Inhalte (`content`, `lib`)
-* serverseitige Terminbuchung über die Cal.com API
+## Entwicklung
 
-## Architektur
+Gebaut mit [Next.js](https://nextjs.org) 16, React 19 und Tailwind CSS 4.
 
-Inhalte liegen zentral in `src/content` und `src/lib`. Komponenten konsumieren ausschließlich diese Datenquellen.
-
-## Tech Stack
-
-* Framework: Next.js (App Router)
-* Sprache: TypeScript
-* Styling: Tailwind CSS
-* UI-System: shadcn/ui
-* Icons: Lucide, Simple Icons
-* Buchung: serverseitige Cal.com API (Slots/Bookings)
-* Package Manager: pnpm
-
-## Setup
-
-Voraussetzungen:
-
-* Node.js (empfohlen: LTS)
-* pnpm installiert
-
-```zsh
+```bash
 pnpm install
 pnpm dev
 ```
 
-Standard: http://localhost:3000
+## Skripte
 
-## Scripts
+| Befehl       | Zweck                       |
+| ------------ | --------------------------- |
+| `pnpm dev`   | Dev-Server starten          |
+| `pnpm build` | Produktions-Build erstellen |
+| `pnpm start` | Build lokal ausführen       |
+| `pnpm lint`  | ESLint laufen lassen        |
 
-```zsh
-pnpm dev
-pnpm build
-pnpm start
-pnpm lint
-```
+## Konfiguration
 
-## Umgebungsvariablen
-
-`.env.local`:
-
-```bash
-# Booking
-CAL_API_KEY=
-
-# Dev
-ALLOWED_DEV_ORIGINS=
-```
-
-`ALLOWED_DEV_ORIGINS` wird in `next.config.ts` an `allowedDevOrigins` übergeben.
-
-## Projektstruktur
-
-```text
-src/
-  app/         Routing (App Router)
-  components/  UI und zusammengesetzte Komponenten
-  content/     Statische Inhalte (Fächer, Preise, Feedback)
-  lib/         Konfiguration (Routen, Navigation, Kontakte)
-  hooks/       Client Hooks
-  server/      Server Utilities
-public/
-  subjects/    Bildmaterial
-```
-
-## Content
-
-* Fächer: `src/content/subjects.ts`
-* Preise: `src/content/pricing*.ts`
-* Feedback: `src/content/feedback.ts`
-* Kontakte: `src/lib/contact-details.ts`
-* Navigation: `src/lib/navigation.ts`, `src/lib/routes.ts`
-
-## UI-Regeln
-
-* UI basiert auf shadcn/ui
-* Styling ausschließlich über Tailwind CSS
-* keine isolierten CSS-Dateien
-* Komposition statt monolithischer Komponenten
-* keine `any`-Typen
-
-## Deployment
-
-Noch nicht definiert.
-
-Build:
-
-```zsh
-pnpm build
-```
+Umgebungsvariablen in `.env` (siehe `.env.example` für die benötigten Keys).
+Nur für die Entwicklung nötige Konfiguration wird unter `.env.local.example` dokumentiert.
