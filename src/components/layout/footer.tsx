@@ -13,7 +13,7 @@ const legalLinkClass = "text-on-navy-muted transition-colors hover:text-white";
 
 export function Footer() {
   return (
-    <footer className="bg-navy text-on-navy-soft">
+    <footer className="bg-navy pb-[env(safe-area-inset-bottom)] text-on-navy-soft">
       <Container className="py-[clamp(40px,5vw,56px)]">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <Link href={routes.home} aria-label="Startseite">

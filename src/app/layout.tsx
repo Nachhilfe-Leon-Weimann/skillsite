@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 
 import "./globals.css";
@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { IosToolbarTint } from "@/components/layout/ios-toolbar-tint";
 import { ConsentProvider } from "@/providers/consent-provider";
 // Cookie consent temporarily disabled: there is currently no storage that
 // requires consent. Banner/dialog remain for later use.
@@ -42,6 +43,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -62,6 +67,10 @@ export default function RootLayout({
             {/* <CookieConsentDialog /> */}
           </ConsentProvider>
         </ThemeProvider>
+        {/* iOS 26 Safari samples this pinned strip's colour to tint the area
+            around the floating bottom toolbar; only active at the footer
+            (see globals.css + IosToolbarTint). */}
+        <IosToolbarTint />
       </body>
     </html>
   );

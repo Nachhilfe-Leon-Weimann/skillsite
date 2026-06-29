@@ -13,6 +13,7 @@ import { primaryCta, primaryNav, platformNav } from "@/content/site";
 import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { routes } from "@/lib/routes";
+import { MENU_STATE_EVENT } from "@/components/layout/ios-toolbar-tint";
 
 const DESKTOP_NAV_QUERY = "(min-width: 1080px)";
 
@@ -46,6 +47,18 @@ function NavbarContent({ pathname }: { pathname: string }) {
   const toggleMobileMenu = () => setOpen((value) => !value);
 
   useBodyScrollLock(open && !isDesktopNav);
+
+  // Tell the iOS toolbar tint about the menu state: it hides itself while the
+  // menu is open (so Safari samples the menu, not a stale navy strip) and forces
+  // a re-sample on close. Skip the initial mount (menu starts closed).
+  const prevOpen = useRef(false);
+  useEffect(() => {
+    if (open === prevOpen.current) return;
+    prevOpen.current = open;
+    window.dispatchEvent(
+      new CustomEvent(MENU_STATE_EVENT, { detail: { open } }),
+    );
+  }, [open]);
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia(DESKTOP_NAV_QUERY);

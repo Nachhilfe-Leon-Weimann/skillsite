@@ -4,7 +4,7 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ---------------------------------------------------------------------------
-   Design tokens — derived from the Nachhilfe Leon Weimann design system.
+   Design tokens - derived from the Nachhilfe Leon Weimann design system.
    Warm cream surfaces, navy ink, coral accent.
 --------------------------------------------------------------------------- */
 :root {
@@ -73,7 +73,7 @@
 
   --shadow-card: var(--shadow);
 
-  /* Page width — single source of truth; bump to widen the whole site. */
+  /* Page width - single source of truth; bump to widen the whole site. */
   --container-page: 1280px;
 
   /* Accent shades for navy surfaces (theme-independent). */
@@ -83,7 +83,7 @@
   --color-accent-blue: #9fc0ff;
   --color-coral-light: #ff8a5c;
 
-  /* Type scale — one class sets size + line-height + tracking + weight. */
+  /* Type scale - one class sets size + line-height + tracking + weight. */
   --text-display: clamp(2.7rem, 6.4vw, 4.7rem);
   --text-display--line-height: 1.02;
   --text-display--letter-spacing: -0.025em;
@@ -244,5 +244,48 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   iOS 26 Safari - bottom toolbar tint.
+   The Liquid-Glass toolbar ignores `theme-color` and `env(safe-area-inset-*)`
+   (the latter reports 0). Safari instead samples the background-color of a
+   fixed/sticky element pinned to the bottom edge to tint the area around the
+   floating toolbar. Without one it falls back to the <body> colour (cream),
+   which clashes with the navy footer.
+
+   The strip is only shown (`.is-active`, toggled by IosToolbarTint once the
+   footer is in view) so the toolbar zone stays the light page colour while
+   scrolling through content and only turns navy at the footer. Toggling
+   `display` is what makes Safari re-sample. iOS-Safari only - guarded by
+   webkit feature checks. */
+#ios-toolbar-tint {
+  display: none;
+}
+
+@supports (-webkit-text-size-adjust: none) and (font: -apple-system-body) and
+  (-webkit-touch-callout: none) {
+  @media (width < 768px) {
+    #ios-toolbar-tint.is-active,
+    #ios-toolbar-tint.is-nudge {
+      display: block;
+      position: fixed;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      min-height: 12px;
+      z-index: 5;
+      pointer-events: none;
+    }
+    #ios-toolbar-tint.is-active {
+      background-color: var(--navy);
+    }
+    /* Brief, near-invisible flash in the page colour: its only job is to be a
+       real display change so Safari re-samples the toolbar after the menu
+       closes (background-color changes alone don't trigger a re-sample). */
+    #ios-toolbar-tint.is-nudge {
+      background-color: var(--bg);
+    }
   }
 }
