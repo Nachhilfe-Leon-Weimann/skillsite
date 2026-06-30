@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
-  Lock,
   Phone,
   Video,
 } from "lucide-react";
@@ -18,8 +17,8 @@ import { Button, LinkButton } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { Heading, Text } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
-import { KennenlernenForm } from "@/components/booking/kennenlernen-form";
-import { requestFirstMeeting } from "@/lib/booking/actions";
+import { BookingForm } from "@/components/booking/booking-form";
+import { requestBooking } from "@/lib/booking/actions";
 import {
   BOOKING_TIMEZONE,
   bookingEvents,
@@ -27,7 +26,7 @@ import {
   type AvailabilityStatus,
   type BookingEventKey,
   type BookingSlot,
-  type FirstMeetingRequest,
+  type BookingSubmission,
   type SubmitFailureReason,
 } from "@/lib/booking/config";
 import {
@@ -81,7 +80,7 @@ type BookerProps = {
   initialSubject?: string;
 };
 
-type Step = "select" | "form" | "account" | "result";
+type Step = "select" | "form" | "result";
 
 type BookingPhase = "pending" | "confirmed" | "failed";
 
@@ -113,7 +112,7 @@ export function Booker({
     reason: SubmitFailureReason;
   } | null>(null);
   const [bookingPayload, setBookingPayload] =
-    useState<FirstMeetingRequest | null>(null);
+    useState<BookingSubmission | null>(null);
   // Auto-skip empty months only while searching (initial load / duration
   // change). Manual month navigation switches this off so going "back" into an
   // empty month doesn't bounce the user forward again.
@@ -212,7 +211,7 @@ export function Booker({
 
   const pickSlot = (date: string, slot: BookingSlot) => {
     setSelectedSlot({ date, time: slot.time, start: slot.start });
-    setStep(config.requiresAccount ? "account" : "form");
+    setStep("form");
   };
 
   const backToSelect = () => {
@@ -238,10 +237,10 @@ export function Booker({
   // real result before claiming success — Cal's create pipeline (mail, calendar
   // event, webhooks) takes a few seconds, and a slot can be gone by now, so we
   // never tell the user "sent" until Cal.com confirms it.
-  const finalizeBooking = async (payload: FirstMeetingRequest) => {
+  const finalizeBooking = async (payload: BookingSubmission) => {
     setBookingPhase("pending");
     try {
-      const result = await requestFirstMeeting(payload);
+      const result = await requestBooking(payload);
       if (result.ok) {
         setBookingPhase("confirmed");
       } else {
@@ -261,7 +260,7 @@ export function Booker({
     }
   };
 
-  const submitBooking = (payload: FirstMeetingRequest) => {
+  const submitBooking = (payload: BookingSubmission) => {
     setBookingPayload(payload);
     setBookingError(null);
     setStep("result");
@@ -395,18 +394,16 @@ export function Booker({
 
           {step === "form" && summary && selectedSlot ? (
             <div className="mx-auto w-full max-w-lg motion-safe:animate-[fade-up_0.28s_ease-out]">
-              <KennenlernenForm
+              <BookingForm
+                event={event}
                 slotLabel={summary}
                 slotStart={selectedSlot.start}
+                duration={config.durations ? duration : undefined}
                 initialSubject={initialSubject}
                 onBack={backToSelect}
                 onSubmit={submitBooking}
               />
             </div>
-          ) : null}
-
-          {step === "account" ? (
-            <AccountStep summary={summary} onBack={backToSelect} />
           ) : null}
 
           {step === "result" ? (
@@ -721,38 +718,6 @@ function TimeSlots({
   );
 }
 
-function AccountStep({
-  summary,
-  onBack,
-}: {
-  summary: string | null;
-  onBack: () => void;
-}) {
-  return (
-    <CenteredState
-      icon={<Lock className="size-7 text-coral" aria-hidden />}
-      title="Fast geschafft"
-    >
-      <Text tone="muted" className="mb-1">
-        Reguläre Nachhilfestunden buchst du über dein Konto.
-      </Text>
-      {summary ? (
-        <Text className="mb-5">
-          Dein Wunschtermin: <strong className="text-ink">{summary}</strong>
-        </Text>
-      ) : null}
-      <div className="flex flex-wrap justify-center gap-3">
-        <LinkButton href={routes.login} variant="primary">
-          Konto erstellen
-        </LinkButton>
-        <Button variant="outline" onClick={onBack}>
-          Anderen Termin wählen
-        </Button>
-      </div>
-    </CenteredState>
-  );
-}
-
 type ResultStepProps = {
   phase: BookingPhase;
   summary: string | null;
@@ -797,7 +762,11 @@ function ResultStep({
         {summary ? (
           <div className="mx-auto mb-5 flex max-w-xs items-center gap-3 rounded-2xl border border-line bg-bg p-3.5 text-left">
             <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_srgb,var(--coral)_12%,transparent)] text-coral">
-              <Phone className="size-4" aria-hidden />
+              {event === "kennenlernen" ? (
+                <Phone className="size-4" aria-hidden />
+              ) : (
+                <Video className="size-4" aria-hidden />
+              )}
             </span>
             <div className="min-w-0">
               <p className="text-eyebrow uppercase text-ink-soft">
@@ -808,8 +777,9 @@ function ResultStep({
           </div>
         ) : null}
         <Text tone="muted" className="mb-6">
-          Ich melde mich telefonisch zum Termin und bestätige vorab kurz per
-          Mail.
+          {event === "kennenlernen"
+            ? "Ich melde mich telefonisch zum Termin und bestätige vorab kurz per Mail."
+            : "Du bekommst die Terminbestätigung mit allen Infos per Mail – inklusive Zugang zum Online-Raum."}
         </Text>
         <Button variant="outline" onClick={onChooseAnother}>
           {event === "kennenlernen" ? (
