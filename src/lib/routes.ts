@@ -23,8 +23,6 @@ export const routes = {
 
   onlineLearning: "/online-lernen",
 
-  login: "/login",
-
   impressum: "/impressum",
   datenschutz: "/datenschutz",
 } as const;

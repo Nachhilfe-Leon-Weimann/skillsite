@@ -1,4 +1,4 @@
-import { ANTI_SPAM } from "@/lib/booking/validation";
+import { ANTI_SPAM } from "@/lib/booking/config";
 
 export type RateLimitResult =
   | { ok: true }

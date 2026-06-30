@@ -94,16 +94,6 @@ function NavbarContent({ pathname }: { pathname: string }) {
 
         <div className="ml-auto flex items-center gap-2 min-[1080px]:ml-0 min-[1278px]:gap-2.5">
           <LinkButton
-            href={routes.login}
-            variant="ghost"
-            className={cn(
-              "hidden min-[1080px]:inline-flex",
-              activeText(isActive(pathname, routes.login)),
-            )}
-          >
-            Login
-          </LinkButton>
-          <LinkButton
             href={primaryCta.href}
             variant="primary"
             size="md"
@@ -306,14 +296,6 @@ function MobileMenu({
       </Container>
 
       <Container className="flex flex-col gap-2 border-t border-line py-4">
-        <LinkButton
-          href={routes.login}
-          variant="ghost"
-          onClick={onNavigate}
-          className={cn("w-full", activeText(isActive(pathname, routes.login)))}
-        >
-          Login
-        </LinkButton>
         <LinkButton
           href={primaryCta.href}
           variant="primary"

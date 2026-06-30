@@ -4,22 +4,16 @@ import { headers } from "next/headers";
 import { updateTag } from "next/cache";
 
 import {
-  BOOKING_TIMEZONE,
+  ANTI_SPAM,
   bookingEvents,
-  calUsername,
   CAL_SLOTS_TAG,
-  type FirstMeetingRequest,
+  type BookingSubmission,
   type SubmitResult,
 } from "@/lib/booking/config";
 import { checkRateLimit } from "@/lib/booking/rate-limit";
-import {
-  ANTI_SPAM,
-  EMAIL_RE,
-  FIELD_LIMITS,
-  PHONE_RE,
-  toE164,
-  VALID_SUBJECTS,
-} from "@/lib/booking/validation";
+import { validateBookingValues } from "@/lib/booking/validation";
+import { buildCalBookingBody } from "@/lib/booking/mapping";
+import { createCalBooking } from "@/lib/booking/cal/client";
 
 /**
  * Real client IP behind Traefik (Dokploy). Traefik sets `x-forwarded-for` and
@@ -37,11 +31,12 @@ async function clientIp(): Promise<string> {
 }
 
 /**
- * Creates the free first-meeting booking in Cal.com (v2 bookings API) from the
- * selected slot. Requires `CAL_API_KEY`.
+ * Create a booking in Cal.com from a validated submission. Public endpoint, so
+ * it re-runs the full schema validation and only forwards whitelisted values.
+ * Thin orchestration: rate-limit -> anti-spam -> validate -> map -> Cal client.
  */
-export async function requestFirstMeeting(
-  data: FirstMeetingRequest,
+export async function requestBooking(
+  submission: BookingSubmission,
 ): Promise<SubmitResult> {
   // Layer 1 - per-IP rate limit (counts every attempt, including ones dropped below).
   const ip = await clientIp();
@@ -55,151 +50,58 @@ export async function requestFirstMeeting(
   }
 
   // Layer 2 - honeypot: a human never touches this hidden field, so any value
-  // (even whitespace) is a bot. Feign success so the bot gets no signal.
-  if (data.honeypot && data.honeypot.length > 0) {
+  // is a bot. Feign success so the bot gets no signal.
+  if (submission.honeypot && submission.honeypot.length > 0) {
     return { ok: true };
   }
 
   // Layer 3 - time-trap: humans don't fill the form faster than minFillMs; a
   // missing timestamp counts as suspicious. Feign success too.
   if (
-    !data.formLoadedAt ||
-    Date.now() - data.formLoadedAt < ANTI_SPAM.minFillMs
+    !submission.formLoadedAt ||
+    Date.now() - submission.formLoadedAt < ANTI_SPAM.minFillMs
   ) {
     return { ok: true };
   }
 
-  const firstName = data.firstName?.trim();
-  const lastName = data.lastName?.trim();
-  const email = data.email?.trim();
-  const phone = data.phone?.trim();
-
-  if (!firstName || !lastName || !email || !phone || !data.slot) {
+  if (!(submission.event in bookingEvents) || !submission.slot) {
     return {
       ok: false,
-      error: "Bitte fülle Name, E-Mail, Telefon und Termin aus.",
-      reason: "validation",
-    };
-  }
-  if (!EMAIL_RE.test(email)) {
-    return {
-      ok: false,
-      error: "Bitte gib eine gültige E-Mail-Adresse an.",
-      reason: "validation",
-    };
-  }
-  if (!PHONE_RE.test(phone)) {
-    return {
-      ok: false,
-      error: "Bitte gib eine gültige Telefonnummer an.",
-      reason: "validation",
-    };
-  }
-  // The action is public, so the server validates as strictly as the form and
-  // never forwards arbitrary input to Cal.com: only subjects we actually offer
-  // pass, and oversized fields are rejected outright.
-  const subjects = (data.subjects ?? []).filter((subject) =>
-    VALID_SUBJECTS.has(subject),
-  );
-  if (subjects.length === 0) {
-    return {
-      ok: false,
-      error: "Bitte wähle mindestens ein Fach.",
-      reason: "validation",
-    };
-  }
-  if (
-    firstName.length > FIELD_LIMITS.name ||
-    lastName.length > FIELD_LIMITS.name ||
-    email.length > FIELD_LIMITS.email ||
-    phone.length > FIELD_LIMITS.phone
-  ) {
-    return {
-      ok: false,
-      error: "Bitte überprüfe deine Eingaben.",
+      error: "Bitte wähle einen Termin.",
       reason: "validation",
     };
   }
 
-  const apiKey = process.env.CAL_API_KEY;
-  if (!apiKey || !calUsername) {
-    console.error(
-      "[booking] Cal.com is not configured - first-meeting request could not be created.",
-    );
+  const missing = validateBookingValues(submission.event, submission.values);
+  if (missing.length > 0) {
     return {
       ok: false,
-      error: "Buchung ist gerade nicht möglich. Bitte schreib mir direkt.",
-      reason: "generic",
+      error: `Bitte überprüfe deine Eingaben: ${missing.join(", ")}.`,
+      reason: "validation",
     };
   }
 
-  // The first-meeting Cal.com event still has a required free-text "notes"
-  // field; keep it optional on our side and fall back to a neutral note.
-  const note = data.note?.trim().slice(0, FIELD_LIMITS.note);
+  const result = await createCalBooking(buildCalBookingBody(submission));
 
-  try {
-    const res = await fetch("https://api.cal.com/v2/bookings", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "cal-api-version": "2024-08-13",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        start: data.slot,
-        eventTypeSlug: bookingEvents.kennenlernen.calEventSlug,
-        username: calUsername,
-        attendee: {
-          name: `${firstName} ${lastName}`,
-          email,
-          phoneNumber: toE164(phone),
-          timeZone: BOOKING_TIMEZONE,
-          language: "de",
-        },
-        bookingFieldsResponses: {
-          name: { firstName, lastName },
-          subjects,
-          notes: note || "Keine weiteren Angaben.",
-        },
-      }),
-    });
-
-    if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      console.error(
-        `[booking] Cal.com booking failed: ${res.status} ${detail}`,
-      );
-      // Cal.com doesn't return a stable machine code for "slot already taken",
-      // so detect that conflict defensively from the status + message. On a hit
-      // we send the user back to pick a fresh slot instead of offering a retry
-      // that would just hit the same gone slot again, and drop the now-stale
-      // cached availability. A generic failure (network, 5xx) leaves the slot
-      // intact, so keep the cache and let the user retry the same one.
-      const slotTaken =
-        res.status === 409 ||
-        /no longer available|not available|already booked|fully booked|no available|seats[_ ]?full|slot.*(taken|unavailable)/i.test(
-          detail,
-        );
-      if (slotTaken) updateTag(CAL_SLOTS_TAG);
-      return {
-        ok: false,
-        reason: slotTaken ? "slot_taken" : "generic",
-        error: slotTaken
-          ? "Dieser Termin wurde gerade vergeben. Bitte wähle einen anderen Zeitpunkt."
-          : "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.",
-      };
-    }
-
-    // Slot is now booked - invalidate the cached availability so the next lookup
-    // no longer offers it.
+  // A booked or gone slot both change availability, so drop the cached view in
+  // either case. A generic failure leaves the slot intact - keep the cache.
+  if (result.ok) {
     updateTag(CAL_SLOTS_TAG);
     return { ok: true };
-  } catch (error) {
-    console.error("[booking] Cal.com booking request errored", error);
+  }
+  if (result.slotTaken) {
+    updateTag(CAL_SLOTS_TAG);
     return {
       ok: false,
-      error: "Die Buchung hat nicht geklappt. Bitte versuch es später erneut.",
-      reason: "generic",
+      reason: "slot_taken",
+      error:
+        "Dieser Termin wurde gerade vergeben. Bitte wähle einen anderen Zeitpunkt.",
     };
   }
+  return {
+    ok: false,
+    reason: "generic",
+    error:
+      "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.",
+  };
 }
