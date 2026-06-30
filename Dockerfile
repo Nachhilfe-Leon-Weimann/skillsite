@@ -8,8 +8,7 @@ ENV PNPM_HOME="/pnpm" \
     PATH="/pnpm:$PATH" \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     NEXT_TELEMETRY_DISABLED=1
-# corepack activates the pnpm version pinned in package.json's packageManager field.
-RUN corepack enable
+RUN npm install -g corepack && corepack enable
 WORKDIR /app
 
 # --- Install dependencies (layer cached on the lockfile) ---
