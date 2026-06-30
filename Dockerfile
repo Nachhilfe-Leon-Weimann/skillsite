@@ -3,7 +3,7 @@
 # The runtime image ships only the standalone server plus static assets and
 # runs as a non-root user.
 
-FROM node:22-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 ENV PNPM_HOME="/pnpm" \
     PATH="/pnpm:$PATH" \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
@@ -27,7 +27,7 @@ COPY . .
 RUN pnpm build
 
 # --- Runtime image ---
-FROM node:22-bookworm-slim AS runner
+FROM node:26-bookworm-slim AS runner
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
