@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { IosToolbarTint } from "@/components/layout/ios-toolbar-tint";
+import { UmamiAnalytics } from "@/components/analytics/umami";
 import { ConsentProvider } from "@/providers/consent-provider";
 // Cookie consent temporarily disabled: there is currently no storage that
 // requires consent. Banner/dialog remain for later use.
@@ -71,6 +72,7 @@ export default function RootLayout({
             around the floating bottom toolbar; only active at the footer
             (see globals.css + IosToolbarTint). */}
         <IosToolbarTint />
+        <UmamiAnalytics />
       </body>
     </html>
   );
