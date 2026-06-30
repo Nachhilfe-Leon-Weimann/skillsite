@@ -1,0 +1,22 @@
+services:
+  app:
+    image: ghcr.io/nachhilfe-leon-weimann/skillsite:latest
+    pull_policy: always
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    expose:
+      - "3000"
+    security_opt:
+      - no-new-privileges:true
+    # Healthcheck ships in the image (see Dockerfile); not duplicated here.
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

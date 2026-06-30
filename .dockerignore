@@ -1,0 +1,26 @@
+# Dependencies & build output (reinstalled / regenerated inside the image)
+node_modules
+.next
+out
+
+# Local env & secrets — provided at runtime via Dokploy, never baked in
+.env*
+
+# Version control & CI
+.git
+.gitignore
+.github
+
+# Editor & OS cruft
+.vscode
+.DS_Store
+
+# TS/Next build metadata (regenerated on build)
+*.tsbuildinfo
+next-env.d.ts
+
+# Container & docs (not needed inside the image)
+Dockerfile
+.dockerignore
+compose.yml
+README.md
