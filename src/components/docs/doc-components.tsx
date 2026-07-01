@@ -40,7 +40,13 @@ type DocHeroProps = {
   facts?: Array<{ icon: LucideIcon; label: string; children: React.ReactNode }>;
 };
 
-export function DocHero({ badge, icon: Icon, title, lead, facts }: DocHeroProps) {
+export function DocHero({
+  badge,
+  icon: Icon,
+  title,
+  lead,
+  facts,
+}: DocHeroProps) {
   return (
     <Card className="p-6 sm:p-8">
       <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface-2 px-3 py-1 text-sm text-ink-soft">
@@ -191,7 +197,10 @@ export function DocLinkList({
             className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface px-3 py-2.5 text-sm text-ink transition-colors hover:border-coral"
           >
             <span>{link.label}</span>
-            <ExternalLink className="size-3.5 shrink-0 text-ink-soft" aria-hidden="true" />
+            <ExternalLink
+              className="size-3.5 shrink-0 text-ink-soft"
+              aria-hidden="true"
+            />
           </a>
         </li>
       ))}
@@ -225,7 +234,10 @@ export function DocProviderLink({
 export function DocLegalBasis({ children }: { children: React.ReactNode }) {
   return (
     <div className="mt-4 flex gap-3 rounded-xl border border-line bg-surface-2/60 p-3">
-      <Scale className="mt-1 size-4 shrink-0 text-ink-soft" aria-hidden="true" />
+      <Scale
+        className="mt-1 size-4 shrink-0 text-ink-soft"
+        aria-hidden="true"
+      />
       <p className="text-sm leading-6 text-ink-soft">
         <span className="font-medium text-ink">Rechtsgrundlage: </span>
         {children}

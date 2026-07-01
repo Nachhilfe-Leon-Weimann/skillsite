@@ -6,7 +6,11 @@ type CheckMarkProps = React.ComponentProps<"svg"> & {
 };
 
 /** The design's hand-tuned check glyph. Color comes from `currentColor`. */
-export function CheckMark({ className, pathClassName, ...props }: CheckMarkProps) {
+export function CheckMark({
+  className,
+  pathClassName,
+  ...props
+}: CheckMarkProps) {
   return (
     <svg
       viewBox="0 0 24 24"

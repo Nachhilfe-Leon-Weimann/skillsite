@@ -91,11 +91,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </a>
           </Reveal>
 
-          <Reveal
-            variant="rise-soft"
-            index={1}
-            className="flex flex-col gap-5"
-          >
+          <Reveal variant="rise-soft" index={1} className="flex flex-col gap-5">
             <a href={`mailto:${email}`} className={sideCardClass}>
               <span className={sideLabelClass}>E-Mail</span>
               <Heading

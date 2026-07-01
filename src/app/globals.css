@@ -498,7 +498,9 @@
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--tl-step, 180ms) var(--ease-flow);
-  transition-delay: calc((var(--reveal-index, 0) + 0.5) * var(--tl-step, 180ms));
+  transition-delay: calc(
+    (var(--reveal-index, 0) + 0.5) * var(--tl-step, 180ms)
+  );
 }
 [data-shown] .tl-line {
   transform: scaleY(1);

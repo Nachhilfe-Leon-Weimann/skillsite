@@ -113,7 +113,8 @@ export default function ProcessPage() {
         <Reveal variant="rise-soft" index={1}>
           <Text tone="muted" className="mx-auto mt-3 mb-7 max-w-[32em]">
             Freie Slots direkt im Kalender wählen - wöchentlich, vor Klausuren
-            intensiver oder nach Bedarf. Bis 24&nbsp;h vorher kostenfrei absagen.
+            intensiver oder nach Bedarf. Bis 24&nbsp;h vorher kostenfrei
+            absagen.
           </Text>
         </Reveal>
         <Reveal variant="rise-soft" index={2}>

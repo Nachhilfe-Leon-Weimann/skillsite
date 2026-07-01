@@ -99,10 +99,7 @@ export function writeConsent(preferences: ConsentPreferences) {
   if (typeof window === "undefined") return consent;
 
   try {
-    window.localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      JSON.stringify(consent),
-    );
+    window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consent));
   } catch {}
 
   return consent;

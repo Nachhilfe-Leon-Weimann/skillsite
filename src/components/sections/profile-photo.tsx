@@ -20,7 +20,9 @@ export function ProfilePhoto({ aspect = "4/5", className }: ProfilePhotoProps) {
       style={{ aspectRatio: aspect }}
       className={cn(
         "relative overflow-hidden rounded-3xl shadow-card",
-        PROFILE_PHOTO ? "border border-line" : "border border-dashed border-line",
+        PROFILE_PHOTO
+          ? "border border-line"
+          : "border border-dashed border-line",
         className,
       )}
     >

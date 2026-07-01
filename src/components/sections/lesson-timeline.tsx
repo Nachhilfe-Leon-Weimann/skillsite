@@ -32,7 +32,7 @@ export function LessonTimeline({ steps }: { steps: LessonStep[] }) {
                 {step.n}
               </span>
               {!last ? (
-                <span className="tl-line mt-1.5 w-[2px] flex-1 rounded-full bg-[color-mix(in_srgb,var(--coral)_35%,transparent)]" />
+                <span className="tl-line mt-1.5 w-0.5 flex-1 rounded-full bg-[color-mix(in_srgb,var(--coral)_35%,transparent)]" />
               ) : null}
             </div>
             <div className={cn("tl-body", !last && "pb-5")}>

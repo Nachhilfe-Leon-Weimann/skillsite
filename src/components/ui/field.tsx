@@ -18,7 +18,9 @@ export function Field({ label, htmlFor, hint, children }: FieldProps) {
         className="mb-1.5 block text-small font-semibold text-ink"
       >
         {label}
-        {hint ? <span className="ml-1 font-normal text-ink-soft">{hint}</span> : null}
+        {hint ? (
+          <span className="ml-1 font-normal text-ink-soft">{hint}</span>
+        ) : null}
       </label>
       {children}
     </div>
@@ -33,5 +35,7 @@ export function Textarea({
   className,
   ...props
 }: React.ComponentProps<"textarea">) {
-  return <textarea className={cn(controlClass, "resize-y", className)} {...props} />;
+  return (
+    <textarea className={cn(controlClass, "resize-y", className)} {...props} />
+  );
 }

@@ -14,7 +14,7 @@ export const testimonialsAreExamples = true;
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Zum ersten Mal habe ich verstanden, warum eine Rechnung funktioniert – nicht nur wie. Meine Mathenote ging von 4 auf 2.",
+      "Zum ersten Mal habe ich verstanden, warum eine Rechnung funktioniert - nicht nur wie. Meine Mathenote ging von 4 auf 2.",
     name: "Lena M.",
     detail: "Mathematik · 10. Klasse",
   },
@@ -26,7 +26,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Physik war für mich ein Buch mit sieben Siegeln. Jetzt trau ich mir wieder was zu – und es macht sogar Spaß.",
+      "Physik war für mich ein Buch mit sieben Siegeln. Jetzt trau ich mir wieder was zu - und es macht sogar Spaß.",
     name: "Jonas R.",
     detail: "Physik · 11. Klasse",
   },

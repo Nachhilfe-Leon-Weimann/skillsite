@@ -61,7 +61,12 @@ export function PageHeader({
         </Heading>
       </Reveal>
       {lead ? (
-        <Reveal trigger="mount" variant="rise-soft" index={step++} className="mt-5">
+        <Reveal
+          trigger="mount"
+          variant="rise-soft"
+          index={step++}
+          className="mt-5"
+        >
           <Lead className={cn("max-w-[34em]", centered && "mx-auto")}>
             {lead}
           </Lead>
@@ -72,7 +77,10 @@ export function PageHeader({
           trigger="mount"
           variant="rise-soft"
           index={step++}
-          className={cn("mt-7 flex flex-wrap gap-3.5", centered && "justify-center")}
+          className={cn(
+            "mt-7 flex flex-wrap gap-3.5",
+            centered && "justify-center",
+          )}
         >
           {children}
         </Reveal>

@@ -40,7 +40,11 @@ export function SectionHeader({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
       ) : null}
-      <Reveal variant="rise-soft" index={step++} className={cn(eyebrow && "mt-4")}>
+      <Reveal
+        variant="rise-soft"
+        index={step++}
+        className={cn(eyebrow && "mt-4")}
+      >
         <Heading size={size} className={titleClassName}>
           {title}
         </Heading>

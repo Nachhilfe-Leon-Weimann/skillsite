@@ -59,7 +59,11 @@ export default function AboutPage() {
               index={3}
               className="mt-7"
             >
-              <LinkButton href={routes.firstMeeting} variant="primary" size="lg">
+              <LinkButton
+                href={routes.firstMeeting}
+                variant="primary"
+                size="lg"
+              >
                 Finde heraus, ob wir zusammenpassen{" "}
                 <ArrowRight className="size-4" />
               </LinkButton>

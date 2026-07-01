@@ -106,9 +106,7 @@ export default function PricingPage() {
                 {fairConditions.map((condition) => (
                   <Text key={condition.text} tone="muted">
                     {condition.strong ? (
-                      <strong className="text-ink">
-                        {condition.strong}{" "}
-                      </strong>
+                      <strong className="text-ink">{condition.strong} </strong>
                     ) : null}
                     {condition.text}
                   </Text>

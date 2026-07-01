@@ -5,10 +5,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import {
-  testimonials,
-  testimonialsAreExamples,
-} from "@/content/testimonials";
+import { testimonials, testimonialsAreExamples } from "@/content/testimonials";
 
 export function Testimonials() {
   const [index, setIndex] = useState(0);
@@ -17,7 +14,7 @@ export function Testimonials() {
   const current = testimonials[active];
 
   return (
-    <div className="mx-auto max-w-[880px] px-6 py-[clamp(56px,7vw,88px)] text-center">
+    <div className="mx-auto max-w-220 px-6 py-section text-center">
       <Eyebrow>Was andere sagen</Eyebrow>
 
       <blockquote className="mt-6 font-heading text-[clamp(1.5rem,3vw,2.15rem)] font-medium leading-[1.28] tracking-[-0.015em] text-ink">
@@ -45,7 +42,7 @@ export function Testimonials() {
               aria-label={`Stimme ${i + 1}`}
               aria-current={i === active}
               className={cn(
-                "size-[9px] rounded-full transition-colors",
+                "size-2.25 rounded-full transition-colors",
                 i === active ? "bg-coral" : "bg-line",
               )}
             />
@@ -63,7 +60,7 @@ export function Testimonials() {
 
       {testimonialsAreExamples ? (
         <p className="mt-6 text-[0.82rem] text-ink-soft">
-          Beispielstimmen, die das typische Feedback widerspiegeln – echte,
+          Beispielstimmen, die das typische Feedback widerspiegeln - echte,
           freigegebene Referenzen folgen.
         </p>
       ) : null}

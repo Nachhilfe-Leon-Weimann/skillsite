@@ -115,11 +115,11 @@ export default function DatenschutzPage() {
         <DocSubSection title="b) Terminbuchung über Cal.com">
           <P variant="doc">
             Für Terminbuchungen nutze ich den Dienst Cal.com (Cal.com, Inc.,
-            2261 Market Street #4382, San Francisco, CA 94114, USA). Die
-            Anzeige freier Termine und die Buchung erfolgen serverseitig über
-            meinen eigenen Server. Beim Ausfüllen des Formulars lädt Ihr Browser
-            kein Cal.com-Widget und baut keine direkte Verbindung zu Cal.com
-            auf; Cal.com setzt dabei keine Cookies in Ihrem Browser.
+            2261 Market Street #4382, San Francisco, CA 94114, USA). Die Anzeige
+            freier Termine und die Buchung erfolgen serverseitig über meinen
+            eigenen Server. Beim Ausfüllen des Formulars lädt Ihr Browser kein
+            Cal.com-Widget und baut keine direkte Verbindung zu Cal.com auf;
+            Cal.com setzt dabei keine Cookies in Ihrem Browser.
           </P>
           <P variant="doc">
             Zur Buchung übermittle ich nach Absenden des Formulars die
@@ -325,11 +325,11 @@ export default function DatenschutzPage() {
           jeweiligen Zwecke erforderlich ist oder gesetzliche
           Aufbewahrungspflichten bestehen. Buchungs-, Vertrags- und
           Abrechnungsdaten werden für die Dauer der Vertragsdurchführung und
-          anschließend im Rahmen gesetzlicher Aufbewahrungspflichten gespeichert.
-          Kontaktanfragen werden gelöscht, sobald sie erledigt sind und keine
-          gesetzlichen Aufbewahrungspflichten entgegenstehen. Server-Logfiles
-          werden nur temporär gespeichert, soweit sie für Betrieb, Sicherheit und
-          Fehleranalyse der Website erforderlich sind.
+          anschließend im Rahmen gesetzlicher Aufbewahrungspflichten
+          gespeichert. Kontaktanfragen werden gelöscht, sobald sie erledigt sind
+          und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+          Server-Logfiles werden nur temporär gespeichert, soweit sie für
+          Betrieb, Sicherheit und Fehleranalyse der Website erforderlich sind.
         </P>
       </DocSection>
 

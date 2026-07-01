@@ -29,7 +29,7 @@ export default function BookingPage() {
         <Booker
           event="nachhilfe"
           title="Nachhilfestunde buchen"
-          subtitle="Such dir einen freien Slot – wöchentlich oder nach Bedarf."
+          subtitle="Such dir einen freien Slot - wöchentlich oder nach Bedarf."
         />
         <Reveal variant="fade" as="p" className="mt-6">
           <Text as="span" tone="muted">

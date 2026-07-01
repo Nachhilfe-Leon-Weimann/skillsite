@@ -30,9 +30,9 @@ export default function OnlineLearningPage() {
     <>
       <PageHeader
         eyebrow="Plattform · Unser Klassenzimmer"
-        title="Nachhilfe auf Discord – schnell eingerichtet."
+        title="Nachhilfe auf Discord - schnell eingerichtet."
         titleClassName="max-w-[14em]"
-        lead="Discord ist mein Standard-Klassenzimmer: kostenlos, stabil und praktisch. Du nutzt lieber MS Teams? Auch das geht – einfach Bescheid sagen."
+        lead="Discord ist mein Standard-Klassenzimmer: kostenlos, stabil und praktisch. Du nutzt lieber MS Teams? Auch das geht - einfach Bescheid sagen."
       >
         <LinkButton href={primaryCta.href} variant="primary" size="lg">
           {primaryCta.label} →
@@ -75,7 +75,9 @@ export default function OnlineLearningPage() {
           <Eyebrow>Server-Funktionen</Eyebrow>
         </Reveal>
         <Reveal variant="rise-soft" className="mt-4 mb-9 max-w-[16em]">
-          <Heading size="h3">Alles an einem Ort – auch zwischen den Stunden.</Heading>
+          <Heading size="h3">
+            Alles an einem Ort - auch zwischen den Stunden.
+          </Heading>
         </Reveal>
         <div className="grid gap-5 md:grid-cols-2">
           {discordFeatures.map((feature, index) => (

@@ -14,7 +14,10 @@ type AnimatedCheckMarkProps = {
  * hand-drawn "klick" idea applied to confirmation lists). Falls back to a
  * plain, fully-drawn check under reduced motion or no JS.
  */
-export function AnimatedCheckMark({ className, index }: AnimatedCheckMarkProps) {
+export function AnimatedCheckMark({
+  className,
+  index,
+}: AnimatedCheckMarkProps) {
   const { ref, inView } = useInView<SVGSVGElement>();
 
   return (
