@@ -30,7 +30,7 @@ export function CookieConsentBanner() {
       aria-label={visible ? "Cookie-Hinweis" : undefined}
       aria-live="polite"
       className={cn(
-        "fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-6 z-50 w-[calc(100%-3rem)] max-w-2xl rounded-2xl border border-line bg-surface p-5 shadow-card transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none",
+        "fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-6 z-50 w-[calc(100%-3rem)] max-w-2xl rounded-2xl border border-line bg-surface p-5 shadow-card transition-[opacity,transform] duration-quick ease-flow motion-reduce:transition-none",
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-3 opacity-0",

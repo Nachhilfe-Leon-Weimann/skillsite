@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Tag } from "@/components/ui/tag";
 import { LinkButton } from "@/components/ui/button";
-import { CheckMark } from "@/components/ui/check-mark";
+import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
 import { Heading, Text } from "@/components/ui/typography";
 import { CtaSection } from "@/components/sections/cta-section";
 import {
@@ -71,13 +71,13 @@ export default function OnlineLearningPage() {
           Alles an einem Ort – auch zwischen den Stunden.
         </Heading>
         <div className="grid gap-5 md:grid-cols-2">
-          {discordFeatures.map((feature) => (
+          {discordFeatures.map((feature, index) => (
             <div
               key={feature.title}
               className="flex items-start gap-4 rounded-2xl border border-line bg-bg p-6"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--coral)_14%,transparent)] text-coral">
-                <CheckMark className="size-5" />
+                <AnimatedCheckMark index={index} className="size-5" />
               </span>
               <div>
                 <Heading as="h3" size="title" className="mb-1.5">

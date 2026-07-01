@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 const sideCardClass =
-  "flex flex-1 flex-col justify-center rounded-2xl border border-line bg-surface p-6 shadow-card transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-coral";
+  "flex flex-1 flex-col justify-center rounded-2xl border border-line bg-surface p-6 shadow-card lift [--lift:-0.25rem] hover:border-coral";
 const sideLabelClass = "text-eyebrow uppercase text-coral";
 
 type ContactPageProps = {
@@ -57,7 +57,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             href={whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] transition-transform duration-300 ease-out hover:-translate-y-1"
+            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] lift [--lift:-0.25rem]"
           >
             <span className="text-eyebrow uppercase text-white/90">
               Am liebsten - WhatsApp

@@ -132,6 +132,45 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Motion tokens. Non-inline on purpose: this block emits :root custom
+   properties (so var(--ease-flow) resolves inside @utility / @keyframes /
+   inline styles) AND generates the ease-* / duration-* / animate-* utilities.
+   The colour tokens above stay in `@theme inline` because they must inline
+   var(--bg) to react to [data-theme]; motion tokens must not.
+
+   Tailwind v4 namespaces (verified against the installed v4 source):
+   - `--ease-*`               -> ease-flow / ease-soft utilities
+   - `--transition-duration-*` -> duration-quick / duration-base / duration-slow
+     (NOT `--duration-*`, which generates nothing)
+   - `--animate-*`            -> animate-rise / animate-fade / ...
+--------------------------------------------------------------------------- */
+@theme {
+  /* Signature curve: commits fast, long soft tail - motion "lands and settles"
+     instead of a generic linear glide. Entrances, reveals, one-way moves. */
+  --ease-flow: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Symmetric sibling for reversible toggles (accordion, height morph, dropdown). */
+  --ease-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --transition-duration-quick: 160ms; /* press, chevrons, colour hovers   */
+  --transition-duration-base: 260ms; /* reveals, step changes, accordion */
+  --transition-duration-slow: 420ms; /* large surfaces / height morph    */
+
+  --animate-rise: rise var(--transition-duration-base) var(--ease-flow) both;
+  --animate-fade: fade var(--transition-duration-quick) var(--ease-flow) both;
+  --animate-fade-down: fade-down var(--transition-duration-quick)
+    var(--ease-flow) both;
+  --animate-draw: draw var(--transition-duration-slow) var(--ease-flow) 150ms
+    both;
+
+  --reveal-travel: 12px; /* lighter than the previous 18px fade-up */
+  --reveal-stagger: 70ms;
+
+  /* Make every bare transition-* utility speak the brand language for free. */
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: var(--ease-soft);
+}
+
+/* ---------------------------------------------------------------------------
    Base layer
 --------------------------------------------------------------------------- */
 @layer base {
@@ -215,18 +254,28 @@
   }
 }
 
-/* Entrance animations. */
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
+/* Shared hover-lift + press-settle for buttons and cards. Travel is tunable
+   per element via `--lift` (so we get one vocabulary instead of the old
+   ad-hoc -0.5/-1/-1.5). Hover is gated to real pointers so touch never gets a
+   sticky hover; :active gives every consumer a press settle that counters the
+   lift (this is the fix for buttons feeling "jumpy" on click). */
+@utility lift {
+  transition-property: transform, box-shadow, border-color, background-color,
+    color, opacity;
+  transition-duration: var(--transition-duration-quick);
+  transition-timing-function: var(--ease-flow);
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(var(--lift, 0px));
+    }
   }
-  to {
-    opacity: 1;
-    transform: none;
+  &:active {
+    transform: translateY(0) scale(0.98);
   }
 }
 
+/* Entrance animations. */
 @keyframes fade-down {
   from {
     opacity: 0;
@@ -244,6 +293,56 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Token-driven entrance: travel reads --reveal-travel, so any element can
+   soften/intensify the rise locally with e.g. [--reveal-travel:6px]. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-travel));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Self-drawing SVG stroke. The path must set pathLength="1" so the dash math
+   is normalised regardless of its real length. */
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Self-drawing checkmark. AnimatedCheckMark adds [data-shown] on the <svg> when
+   it scrolls into view; the path then strokes in, staggered by --reveal-index.
+   Reduced motion: the hook sets [data-shown] immediately and the global
+   override flattens the transition, so the check just appears. No JS: shown. */
+.check-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--transition-duration-slow) var(--ease-flow);
+  transition-delay: calc(var(--reveal-index, 0) * var(--reveal-stagger));
+}
+[data-shown] > .check-draw {
+  stroke-dashoffset: 0;
+}
+/* Never leave the check hidden when it won't animate: no JS, or reduced motion
+   (where the observer may never flip [data-shown] for below-the-fold checks). */
+@media (scripting: none) {
+  .check-draw {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .check-draw {
+    stroke-dashoffset: 0;
   }
 }
 

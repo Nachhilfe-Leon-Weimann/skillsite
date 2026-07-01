@@ -58,7 +58,7 @@ export function Dialog({
       <div
         aria-hidden
         onClick={onClose}
-        className="absolute inset-0 bg-black/45 backdrop-blur-sm motion-safe:animate-[fade_0.15s_ease]"
+        className="absolute inset-0 bg-black/45 backdrop-blur-sm motion-safe:animate-fade"
       />
       <div
         ref={panelRef}
@@ -68,7 +68,7 @@ export function Dialog({
         aria-describedby={describedBy}
         tabIndex={-1}
         className={cn(
-          "relative z-10 w-full max-w-lg rounded-3xl border border-line bg-surface p-6 shadow-card outline-none motion-safe:animate-[fade-up_0.2s_ease] sm:p-7",
+          "relative z-10 w-full max-w-lg rounded-3xl border border-line bg-surface p-6 shadow-card outline-none motion-safe:animate-rise sm:p-7",
           className,
         )}
       >

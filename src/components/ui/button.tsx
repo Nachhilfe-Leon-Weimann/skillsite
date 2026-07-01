@@ -6,16 +6,16 @@ export type ButtonVariant = "primary" | "navy" | "outline" | "white" | "ghost";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap no-underline cursor-pointer transition-[transform,background-color,border-color,opacity,box-shadow,color] duration-300 ease-out disabled:pointer-events-none disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap no-underline cursor-pointer lift disabled:pointer-events-none disabled:opacity-60";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-coral-gradient text-white shadow-[0_14px_30px_-12px_var(--coral)] hover:-translate-y-0.5",
+    "bg-coral-gradient text-white shadow-[0_14px_30px_-12px_var(--coral)] [--lift:-0.125rem]",
   navy: "bg-navy text-white hover:opacity-90",
   outline:
     "border-[1.5px] border-line bg-transparent text-ink hover:border-ink",
   white:
-    "bg-white text-navy shadow-[0_12px_28px_-12px_rgba(0,0,0,0.4)] hover:-translate-y-0.5",
+    "bg-white text-navy shadow-[0_12px_28px_-12px_rgba(0,0,0,0.4)] [--lift:-0.125rem]",
   ghost: "text-ink-soft hover:bg-surface-2 hover:text-ink",
 };
 

@@ -37,10 +37,12 @@ export default function HomePage() {
                 >
                   <path
                     d="M4 14 C 46 5, 150 4, 196 12"
+                    pathLength={1}
                     stroke="currentColor"
                     strokeWidth="5"
                     fill="none"
                     strokeLinecap="round"
+                    className="[stroke-dasharray:1] motion-safe:animate-draw"
                   />
                 </svg>
               </span>{" "}

@@ -21,7 +21,7 @@ function SubjectCard({ subject }: { subject: (typeof subjects)[number] }) {
     <Link
       key={subject.key}
       href={subject.href}
-      className="group flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-card transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:border-coral"
+      className="group flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-card lift [--lift:-0.375rem] hover:border-coral"
     >
       <div className="flex items-center justify-between">
         <span className="flex size-13 items-center justify-center rounded-xl bg-surface-2 font-heading text-[1.4rem] font-bold text-coral">

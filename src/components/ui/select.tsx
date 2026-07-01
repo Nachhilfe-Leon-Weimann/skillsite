@@ -215,7 +215,7 @@ export function Select<T extends string | number>({
         <ChevronDown
           aria-hidden
           className={cn(
-            "size-4 shrink-0 transition-transform duration-200",
+            "size-4 shrink-0 transition-transform duration-quick",
             t.chevron,
             open && "rotate-180",
           )}
@@ -258,11 +258,11 @@ export function Select<T extends string | number>({
         }}
         className={cn(
           "absolute inset-x-0 top-full z-20 mt-2 origin-top rounded-xl border p-1.5",
-          "transition-[opacity,transform] ease-out",
+          "transition-[opacity,transform] ease-flow",
           t.panel,
           open
-            ? "translate-y-0 scale-100 opacity-100 duration-200"
-            : "pointer-events-none -translate-y-1 scale-[0.97] opacity-0 duration-300",
+            ? "translate-y-0 scale-100 opacity-100 duration-base"
+            : "pointer-events-none -translate-y-1 scale-[0.97] opacity-0 duration-quick",
         )}
       >
         {options.map((option, index) => {
@@ -280,7 +280,7 @@ export function Select<T extends string | number>({
               tabIndex={-1}
               onClick={() => selectOption(index)}
               className={cn(
-                "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-small font-medium transition-colors",
+                "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-small font-medium transition-colors duration-0",
                 t.option,
                 index === activeIndex && t.optionActive,
                 isSelected && t.optionSelected,

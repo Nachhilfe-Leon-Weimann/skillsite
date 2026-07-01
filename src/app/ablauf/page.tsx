@@ -5,7 +5,7 @@ import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LinkButton } from "@/components/ui/button";
-import { CheckMark } from "@/components/ui/check-mark";
+import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
 import { Heading, Text } from "@/components/ui/typography";
 import { StepGrid } from "@/components/sections/step-grid";
 import { FaqSection } from "@/components/sections/faq-section";
@@ -85,12 +85,15 @@ export default function ProcessPage() {
               </span>
             </div>
             <div className="flex flex-col gap-3">
-              {discordHighlights.map((highlight) => (
+              {discordHighlights.map((highlight, index) => (
                 <div
                   key={highlight}
                   className="flex items-start gap-2.5 text-on-navy"
                 >
-                  <CheckMark className="mt-0.5 size-4.5 shrink-0 text-coral-light" />
+                  <AnimatedCheckMark
+                    index={index}
+                    className="mt-0.5 size-4.5 shrink-0 text-coral-light"
+                  />
                   <Text as="span" size="small" tone="inherit">
                     {highlight}
                   </Text>

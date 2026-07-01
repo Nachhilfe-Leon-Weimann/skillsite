@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InlineLink, Text } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 import { routes } from "@/lib/routes";
 import {
   bookingEvents,
@@ -135,27 +136,27 @@ export function BookingForm({
         </div>
       </div>
 
-      {groups.map((group) =>
-        group.length === 2 ? (
-          <div key={group[0].key} className="grid gap-4 sm:grid-cols-2">
-            {group.map((field) => (
-              <FieldControl
-                key={field.key}
-                field={field}
-                value={values[field.key]}
-                onChange={(value) => setValue(field.key, value)}
-              />
-            ))}
-          </div>
-        ) : (
-          <FieldControl
-            key={group[0].key}
-            field={group[0]}
-            value={values[group[0].key]}
-            onChange={(value) => setValue(group[0].key, value)}
-          />
-        ),
-      )}
+      {/* Fields settle in sequence on first mount. Step kept small (~50ms) so
+          the user fills the form, not watches it; mounts once per form step. */}
+      {groups.map((group, index) => (
+        <div
+          key={group[0].key}
+          className={cn(
+            "motion-safe:animate-rise [--reveal-travel:8px]",
+            group.length === 2 && "grid gap-4 sm:grid-cols-2",
+          )}
+          style={{ animationDelay: `calc(${index} * 50ms)` }}
+        >
+          {group.map((field) => (
+            <FieldControl
+              key={field.key}
+              field={field}
+              value={values[field.key]}
+              onChange={(value) => setValue(field.key, value)}
+            />
+          ))}
+        </div>
+      ))}
 
       <Button type="submit" disabled={!canSubmit} className="mt-1">
         {config.submitLabel} <ArrowRight className="size-4" />

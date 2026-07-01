@@ -393,7 +393,7 @@ export function Booker({
           ) : null}
 
           {step === "form" && summary && selectedSlot ? (
-            <div className="mx-auto w-full max-w-lg motion-safe:animate-[fade-up_0.28s_ease-out]">
+            <div className="mx-auto w-full max-w-lg motion-safe:animate-fade">
               <BookingForm
                 event={event}
                 slotLabel={summary}
@@ -443,7 +443,7 @@ function AnimatedHeight({
   return (
     <div
       style={{ height }}
-      className="overflow-hidden motion-safe:transition-[height] motion-safe:duration-300 motion-safe:ease-out"
+      className="overflow-hidden motion-safe:transition-[height] motion-safe:duration-slow motion-safe:ease-soft"
     >
       <div ref={innerRef} className={className}>
         {children}
@@ -481,7 +481,7 @@ function CenteredState({
   children: React.ReactNode;
 }) {
   return (
-    <div className="m-auto max-w-sm text-center motion-safe:animate-[fade-up_0.28s_ease-out]">
+    <div className="m-auto max-w-sm text-center motion-safe:animate-rise [--reveal-travel:6px] motion-safe:[animation-delay:80ms]">
       <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--coral)_16%,transparent)]">
         {icon}
       </div>
@@ -569,7 +569,7 @@ function SelectStep({
     !loading && status === "ok" && availableDates.size === 0;
 
   return (
-    <div className="mx-auto flex w-full flex-1 flex-col justify-start motion-safe:animate-[fade-up_0.28s_ease-out]">
+    <div className="mx-auto flex w-full flex-1 flex-col justify-start motion-safe:animate-rise [--reveal-travel:6px] motion-safe:[animation-delay:80ms]">
       <div className="grid gap-x-[clamp(1.25rem,2.5vw,2rem)] gap-y-5 @4xl:grid-cols-[3fr_1fr]">
         <div>
           <div className="mb-4 flex">
@@ -613,7 +613,7 @@ function SelectStep({
 
           <div
             key={`${shown.year}-${shown.month}`}
-            className="grid grid-cols-7 gap-1.5 motion-safe:animate-[fade_0.25s_ease-out]"
+            className="grid grid-cols-7 gap-1.5 motion-safe:animate-fade"
             aria-busy={loading}
           >
             {Array.from({ length: leading }).map((_, index) => (

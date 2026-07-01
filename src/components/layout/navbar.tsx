@@ -190,12 +190,12 @@ function PlatformDropdown({ active }: { active: boolean }) {
       >
         Online lernen
         <ChevronDown
-          className="size-3.5 transition-transform duration-200 group-hover:rotate-180 group-data-open:rotate-180"
+          className="size-3.5 transition-transform duration-quick group-hover:rotate-180 group-data-open:rotate-180"
           aria-hidden
         />
       </Button>
 
-      <div className="invisible absolute right-0 top-full z-10 w-64 translate-y-2 pt-1.5 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-data-open:visible group-data-open:translate-y-0 group-data-open:opacity-100">
+      <div className="invisible absolute right-0 top-full z-10 w-64 translate-y-2 pt-1.5 opacity-0 transition-[opacity,transform,visibility] duration-base ease-flow group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-data-open:visible group-data-open:translate-y-0 group-data-open:opacity-100">
         <div className="flex flex-col gap-0.5 rounded-2xl border border-line bg-surface p-2 shadow-card">
           {platformNav.map((item) => (
             <LinkButton
@@ -229,7 +229,7 @@ function MobileMenu({
   const [platformOpen, setPlatformOpen] = useState(false);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col min-[1080px]:hidden motion-safe:animate-[fade-down_0.2s_ease-out]">
+    <div className="flex min-h-0 flex-1 flex-col min-[1080px]:hidden motion-safe:animate-fade-down">
       <Container className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto py-4">
         {primaryNav.map((item) => (
           <Link
@@ -258,7 +258,7 @@ function MobileMenu({
           Online lernen
           <ChevronDown
             className={cn(
-              "size-4 transition-transform duration-200",
+              "size-4 transition-transform duration-quick",
               platformOpen && "rotate-180",
             )}
             aria-hidden
@@ -267,7 +267,7 @@ function MobileMenu({
 
         <div
           className={cn(
-            "grid transition-[grid-template-rows] duration-300 ease-out",
+            "grid transition-[grid-template-rows] duration-base ease-soft",
             platformOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
           )}
         >

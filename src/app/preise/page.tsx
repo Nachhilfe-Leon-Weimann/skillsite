@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
-import { CheckMark } from "@/components/ui/check-mark";
+import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
 import { Heading, Text } from "@/components/ui/typography";
 import { FaqSection } from "@/components/sections/faq-section";
 import { CtaSection } from "@/components/sections/cta-section";
@@ -64,9 +64,12 @@ export default function PricingPage() {
               </LinkButton>
             </div>
             <div className="flex flex-col justify-center gap-3.5 bg-surface p-[clamp(2rem,4vw,2.75rem)]">
-              {priceIncludes.map((item) => (
+              {priceIncludes.map((item, index) => (
                 <div key={item} className="flex items-start gap-3">
-                  <CheckMark className="mt-0.5 size-5 shrink-0 text-coral" />
+                  <AnimatedCheckMark
+                    index={index}
+                    className="mt-0.5 size-5 shrink-0 text-coral"
+                  />
                   <Text as="span">{item}</Text>
                 </div>
               ))}
