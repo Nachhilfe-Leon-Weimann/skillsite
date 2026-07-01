@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, Text } from "@/components/ui/typography";
 import { Booker } from "@/components/booking/booker";
 import { WhatsappQr } from "@/components/sections/whatsapp-qr";
@@ -53,42 +54,48 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
       <Container className="py-section-sm">
         <div className="grid items-stretch gap-5 lg:grid-cols-[1.25fr_1fr]">
-          <a
-            href={whatsapp}
-            target="_blank"
-            rel="noreferrer"
-            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] lift [--lift:-0.25rem]"
-          >
-            <span className="text-eyebrow uppercase text-white/90">
-              Am liebsten - WhatsApp
-            </span>
-            <Heading size="h3" className="mt-2.5 mb-1.5">
-              Schreib mir auf WhatsApp.
-            </Heading>
-            <Text
-              size="lead"
-              tone="inherit"
-              className="max-w-[24em] text-white/90"
+          <Reveal variant="rise-soft" index={0}>
+            <a
+              href={whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] lift [--lift:-0.25rem]"
             >
-              Der schnellste Weg: Antwort meistens noch am selben Tag. Einfach
-              kurz dein Anliegen schicken.
-            </Text>
-            <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/35 bg-white/20 px-5 py-2.5 font-semibold">
-              Jetzt anschreiben <ArrowRight className="size-4" />
-            </span>
-            <div className="mt-7 hidden items-center gap-4 sm:flex">
-              <WhatsappQr value={whatsapp} />
+              <span className="text-eyebrow uppercase text-white/90">
+                Am liebsten - WhatsApp
+              </span>
+              <Heading size="h3" className="mt-2.5 mb-1.5">
+                Schreib mir auf WhatsApp.
+              </Heading>
               <Text
-                size="small"
+                size="lead"
                 tone="inherit"
-                className="max-w-[12em] text-white/85"
+                className="max-w-[24em] text-white/90"
               >
-                Oder den QR-Code mit dem Handy scannen.
+                Der schnellste Weg: Antwort meistens noch am selben Tag. Einfach
+                kurz dein Anliegen schicken.
               </Text>
-            </div>
-          </a>
+              <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/35 bg-white/20 px-5 py-2.5 font-semibold">
+                Jetzt anschreiben <ArrowRight className="size-4" />
+              </span>
+              <div className="mt-7 hidden items-center gap-4 sm:flex">
+                <WhatsappQr value={whatsapp} />
+                <Text
+                  size="small"
+                  tone="inherit"
+                  className="max-w-[12em] text-white/85"
+                >
+                  Oder den QR-Code mit dem Handy scannen.
+                </Text>
+              </div>
+            </a>
+          </Reveal>
 
-          <div className="flex flex-col gap-5">
+          <Reveal
+            variant="rise-soft"
+            index={1}
+            className="flex flex-col gap-5"
+          >
             <a href={`mailto:${email}`} className={sideCardClass}>
               <span className={sideLabelClass}>E-Mail</span>
               <Heading
@@ -116,12 +123,15 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 <ArrowRight className="size-4" />
               </Text>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </Container>
 
       <Section id="kennenlernen" surface>
-        <div className="mx-auto mb-[clamp(1.75rem,4vw,2.5rem)] max-w-[40em] text-center">
+        <Reveal
+          variant="rise-soft"
+          className="mx-auto mb-[clamp(1.75rem,4vw,2.5rem)] max-w-[40em] text-center"
+        >
           <div className="flex justify-center">
             <Eyebrow>Erstgespräch</Eyebrow>
           </div>
@@ -133,7 +143,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             Erstgespräch klären wir Situation, Fach und Ziel - ganz
             unverbindlich, Eltern herzlich willkommen.
           </Text>
-        </div>
+        </Reveal>
         <Booker
           event="kennenlernen"
           title="Kostenloses Erstgespräch"

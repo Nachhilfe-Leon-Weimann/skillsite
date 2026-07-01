@@ -419,7 +419,7 @@
 }
 .reveal[data-reveal="settle"] {
   --reveal-duration: var(--transition-duration-settle);
-  transform: scale(1.03);
+  transform: scale(var(--reveal-scale, 1.03));
 }
 .reveal[data-blur] {
   filter: blur(var(--reveal-blur));
@@ -469,6 +469,58 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+/* Lesson timeline: a coral rail that draws top-to-bottom while each step's node
+   pops in and its copy rises, staggered off the container's [data-shown]. Falls
+   back to the fully-shown state with no JS or reduced motion. */
+.tl-node,
+.tl-body {
+  opacity: 0;
+  transition:
+    opacity var(--transition-duration-base) var(--ease-flow),
+    transform var(--transition-duration-base) var(--ease-flow);
+  transition-delay: calc(var(--reveal-index, 0) * var(--tl-step, 180ms));
+}
+.tl-node {
+  transform: scale(0.6);
+}
+.tl-body {
+  transform: translateY(8px);
+}
+[data-shown] .tl-node,
+[data-shown] .tl-body {
+  opacity: 1;
+  transform: none;
+}
+.tl-line {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--tl-step, 180ms) var(--ease-flow);
+  transition-delay: calc((var(--reveal-index, 0) + 0.5) * var(--tl-step, 180ms));
+}
+[data-shown] .tl-line {
+  transform: scaleY(1);
+}
+@media (scripting: none) {
+  .tl-node,
+  .tl-body {
+    opacity: 1;
+    transform: none;
+  }
+  .tl-line {
+    transform: scaleY(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tl-node,
+  .tl-body {
+    opacity: 1;
+    transform: none;
+  }
+  .tl-line {
+    transform: scaleY(1);
   }
 }
 

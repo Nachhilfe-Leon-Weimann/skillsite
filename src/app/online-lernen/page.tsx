@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Tag } from "@/components/ui/tag";
 import { LinkButton } from "@/components/ui/button";
 import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, Text } from "@/components/ui/typography";
 import { CtaSection } from "@/components/sections/cta-section";
 import {
@@ -42,13 +43,17 @@ export default function OnlineLearningPage() {
       </PageHeader>
 
       <Container className="py-section-sm">
-        <Heading size="h3" className="mb-8">
-          In vier Schritten startklar
-        </Heading>
+        <Reveal variant="rise-soft">
+          <Heading size="h3" className="mb-8">
+            In vier Schritten startklar
+          </Heading>
+        </Reveal>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {discordSetup.map((step) => (
-            <div
+          {discordSetup.map((step, i) => (
+            <Reveal
               key={step.n}
+              variant="rise-soft"
+              index={i}
               className="rounded-2xl border border-line bg-surface p-6 shadow-card"
             >
               <span className="font-heading text-[2.2rem] font-extrabold leading-none text-coral">
@@ -60,20 +65,24 @@ export default function OnlineLearningPage() {
               <Text size="small" tone="muted">
                 {step.text}
               </Text>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Container>
 
       <Section surface>
-        <Eyebrow>Server-Funktionen</Eyebrow>
-        <Heading size="h3" className="mt-4 mb-9 max-w-[16em]">
-          Alles an einem Ort – auch zwischen den Stunden.
-        </Heading>
+        <Reveal variant="rise-soft">
+          <Eyebrow>Server-Funktionen</Eyebrow>
+        </Reveal>
+        <Reveal variant="rise-soft" className="mt-4 mb-9 max-w-[16em]">
+          <Heading size="h3">Alles an einem Ort – auch zwischen den Stunden.</Heading>
+        </Reveal>
         <div className="grid gap-5 md:grid-cols-2">
           {discordFeatures.map((feature, index) => (
-            <div
+            <Reveal
               key={feature.title}
+              variant="rise-soft"
+              index={index}
               className="flex items-start gap-4 rounded-2xl border border-line bg-bg p-6"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--coral)_14%,transparent)] text-coral">
@@ -87,16 +96,18 @@ export default function OnlineLearningPage() {
                   {feature.text}
                 </Text>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <Container className="py-section-sm">
         <div className="grid gap-5 md:grid-cols-2">
-          {platforms.map((platform) => (
-            <div
+          {platforms.map((platform, i) => (
+            <Reveal
               key={platform.name}
+              variant="rise-soft"
+              index={i}
               className="rounded-2xl border border-line bg-surface p-7 shadow-card"
             >
               <div className="mb-3.5 flex items-center justify-between">
@@ -106,15 +117,18 @@ export default function OnlineLearningPage() {
                 <Tag>{platform.tag}</Tag>
               </div>
               <Text tone="muted">{platform.text}</Text>
-            </div>
+            </Reveal>
           ))}
         </div>
-        <div className="mt-6 flex flex-wrap items-center gap-3.5 rounded-2xl border border-line bg-surface-2 px-6 py-6">
+        <Reveal
+          variant="rise-soft"
+          className="mt-6 flex flex-wrap items-center gap-3.5 rounded-2xl border border-line bg-surface-2 px-6 py-6"
+        >
           <span className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-caption text-coral">
             Technik
           </span>
           <Text tone="muted">{techNote}</Text>
-        </div>
+        </Reveal>
       </Container>
 
       <CtaSection />

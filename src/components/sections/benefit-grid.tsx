@@ -1,12 +1,15 @@
 import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
+import { Reveal } from "@/components/ui/reveal";
 import type { Benefit } from "@/content/home";
 
 export function BenefitGrid({ items }: { items: Benefit[] }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((benefit, index) => (
-        <div
+        <Reveal
           key={benefit.title}
+          variant="rise-soft"
+          index={index}
           className="rounded-2xl border border-line bg-surface p-6 shadow-card"
         >
           <span className="mb-4 flex size-9.5 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--coral)_14%,transparent)] text-coral">
@@ -16,7 +19,7 @@ export function BenefitGrid({ items }: { items: Benefit[] }) {
             {benefit.title}
           </h3>
           <p className="text-[0.96rem] text-ink-soft">{benefit.text}</p>
-        </div>
+        </Reveal>
       ))}
     </div>
   );

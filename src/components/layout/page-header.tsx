@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,8 @@ export function PageHeader({
   children,
 }: PageHeaderProps) {
   const centered = align === "center";
+  // Sequential stagger index across whichever elements are present.
+  let step = 0;
 
   return (
     <Container
@@ -34,35 +37,45 @@ export function PageHeader({
       )}
     >
       {eyebrow ? (
-        centered ? (
-          <div className="flex justify-center">
-            <Eyebrow>{eyebrow}</Eyebrow>
-          </div>
-        ) : (
+        <Reveal
+          trigger="mount"
+          variant="rise-soft"
+          index={step++}
+          className={cn(centered && "flex justify-center")}
+        >
           <Eyebrow>{eyebrow}</Eyebrow>
-        )
+        </Reveal>
       ) : null}
-      <Heading
-        as="h1"
-        size={size}
-        className={cn(eyebrow && "mt-4", centered && "mx-auto", titleClassName)}
+      <Reveal
+        trigger="mount"
+        variant="rise-soft"
+        index={step++}
+        className={cn(eyebrow && "mt-4")}
       >
-        {title}
-      </Heading>
+        <Heading
+          as="h1"
+          size={size}
+          className={cn(centered && "mx-auto", titleClassName)}
+        >
+          {title}
+        </Heading>
+      </Reveal>
       {lead ? (
-        <Lead className={cn("mt-5 max-w-[34em]", centered && "mx-auto")}>
-          {lead}
-        </Lead>
+        <Reveal trigger="mount" variant="rise-soft" index={step++} className="mt-5">
+          <Lead className={cn("max-w-[34em]", centered && "mx-auto")}>
+            {lead}
+          </Lead>
+        </Reveal>
       ) : null}
       {children ? (
-        <div
-          className={cn(
-            "mt-7 flex flex-wrap gap-3.5",
-            centered && "justify-center",
-          )}
+        <Reveal
+          trigger="mount"
+          variant="rise-soft"
+          index={step++}
+          className={cn("mt-7 flex flex-wrap gap-3.5", centered && "justify-center")}
         >
           {children}
-        </div>
+        </Reveal>
       ) : null}
     </Container>
   );

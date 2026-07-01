@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
 import { subjects } from "@/content/subjects";
 import { ArrowRight } from "lucide-react";
@@ -8,8 +9,10 @@ import { ArrowRight } from "lucide-react";
 export function SubjectCards() {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {subjects.map((subject) => (
-        <SubjectCard subject={subject} key={subject.key} />
+      {subjects.map((subject, i) => (
+        <Reveal key={subject.key} variant="rise-soft" index={i}>
+          <SubjectCard subject={subject} />
+        </Reveal>
       ))}
     </div>
   );
@@ -19,9 +22,8 @@ function SubjectCard({ subject }: { subject: (typeof subjects)[number] }) {
   const Icon = subject.glyph;
   return (
     <Link
-      key={subject.key}
       href={subject.href}
-      className="group flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-card lift [--lift:-0.375rem] hover:border-coral"
+      className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 shadow-card lift [--lift:-0.375rem] hover:border-coral"
     >
       <div className="flex items-center justify-between">
         <span className="flex size-13 items-center justify-center rounded-xl bg-surface-2 font-heading text-[1.4rem] font-bold text-coral">

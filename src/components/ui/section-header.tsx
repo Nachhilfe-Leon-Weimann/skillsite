@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, type HeadingSize, Lead } from "@/components/ui/typography";
 
 type SectionHeaderProps = {
@@ -25,31 +26,33 @@ export function SectionHeader({
   leadClassName,
 }: SectionHeaderProps) {
   const centered = align === "center";
+  // Sequential stagger index across whichever elements are present.
+  let step = 0;
 
   return (
     <div className={cn(centered && "text-center", className)}>
       {eyebrow ? (
-        centered ? (
-          <div className="flex justify-center">
-            <Eyebrow>{eyebrow}</Eyebrow>
-          </div>
-        ) : (
-          <Eyebrow>{eyebrow}</Eyebrow>
-        )
-      ) : null}
-      <Heading size={size} className={cn(eyebrow && "mt-4", titleClassName)}>
-        {title}
-      </Heading>
-      {lead ? (
-        <Lead
-          className={cn(
-            "mt-4 max-w-[34em]",
-            centered && "mx-auto",
-            leadClassName,
-          )}
+        <Reveal
+          variant="rise-soft"
+          index={step++}
+          className={cn(centered && "flex justify-center")}
         >
-          {lead}
-        </Lead>
+          <Eyebrow>{eyebrow}</Eyebrow>
+        </Reveal>
+      ) : null}
+      <Reveal variant="rise-soft" index={step++} className={cn(eyebrow && "mt-4")}>
+        <Heading size={size} className={titleClassName}>
+          {title}
+        </Heading>
+      </Reveal>
+      {lead ? (
+        <Reveal variant="rise-soft" index={step++} className="mt-4">
+          <Lead
+            className={cn("max-w-[34em]", centered && "mx-auto", leadClassName)}
+          >
+            {lead}
+          </Lead>
+        </Reveal>
       ) : null}
     </div>
   );

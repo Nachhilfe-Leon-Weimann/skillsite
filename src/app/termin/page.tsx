@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/layout/page-header";
+import { Reveal } from "@/components/ui/reveal";
 import { Text } from "@/components/ui/typography";
 import { Booker } from "@/components/booking/booker";
 import { CtaSection } from "@/components/sections/cta-section";
@@ -30,15 +31,17 @@ export default function BookingPage() {
           title="Nachhilfestunde buchen"
           subtitle="Such dir einen freien Slot – wöchentlich oder nach Bedarf."
         />
-        <Text tone="muted" className="mt-6">
-          Noch keine Schülerin / kein Schüler?{" "}
-          <Link
-            href={routes.firstMeeting}
-            className="font-semibold text-coral underline underline-offset-[3px]"
-          >
-            Starte mit dem kostenlosen Erstgespräch →
-          </Link>
-        </Text>
+        <Reveal variant="fade" as="p" className="mt-6">
+          <Text as="span" tone="muted">
+            Noch keine Schülerin / kein Schüler?{" "}
+            <Link
+              href={routes.firstMeeting}
+              className="font-semibold text-coral underline underline-offset-[3px]"
+            >
+              Starte mit dem kostenlosen Erstgespräch →
+            </Link>
+          </Text>
+        </Reveal>
       </Container>
 
       <CtaSection />

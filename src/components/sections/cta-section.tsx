@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { LinkButton } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, Text } from "@/components/ui/typography";
 import { primaryCta, trustLine } from "@/content/site";
 import { ArrowRight } from "lucide-react";
@@ -22,7 +23,10 @@ export function CtaSection({
 }: CtaSectionProps) {
   return (
     <Container className="py-section">
-      <div className="relative overflow-hidden rounded-3xl bg-coral-gradient p-[clamp(2.5rem,6vw,4.5rem)] text-center text-white shadow-[0_30px_60px_-30px_var(--coral)]">
+      <Reveal
+        variant="rise-soft"
+        className="relative overflow-hidden rounded-3xl bg-coral-gradient p-[clamp(2.5rem,6vw,4.5rem)] text-center text-white shadow-[0_30px_60px_-30px_var(--coral)]"
+      >
         <span className="text-eyebrow uppercase text-white/90">{eyebrow}</span>
         <Heading size="h2" className="mx-auto mt-4 max-w-[14em]">
           {title}
@@ -42,7 +46,7 @@ export function CtaSection({
         <Text size="small" tone="inherit" className="mt-4 text-white/85">
           {trust}
         </Text>
-      </div>
+      </Reveal>
     </Container>
   );
 }

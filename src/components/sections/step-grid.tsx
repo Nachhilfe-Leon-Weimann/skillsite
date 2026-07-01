@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/ui/reveal";
 import type { Step } from "@/content/process";
 
 type StepGridProps = {
@@ -11,9 +12,11 @@ type StepGridProps = {
 export function StepGrid({ steps, card = false, className }: StepGridProps) {
   return (
     <div className={cn("grid gap-5 sm:grid-cols-3", className)}>
-      {steps.map((step) => (
-        <div
+      {steps.map((step, i) => (
+        <Reveal
           key={step.n}
+          variant="rise-soft"
+          index={i}
           className={cn(
             card && "rounded-2xl border border-line bg-surface p-6 shadow-card",
           )}
@@ -29,7 +32,7 @@ export function StepGrid({ steps, card = false, className }: StepGridProps) {
           <p className={cn("text-ink-soft", step.title ? "mt-2" : "mt-3")}>
             {step.text}
           </p>
-        </div>
+        </Reveal>
       ))}
     </div>
   );

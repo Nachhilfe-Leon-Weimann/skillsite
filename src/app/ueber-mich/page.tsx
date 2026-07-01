@@ -138,9 +138,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Reveal variant="rise-soft">
-        <CtaSection />
-      </Reveal>
+      <CtaSection />
     </>
   );
 }

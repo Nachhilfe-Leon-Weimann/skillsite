@@ -6,6 +6,7 @@ import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
 import { Tag } from "@/components/ui/tag";
 import { LinkButton } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 import { Heading, Text } from "@/components/ui/typography";
 import { SubjectCards } from "@/components/sections/subject-cards";
 import { FaqSection } from "@/components/sections/faq-section";
@@ -49,7 +50,7 @@ export default function SubjectsPage() {
             surface={index % 2 === 1}
           >
             <div className="grid items-start gap-[clamp(1.75rem,4vw,3.5rem)] lg:grid-cols-[0.9fr_1.1fr]">
-              <div>
+              <Reveal variant="rise-soft">
                 <div className="flex items-center gap-3.5">
                   <span className="flex size-13 items-center justify-center rounded-xl bg-surface-2 font-heading text-[1.4rem] font-bold text-coral">
                     <Icon className="size-6" />
@@ -70,12 +71,14 @@ export default function SubjectsPage() {
                   Erstgespräch zu {subject.name}{" "}
                   <ArrowRight className="size-4" />
                 </LinkButton>
-              </div>
+              </Reveal>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {subject.topics.map((topic) => (
-                  <div
+                {subject.topics.map((topic, i) => (
+                  <Reveal
                     key={topic.title}
+                    variant="rise-soft"
+                    index={i}
                     className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card"
                   >
                     <div className="relative aspect-video border-b border-line">
@@ -95,7 +98,7 @@ export default function SubjectsPage() {
                         {topic.description}
                       </Text>
                     </div>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
