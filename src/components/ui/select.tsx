@@ -93,6 +93,11 @@ export function Select<T extends string | number>({
 
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  // The active/selected option keeps a persistent background only while the
+  // pointer is NOT over the list. Once the mouse is inside, the background comes
+  // purely from :hover (so it shows only on the row under the cursor); when the
+  // pointer leaves again, the active row gets its background back.
+  const [hovering, setHovering] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -107,6 +112,7 @@ export function Select<T extends string | number>({
   const openMenu = () => {
     if (disabled) return;
     setActiveIndex(selectedIndex);
+    setHovering(false);
     setOpen(true);
   };
 
@@ -228,6 +234,8 @@ export function Select<T extends string | number>({
         aria-label={label}
         aria-activedescendant={open ? `${listId}-${activeIndex}` : undefined}
         inert={!open}
+        onPointerEnter={() => setHovering(true)}
+        onPointerLeave={() => setHovering(false)}
         onKeyDown={(event) => {
           switch (event.key) {
             case "ArrowDown":
@@ -282,7 +290,7 @@ export function Select<T extends string | number>({
               className={cn(
                 "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-small font-medium transition-colors duration-0",
                 t.option,
-                index === activeIndex && t.optionActive,
+                !hovering && index === activeIndex && t.optionActive,
                 isSelected && t.optionSelected,
               )}
             >
