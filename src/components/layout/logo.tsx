@@ -38,7 +38,7 @@ export function Logo({
           </span>
           <span
             className={cn(
-              "text-[0.71rem] tracking-[0.03em]",
+              "whitespace-nowrap text-[0.71rem] tracking-[0.03em]",
               onDark ? "text-on-navy-soft" : "text-ink-soft",
             )}
           >

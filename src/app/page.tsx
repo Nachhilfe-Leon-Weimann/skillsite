@@ -68,7 +68,7 @@ export default function HomePage() {
             >
               <Lead className="max-w-[30em]">
                 Hi, ich bin Leon. Ich erkläre dir den Stoff so lange, bis er
-                wirklich Sinn ergibt - persönlich, online und ohne Vertrag.
+                wirklich Sinn ergibt – persönlich, online und ohne Vertrag.
                 Verstehen statt auswendig lernen.
               </Lead>
             </Reveal>
@@ -143,7 +143,7 @@ export default function HomePage() {
       <Section>
         <SectionHeader
           eyebrow="Drei Fächer, ein Anspruch"
-          title="Mathe, Informatik und Physik - verstanden, nicht auswendig gelernt."
+          title="Mathe, Informatik und Physik – verstanden, nicht auswendig gelernt."
           titleClassName="max-w-[16em]"
         />
         <div className="mt-9">

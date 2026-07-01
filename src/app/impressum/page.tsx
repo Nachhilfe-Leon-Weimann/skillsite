@@ -10,6 +10,7 @@ import { FileText } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/impressum" },
   title: "Impressum",
   description:
     "Anbieterkennzeichnung und rechtliche Angaben zu Nachhilfe Leon Weimann.",

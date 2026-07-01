@@ -3,12 +3,12 @@ import type { Step } from "@/content/process";
 export const lessonPrice = {
   amount: "30 €",
   unit: "/ 60 Min.",
-  note: "Einheitlich für Mathe, Informatik und Physik - jede Klassenstufe.",
+  note: "Einheitlich für Mathe, Informatik und Physik – jede Klassenstufe.",
 };
 
 export const priceIncludes: string[] = [
   "Keine Anmeldegebühr, keine versteckten Kosten",
-  "Keine Mindestlaufzeit - flexibel planbar",
+  "Keine Mindestlaufzeit – flexibel planbar",
   "Bis 24 h vorher kostenfrei absagen",
   "Materialien & Notizen inklusive",
   "Förderung über Bildung & Teilhabe möglich",
@@ -22,12 +22,12 @@ export const fairConditions: Condition[] = [
     text: "kostenfrei absagen oder verschieben.",
   },
   { text: "Bei kurzfristigen Notfällen finden wir eine faire Lösung." },
-  { text: "Flexibel planbar, keine Mindestlaufzeit - Blöcke nach Bedarf." },
+  { text: "Flexibel planbar, keine Mindestlaufzeit – Blöcke nach Bedarf." },
 ];
 
 export const paymentOptions: Condition[] = [
-  { strong: "Überweisung", text: "- Rechnung mit GiroCode." },
-  { strong: "PayPal", text: "- einfacher Zahlungslink." },
+  { strong: "Überweisung", text: "– Rechnung mit GiroCode." },
+  { strong: "PayPal", text: "– einfacher Zahlungslink." },
   { text: "Abrechnung einzeln nach dem Termin oder gebündelt als Block." },
 ];
 
@@ -53,7 +53,7 @@ export const but = {
     {
       n: "3",
       title: "",
-      text: "Unterricht startet - Abrechnung übernehme ich direkt.",
+      text: "Unterricht startet – Abrechnung übernehme ich direkt.",
     },
   ] satisfies Step[],
 };

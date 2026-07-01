@@ -16,9 +16,10 @@ import { routes } from "@/lib/routes";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/kontakt" },
   title: "Kontakt",
   description:
-    "Schreib mir einfach - per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
+    "Schreib mir einfach – per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
 };
 
 const sideCardClass =
@@ -49,7 +50,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       <PageHeader
         eyebrow="Kontakt"
         title="Schreib mir einfach."
-        lead="Eine kurze Nachricht reicht - meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
+        lead="Eine kurze Nachricht reicht – meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
       />
 
       <Container className="py-section-sm">
@@ -62,7 +63,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               className="flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] lift [--lift:-0.25rem]"
             >
               <span className="text-eyebrow uppercase text-white/90">
-                Am liebsten - WhatsApp
+                Am liebsten – WhatsApp
               </span>
               <Heading size="h3" className="mt-2.5 mb-1.5">
                 Schreib mir auf WhatsApp.
@@ -136,7 +137,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           </Heading>
           <Text tone="muted">
             Such dir einen freien Termin aus. Im kostenlosen, telefonischen
-            Erstgespräch klären wir Situation, Fach und Ziel - ganz
+            Erstgespräch klären wir Situation, Fach und Ziel – ganz
             unverbindlich, Eltern herzlich willkommen.
           </Text>
         </Reveal>

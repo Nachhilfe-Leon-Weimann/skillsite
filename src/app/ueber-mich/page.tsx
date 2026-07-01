@@ -21,9 +21,10 @@ import { routes } from "@/lib/routes";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/ueber-mich" },
   title: "Über mich",
   description:
-    "Hi, ich bin Leon. Ich gebe Nachhilfe in Mathe, Informatik und Physik - individuell statt nach Schema, auf Augenhöhe und ohne Druck.",
+    "Hi, ich bin Leon. Ich gebe Nachhilfe in Mathe, Informatik und Physik – individuell statt nach Schema, auf Augenhöhe und ohne Druck.",
 };
 
 export default function AboutPage() {
@@ -89,7 +90,6 @@ export default function AboutPage() {
       <Container className="pb-section-sm">
         <Reveal
           variant="rise-soft"
-          blur
           className="mx-auto max-w-220 rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.75rem)] shadow-card"
         >
           <p className="font-heading text-[clamp(1.3rem,2.6vw,1.9rem)] font-medium leading-[1.35] text-white">
@@ -108,7 +108,6 @@ export default function AboutPage() {
               key={principle.n}
               variant="rise-soft"
               index={i}
-              step={100}
               className="rounded-2xl border border-line bg-surface p-6 shadow-card"
             >
               <span className="font-heading text-[2rem] font-extrabold leading-none text-coral">

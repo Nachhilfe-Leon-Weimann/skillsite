@@ -15,14 +15,19 @@ export function Testimonials() {
 
   return (
     <div className="mx-auto max-w-220 px-6 py-section text-center">
-      <Eyebrow>Was andere sagen</Eyebrow>
+      <Eyebrow>
+        {testimonialsAreExamples ? "Beispielstimmen" : "Was andere sagen"}
+      </Eyebrow>
 
-      <blockquote className="mt-6 font-heading text-[clamp(1.5rem,3vw,2.15rem)] font-medium leading-[1.28] tracking-[-0.015em] text-ink">
-        „{current.quote}“
-      </blockquote>
+      {/* Keyed so each change replays the fade — a soft crossfade between voices. */}
+      <div key={active} className="motion-safe:animate-fade">
+        <blockquote className="mt-6 font-heading text-[clamp(1.5rem,3vw,2.15rem)] font-medium leading-[1.28] tracking-[-0.015em] text-ink">
+          „{current.quote}“
+        </blockquote>
 
-      <div className="mt-6 font-semibold text-ink">{current.name}</div>
-      <div className="text-[0.92rem] text-ink-soft">{current.detail}</div>
+        <div className="mt-6 font-semibold text-ink">{current.name}</div>
+        <div className="text-[0.92rem] text-ink-soft">{current.detail}</div>
+      </div>
 
       <div className="mt-7 flex items-center justify-center gap-3.5">
         <button
@@ -60,8 +65,8 @@ export function Testimonials() {
 
       {testimonialsAreExamples ? (
         <p className="mt-6 text-[0.82rem] text-ink-soft">
-          Beispielstimmen, die das typische Feedback widerspiegeln - echte,
-          freigegebene Referenzen folgen.
+          Diese Stimmen illustrieren typisches Feedback – echte, freigegebene
+          Referenzen folgen.
         </p>
       ) : null}
     </div>

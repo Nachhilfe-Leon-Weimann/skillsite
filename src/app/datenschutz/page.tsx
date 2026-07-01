@@ -27,6 +27,7 @@ import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/datenschutz" },
   title: "Datenschutz",
   description:
     "Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website und im Rahmen der Nachhilfetätigkeit.",
@@ -162,8 +163,8 @@ export default function DatenschutzPage() {
           <P variant="doc">
             Diese Website setzt keine Cookies zu Werbe- oder Analysezwecken ein
             und bindet keine einwilligungspflichtigen Inhalte Dritter ein.
-            Lediglich technisch notwendige Einstellungen - etwa Ihre gewählte
-            Darstellung (helles oder dunkles Design) - werden lokal in Ihrem
+            Lediglich technisch notwendige Einstellungen – etwa Ihre gewählte
+            Darstellung (helles oder dunkles Design) – werden lokal in Ihrem
             Browser gespeichert, damit sie bei Ihrem nächsten Besuch erhalten
             bleiben. Diese Speicherung erfordert keine Einwilligung.
           </P>

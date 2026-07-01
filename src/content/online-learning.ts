@@ -4,7 +4,7 @@ export const discordSetup: SetupStep[] = [
   {
     n: "1",
     title: "Discord holen",
-    text: "Kostenlos auf Handy oder Computer - oder direkt im Browser, ganz ohne Installation.",
+    text: "Kostenlos auf Handy oder Computer – oder direkt im Browser, ganz ohne Installation.",
   },
   {
     n: "2",
@@ -14,12 +14,12 @@ export const discordSetup: SetupStep[] = [
   {
     n: "3",
     title: "Mikro & Headset testen",
-    text: "Kurzer Soundcheck zu Beginn - ich helfe dir beim Einrichten.",
+    text: "Kurzer Soundcheck zu Beginn – ich helfe dir beim Einrichten.",
   },
   {
     n: "4",
     title: "Bildschirm teilen",
-    text: "So sehen wir beide dieselbe Aufgabe - wie am selben Tisch, nur ohne Anfahrt.",
+    text: "So sehen wir beide dieselbe Aufgabe – wie am selben Tisch, nur ohne Anfahrt.",
   },
 ];
 
@@ -28,7 +28,7 @@ export type Feature = { title: string; text: string };
 export const discordFeatures: Feature[] = [
   {
     title: "Unterrichtsräume",
-    text: "Eigene Sprachkanäle pro Fach - wir treffen uns einfach im richtigen Raum.",
+    text: "Eigene Sprachkanäle pro Fach – wir treffen uns einfach im richtigen Raum.",
   },
   {
     title: "Materialien-Kanal",
@@ -36,7 +36,7 @@ export const discordFeatures: Feature[] = [
   },
   {
     title: "Fragen zwischendurch",
-    text: "Kurze Frage vor der Klausur? Schreib mir - Antwort meist am selben Tag.",
+    text: "Kurze Frage vor der Klausur? Schreib mir – Antwort meist am selben Tag.",
   },
   {
     title: "Ankündigungen",
@@ -55,9 +55,9 @@ export const platforms: Platform[] = [
   {
     name: "MS Teams",
     tag: "Auf Wunsch",
-    text: "Du nutzt über die Schule lieber Teams? Läuft genauso - sag einfach im Erstgespräch Bescheid.",
+    text: "Du nutzt über die Schule lieber Teams? Läuft genauso – sag einfach im Erstgespräch Bescheid.",
   },
 ];
 
 export const techNote =
-  "Computer oder Laptop · stabiles Internet · Headset empfohlen. Beides ist kostenlos - die Einrichtung machen wir gemeinsam.";
+  "Computer oder Laptop - stabiles Internet - Headset empfohlen. Beides ist kostenlos – die Einrichtung machen wir gemeinsam.";

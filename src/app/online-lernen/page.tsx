@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
 import { LinkButton } from "@/components/ui/button";
 import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
@@ -18,24 +18,26 @@ import {
 } from "@/content/online-learning";
 import { primaryCta } from "@/content/site";
 import { routes } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/online-lernen" },
   title: "Online lernen",
   description:
-    "Nachhilfe über Discord oder MS Teams - live mit geteiltem Bildschirm, schnell eingerichtet, Materialien dauerhaft abrufbar.",
+    "Nachhilfe über Discord oder MS Teams – live mit geteiltem Bildschirm, schnell eingerichtet, Materialien dauerhaft abrufbar.",
 };
 
 export default function OnlineLearningPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Plattform · Unser Klassenzimmer"
-        title="Nachhilfe auf Discord - schnell eingerichtet."
+        eyebrow="Plattform - Unser Klassenzimmer"
+        title="Nachhilfe auf Discord – schnell eingerichtet."
         titleClassName="max-w-[14em]"
-        lead="Discord ist mein Standard-Klassenzimmer: kostenlos, stabil und praktisch. Du nutzt lieber MS Teams? Auch das geht - einfach Bescheid sagen."
+        lead="Discord ist mein Standard-Klassenzimmer: kostenlos, stabil und praktisch. Du nutzt lieber MS Teams? Auch das geht – einfach Bescheid sagen."
       >
         <LinkButton href={primaryCta.href} variant="primary" size="lg">
-          {primaryCta.label} →
+          {primaryCta.label} <ArrowRight className="size-4" />
         </LinkButton>
         <LinkButton href={routes.process} variant="outline" size="lg">
           Zum Ablauf
@@ -71,14 +73,13 @@ export default function OnlineLearningPage() {
       </Container>
 
       <Section surface>
-        <Reveal variant="rise-soft">
-          <Eyebrow>Server-Funktionen</Eyebrow>
-        </Reveal>
-        <Reveal variant="rise-soft" className="mt-4 mb-9 max-w-[16em]">
-          <Heading size="h3">
-            Alles an einem Ort - auch zwischen den Stunden.
-          </Heading>
-        </Reveal>
+        <SectionHeader
+          eyebrow="Server-Funktionen"
+          title="Alles an einem Ort – auch zwischen den Stunden."
+          size="h3"
+          titleClassName="max-w-[16em]"
+          className="mb-9"
+        />
         <div className="grid gap-5 md:grid-cols-2">
           {discordFeatures.map((feature, index) => (
             <Reveal

@@ -37,6 +37,7 @@ export function ChipsField({
         className="flex flex-wrap gap-2"
         role={field.multiple ? "group" : "radiogroup"}
         aria-label={field.label}
+        aria-required={field.required || undefined}
       >
         {field.options?.map((option) => {
           const active = selected.includes(option.value);

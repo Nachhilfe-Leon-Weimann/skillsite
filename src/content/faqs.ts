@@ -4,7 +4,7 @@ export const subjectsFaq: Faq[] = [
   {
     question: "Welche Fächer unterrichtest du?",
     answer:
-      "Mathematik, Informatik und Physik - von der Mittelstufe bis zum Abitur. Bei Bedarf auch Prüfungsvorbereitung und ausgewählte Grundlagen aus dem Studium.",
+      "Mathematik, Informatik und Physik – von der Mittelstufe bis zum Abitur. Bei Bedarf auch Prüfungsvorbereitung und ausgewählte Grundlagen aus dem Studium.",
   },
   {
     question: "Für welches Niveau ist das geeignet?",
@@ -26,12 +26,12 @@ export const processFaq: Faq[] = [
   {
     question: "Läuft der Unterricht wirklich komplett online?",
     answer:
-      "Ja - live über Discord oder MS Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
+      "Ja – live über Discord oder MS Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
   },
   {
     question: "Welche Technik brauche ich?",
     answer:
-      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos - bei der Einrichtung helfe ich.",
+      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos – bei der Einrichtung helfe ich.",
   },
   {
     question: "Wie oft sollten wir uns sehen?",
@@ -46,7 +46,7 @@ export const processFaq: Faq[] = [
   {
     question: "Können Eltern beim Erstgespräch dabei sein?",
     answer:
-      "Sehr gerne. Viele Erstgespräche führen wir gemeinsam - so haben alle das gleiche Bild.",
+      "Sehr gerne. Viele Erstgespräche führen wir gemeinsam – so haben alle das gleiche Bild.",
   },
 ];
 

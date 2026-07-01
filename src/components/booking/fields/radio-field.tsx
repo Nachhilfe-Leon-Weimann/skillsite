@@ -19,6 +19,7 @@ export function RadioField({
       <div
         role="radiogroup"
         aria-label={field.label}
+        aria-required={field.required || undefined}
         className="grid gap-2 sm:grid-cols-2"
       >
         {field.options?.map((option) => {

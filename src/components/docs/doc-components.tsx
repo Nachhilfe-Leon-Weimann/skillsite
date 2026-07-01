@@ -2,6 +2,7 @@ import { ExternalLink, type LucideIcon, Scale } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 import { H1, H2, H3, InlineLink, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 
@@ -49,37 +50,39 @@ export function DocHero({
 }: DocHeroProps) {
   return (
     <Card className="p-6 sm:p-8">
-      <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface-2 px-3 py-1 text-sm text-ink-soft">
-        <Icon className="size-4" aria-hidden="true" />
-        {badge}
-      </div>
-      <H1 variant="doc" className="mt-5">
-        {title}
-      </H1>
-      <Lead className="mt-4 max-w-3xl">{lead}</Lead>
-      {facts?.length ? (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {facts.map((fact) => {
-            const FactIcon = fact.icon;
-            return (
-              <div
-                key={fact.label}
-                className="flex items-center gap-3 rounded-xl border border-line bg-bg p-3"
-              >
-                <span className="grid size-9 shrink-0 place-items-center rounded-md bg-surface-2 text-ink-soft">
-                  <FactIcon className="size-4" aria-hidden="true" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs text-ink-soft">{fact.label}</p>
-                  <p className="truncate text-sm font-medium text-ink">
-                    {fact.children}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+      <Reveal trigger="mount" variant="rise-soft">
+        <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface-2 px-3 py-1 text-sm text-ink-soft">
+          <Icon className="size-4" aria-hidden="true" />
+          {badge}
         </div>
-      ) : null}
+        <H1 variant="doc" className="mt-5">
+          {title}
+        </H1>
+        <Lead className="mt-4 max-w-3xl">{lead}</Lead>
+        {facts?.length ? (
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {facts.map((fact) => {
+              const FactIcon = fact.icon;
+              return (
+                <div
+                  key={fact.label}
+                  className="flex items-center gap-3 rounded-xl border border-line bg-bg p-3"
+                >
+                  <span className="grid size-9 shrink-0 place-items-center rounded-md bg-surface-2 text-ink-soft">
+                    <FactIcon className="size-4" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-xs text-ink-soft">{fact.label}</p>
+                    <p className="truncate text-sm font-medium text-ink">
+                      {fact.children}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+      </Reveal>
     </Card>
   );
 }

@@ -23,6 +23,7 @@ import { routes } from "@/lib/routes";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/preise" },
   title: "Preise",
   description:
     "Klare Preise ohne Überraschungen: 30 € pro 60 Minuten für alle Fächer und Klassenstufen. Förderung über Bildung & Teilhabe möglich.",
@@ -42,16 +43,16 @@ export default function PricingPage() {
         <div className="mx-auto max-w-230">
           <div className="grid overflow-hidden rounded-3xl border border-line shadow-card md:grid-cols-2">
             <div className="flex flex-col justify-center bg-navy p-[clamp(2rem,4vw,2.75rem)] text-white">
-              <Reveal variant="rise-soft" delay={0}>
+              <Reveal trigger="mount" variant="rise-soft" delay={0}>
                 <span className="font-semibold tracking-[0.04em] text-accent-blue">
                   Festpreis für alle Fächer
                 </span>
               </Reveal>
               <Reveal
+                trigger="mount"
                 variant="settle"
-                blur
                 delay={160}
-                className="my-2.5 flex items-baseline gap-2 [--reveal-scale:1.06]"
+                className="my-2.5 flex items-baseline gap-2"
               >
                 <span className="font-heading text-[clamp(3.6rem,8vw,5.2rem)] font-extrabold leading-none">
                   {lessonPrice.amount}
@@ -60,12 +61,12 @@ export default function PricingPage() {
                   {lessonPrice.unit}
                 </Text>
               </Reveal>
-              <Reveal variant="rise-soft" delay={360}>
+              <Reveal trigger="mount" variant="rise-soft" delay={360}>
                 <Text tone="on-navy-soft" className="mb-6">
                   {lessonPrice.note}
                 </Text>
               </Reveal>
-              <Reveal variant="rise-soft" delay={480}>
+              <Reveal trigger="mount" variant="rise-soft" delay={480}>
                 <LinkButton
                   href={routes.firstMeeting}
                   variant="primary"
@@ -76,20 +77,22 @@ export default function PricingPage() {
               </Reveal>
             </div>
             <div className="flex flex-col justify-center gap-3.5 bg-surface p-[clamp(2rem,4vw,2.75rem)]">
-              {priceIncludes.map((item, index) => (
-                <Reveal
-                  key={item}
-                  variant="rise-soft"
-                  index={index}
-                  className="flex items-start gap-3"
-                >
-                  <AnimatedCheckMark
-                    index={index}
-                    className="mt-0.5 size-5 shrink-0 text-coral"
-                  />
-                  <Text as="span">{item}</Text>
-                </Reveal>
-              ))}
+              <Reveal
+                trigger="mount"
+                variant="rise-soft"
+                delay={220}
+                className="flex flex-col gap-3.5"
+              >
+                {priceIncludes.map((item, index) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <AnimatedCheckMark
+                      index={index}
+                      className="mt-0.5 size-5 shrink-0 text-coral"
+                    />
+                    <Text as="span">{item}</Text>
+                  </div>
+                ))}
+              </Reveal>
             </div>
           </div>
         </div>
@@ -139,7 +142,7 @@ export default function PricingPage() {
           <Reveal variant="rise-soft">
             <Eyebrow>Bildung &amp; Teilhabe</Eyebrow>
             <Heading size="h3" className="mt-4 mb-2.5 max-w-[18em]">
-              Nachhilfe kann gefördert werden - ganz normaler Unterricht.
+              Nachhilfe kann gefördert werden – ganz normaler Unterricht.
             </Heading>
             <Text tone="muted" className="max-w-[38em]">
               {but.intro}

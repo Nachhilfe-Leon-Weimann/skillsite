@@ -2,7 +2,7 @@ import { routes } from "@/lib/routes";
 
 export const brand = {
   name: "Nachhilfe Leon Weimann",
-  tagline: "Deine Ziele – Unser Weg!",
+  tagline: "Verstehen statt auswendig lernen.",
   logo: "/logo-icon.png",
   owner: "Leon Weimann",
 };

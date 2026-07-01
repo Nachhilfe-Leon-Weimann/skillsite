@@ -1,0 +1,47 @@
+"use client";
+
+import { useEffect } from "react";
+
+import { Container } from "@/components/layout/container";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { Button, LinkButton } from "@/components/ui/button";
+import { Heading, Text } from "@/components/ui/typography";
+import { routes } from "@/lib/routes";
+
+/**
+ * Route-level error boundary. Mirrors not-found.tsx so an uncaught render error
+ * (e.g. in the client-side Booker) degrades to a calm, on-brand page with a
+ * retry instead of Next's bare default.
+ */
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
+  return (
+    <Container className="flex min-h-[60vh] flex-col items-center justify-center py-section text-center">
+      <Eyebrow>Ein Fehler ist aufgetreten</Eyebrow>
+      <Heading as="h1" size="h1" className="mt-4">
+        Da ist etwas schiefgelaufen.
+      </Heading>
+      <Text size="lead" tone="muted" className="mt-4 max-w-[34em]">
+        Bitte versuch es noch einmal. Wenn es weiterhin klemmt, schreib mir
+        einfach direkt – wir kriegen das hin.
+      </Text>
+      <div className="mt-8 flex flex-wrap justify-center gap-3.5">
+        <Button variant="primary" size="lg" onClick={reset}>
+          Nochmal versuchen
+        </Button>
+        <LinkButton href={routes.contact} variant="outline" size="lg">
+          Kontakt aufnehmen
+        </LinkButton>
+      </div>
+    </Container>
+  );
+}

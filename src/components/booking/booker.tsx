@@ -280,7 +280,7 @@ export function Booker({
   const daySlots =
     availability?.days.find((day) => day.date === selectedDate)?.slots ?? [];
   const summary = selectedSlot
-    ? `${dateLabel(selectedSlot.date)} - ${selectedSlot.time} Uhr`
+    ? `${dateLabel(selectedSlot.date)} – ${selectedSlot.time} Uhr`
     : null;
 
   const durationLabel = config.durations
@@ -522,7 +522,7 @@ function UnavailableNotice({
       title="Online-Terminwahl gerade nicht verfügbar"
     >
       <Text tone="muted" className="mb-5">
-        Schreib mir einfach direkt - wir finden zusammen einen passenden Termin.
+        Schreib mir einfach direkt – wir finden zusammen einen passenden Termin.
       </Text>
       <LinkButton href={routes.contact} variant="primary">
         Direkt anfragen
@@ -747,7 +747,7 @@ function ResultStep({
         title="Anfrage wird gesendet …"
       >
         <Text tone="muted" aria-live="polite">
-          Einen Moment - ich bestätige deinen Termin.
+          Einen Moment – ich bestätige deinen Termin.
         </Text>
       </CenteredState>
     );
@@ -779,7 +779,7 @@ function ResultStep({
         <Text tone="muted" className="mb-6">
           {event === "kennenlernen"
             ? "Ich melde mich telefonisch zum Termin und bestätige vorab kurz per Mail."
-            : "Du bekommst die Terminbestätigung mit allen Infos per Mail - inklusive Zugang zum Online-Raum."}
+            : "Du bekommst die Terminbestätigung mit allen Infos per Mail – inklusive Zugang zum Online-Raum."}
         </Text>
         <Button variant="outline" onClick={onChooseAnother}>
           {event === "kennenlernen" ? (

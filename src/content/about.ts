@@ -10,7 +10,7 @@ export const aboutStats: Stat[] = [
 ];
 
 export const aboutQuote =
-  "Keine dummen Fragen - nur unverständliche Erklärungen. Und die gehen auf mich.";
+  "Keine dummen Fragen – nur unverständliche Erklärungen. Und die gehen auf mich.";
 
 export type Principle = { n: string; title: string; text: string };
 
@@ -23,7 +23,7 @@ export const principles: Principle[] = [
   {
     n: "2",
     title: "Dein Tempo, dein Weg",
-    text: "Kein starres Programm - Wir start dort, wo du wirklich stehst.",
+    text: "Kein starres Programm – wir starten dort, wo du wirklich stehst.",
   },
   {
     n: "3",
@@ -35,5 +35,5 @@ export const principles: Principle[] = [
 export const software = {
   eyebrow: "Praxis statt Lehrbuch",
   title: "Ich baue selbst Software.",
-  text: "Diese Website samt Buchungssystem habe ich von Design bis Code selbst entwickelt. In der Informatik-Nachhilfe heißt das: echte Beispiele statt trockener Theorie - Code verstehen, nicht kopieren.",
+  text: "Diese Website samt Buchungssystem habe ich von Design bis Code selbst entwickelt. In der Informatik-Nachhilfe heißt das: echte Beispiele statt trockener Theorie – Code verstehen, nicht kopieren.",
 };

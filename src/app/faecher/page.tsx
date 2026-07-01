@@ -17,6 +17,7 @@ import { routes } from "@/lib/routes";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/faecher" },
   title: "Fächer",
   description: "Mathematik, Informatik und Physik aus einer Hand.",
 };
@@ -26,7 +27,7 @@ export default function SubjectsPage() {
     <>
       <PageHeader
         eyebrow="Fächer"
-        title="Mathe, Informatik und Physik - aus einer Hand."
+        title="Mathe, Informatik und Physik – aus einer Hand."
         titleClassName="max-w-[14em]"
         lead={
           <>

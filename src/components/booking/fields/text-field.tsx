@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Field, Input, Textarea } from "@/components/ui/field";
 import type { FieldDef } from "@/lib/booking/fields";
 
@@ -15,12 +17,21 @@ export function TextField({
   value: string;
   onChange: (value: string) => void;
 }) {
+  // Only flag "invalid" after the user leaves an empty required field, so
+  // nothing is marked wrong on first render.
+  const [touched, setTouched] = useState(false);
+  const invalid = touched && Boolean(field.required) && value.trim() === "";
+
   const shared = {
     id: field.key,
     value,
     placeholder: field.placeholder,
     autoComplete: field.autoComplete,
     maxLength: field.maxLength,
+    required: field.required,
+    "aria-required": field.required || undefined,
+    "aria-invalid": invalid || undefined,
+    onBlur: () => setTouched(true),
     onChange: (
       event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => onChange(event.target.value),

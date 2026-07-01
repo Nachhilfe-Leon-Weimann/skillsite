@@ -29,7 +29,7 @@ export const subjects: Subject[] = [
     name: "Mathematik",
     glyph: SigmaIcon,
     tag: "Sehr gefragt",
-    claim: "Mathe logisch erklärt - nicht nur auswendig lernen.",
+    claim: "Mathe logisch erklärt – nicht nur auswendig lernen.",
     description:
       "Von den Grundlagen bis zur Analysis: Wir bauen Sicherheit auf, statt Formeln zu pauken. Wer das Prinzip versteht, löst auch die unbekannte Aufgabe.",
     anchorId: "mathematik",
@@ -38,14 +38,14 @@ export const subjects: Subject[] = [
       {
         title: "Grundlagen festigen",
         description:
-          "Bruchrechnung, Terme und Gleichungen werden sauber und ohne Lücken aufgebaut.",
+          "Bruchrechnung, Terme und Gleichungen: die Basis sitzt sauber, bevor es weitergeht.",
         image: "/subjects/maths-foundations.jpg",
         alt: "Abstrakte Mathematik-Illustration mit Formen, Symbolen und Grundlagenmotiven",
       },
       {
         title: "Funktionen verstehen",
         description:
-          "Lineare, quadratische und andere Funktionen werden grafisch und rechnerisch greifbar.",
+          "Lineare und quadratische Funktionen: erst am Graphen sehen, dann rechnerisch nachvollziehen.",
         image: "/subjects/maths-functions.jpg",
         alt: "Illustration einer Funktionskurve in einer abstrahierten Lernszene",
       },
@@ -69,16 +69,16 @@ export const subjects: Subject[] = [
     key: "computer_science",
     name: "Informatik",
     glyph: BracesIcon,
-    claim: "Code verstehen statt kopieren - das Warum hinter dem Wie.",
+    claim: "Code verstehen statt kopieren – das Warum hinter dem Wie.",
     description:
-      "Ich baue selbst Software - das fließt direkt in die Stunde ein. Echte Beispiele statt trockener Theorie: Code verstehen, nicht kopieren.",
+      "Ich baue selbst Software – das fließt direkt in die Stunde ein. Echte Beispiele statt trockener Theorie: Code verstehen, nicht kopieren.",
     anchorId: "informatik",
     href: routes.computerScience,
     topics: [
       {
         title: "Programmieren mit Struktur",
         description:
-          "Variablen, Bedingungen und Schleifen werden mit klaren Denkmodellen verständlich.",
+          "Variablen, Bedingungen und Schleifen: klare Denkmodelle statt Syntax-Raten.",
         image: "/subjects/cs-programming.jpg",
         alt: "Abstrakte Informatik-Illustration mit modularen Code- und Logikbausteinen",
       },
@@ -105,7 +105,7 @@ export const subjects: Subject[] = [
       {
         title: "Mechanik verstehen",
         description:
-          "Kräfte, Bewegung und Energie werden vom Alltag ausgehend systematisch erklärt.",
+          "Kräfte, Bewegung und Energie – vom Alltag ausgehen, bis die Rechnung sitzt.",
         image: "/subjects/physics-mechanics.jpg",
         alt: "Physik-Illustration mit Hebeln, Pendel und Bewegungsbahnen",
       },

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { SectionHeader } from "@/components/ui/section-header";
 import { LinkButton } from "@/components/ui/button";
 import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
 import { Reveal } from "@/components/ui/reveal";
@@ -18,6 +18,7 @@ import { routes } from "@/lib/routes";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/ablauf" },
   title: "Ablauf",
   description:
     "So läuft die Nachhilfe ab: kostenloses Erstgespräch, erste Stunde, dein Rhythmus. Unterricht online über Discord oder MS Teams.",
@@ -45,12 +46,12 @@ export default function ProcessPage() {
       <Section surface>
         <div className="grid items-center gap-[clamp(1.75rem,4vw,3.5rem)] lg:grid-cols-2">
           <div>
-            <Reveal variant="rise-soft">
-              <Eyebrow>Eine Stunde - 60 Minuten</Eyebrow>
-            </Reveal>
-            <Reveal variant="rise-soft" className="mt-4 mb-6">
-              <Heading size="h3">So ist eine Stunde aufgebaut.</Heading>
-            </Reveal>
+            <SectionHeader
+              eyebrow="Eine Stunde – 60 Minuten"
+              title="So ist eine Stunde aufgebaut."
+              size="h3"
+              className="mb-6"
+            />
             <LessonTimeline steps={lessonFlow} />
           </div>
 
@@ -112,7 +113,7 @@ export default function ProcessPage() {
         </Reveal>
         <Reveal variant="rise-soft" index={1}>
           <Text tone="muted" className="mx-auto mt-3 mb-7 max-w-[32em]">
-            Freie Slots direkt im Kalender wählen - wöchentlich, vor Klausuren
+            Freie Slots direkt im Kalender wählen – wöchentlich, vor Klausuren
             intensiver oder nach Bedarf. Bis 24&nbsp;h vorher kostenfrei
             absagen.
           </Text>
