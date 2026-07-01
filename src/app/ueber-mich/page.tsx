@@ -8,7 +8,7 @@ import { Heading, Lead, Text } from "@/components/ui/typography";
 import { Reveal } from "@/components/ui/reveal";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { ProfilePhoto } from "@/components/sections/profile-photo";
-import { CodeMockup } from "@/components/sections/code-mockup";
+import { CodeTypewriter } from "@/components/sections/code-typewriter";
 import { CtaSection } from "@/components/sections/cta-section";
 import {
   aboutIntro,
@@ -134,7 +134,7 @@ export default function AboutPage() {
               </Text>
             </Reveal>
           </div>
-          <CodeMockup />
+          <CodeTypewriter />
         </div>
       </Section>
 

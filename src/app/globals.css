@@ -173,7 +173,6 @@
   --reveal-travel-soft: 15px; /* rise-soft travel (warmer than rise)  */
   --reveal-scale-soft: 0.985; /* rise-soft depth                      */
   --reveal-blur: 4px; /* opt-in blur-to-sharp, small surfaces only    */
-  --code-stagger: 90ms; /* code-line typing cadence                   */
 
   /* Make every bare transition-* utility speak the brand language for free. */
   --default-transition-duration: 180ms;
@@ -447,44 +446,29 @@
   }
 }
 
-/* Code mock-up: lines type in one after another once [data-shown] is set, then
-   a caret blinks after the last line. Same no-JS / reduced-motion fallbacks. */
-.code-line {
-  opacity: 0;
-  transform: translateY(6px);
-  transition:
-    opacity var(--transition-duration-base) var(--ease-flow),
-    transform var(--transition-duration-base) var(--ease-flow);
-  transition-delay: calc(var(--reveal-index, 0) * var(--code-stagger));
-}
-[data-shown] .code-line {
-  opacity: 1;
-  transform: none;
-}
-.code-cursor {
-  opacity: 0;
-}
-[data-shown] .code-cursor {
+/* Code typewriter caret. Solid while typing (no attribute), blinks when idle,
+   and on finish blinks a few times then fades out - never an eternal blink.
+   The typewriter itself falls back to the fully-typed code with no caret when
+   JS is off or motion is reduced (the component renders the final state). */
+.ts-caret[data-idle] {
   animation: blink 1s steps(1) infinite;
-  animation-delay: calc(var(--code-line-count, 6) * var(--code-stagger));
 }
-@media (scripting: none) {
-  .code-line {
-    opacity: 1;
-    transform: none;
-  }
-  .code-cursor {
-    opacity: 1;
-  }
+.ts-caret[data-done] {
+  animation: caret-out 1.3s forwards;
 }
-@media (prefers-reduced-motion: reduce) {
-  .code-line {
+@keyframes caret-out {
+  0%,
+  33%,
+  66% {
     opacity: 1;
-    transform: none;
   }
-  .code-cursor {
-    opacity: 1;
-    animation: none;
+  16%,
+  49%,
+  82% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
