@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { CountUp } from "@/components/ui/count-up";
 
 type StatItem = { value: string; label: string };
 
@@ -6,10 +7,17 @@ type StatGridProps = {
   items: StatItem[];
   size?: "lg" | "sm";
   className?: string;
+  /** Count the numbers up when they scroll into view (opt-in). */
+  animateValue?: boolean;
 };
 
 /** Hairline-separated stat band. Caller sets the column count via className. */
-export function StatGrid({ items, size = "lg", className }: StatGridProps) {
+export function StatGrid({
+  items,
+  size = "lg",
+  className,
+  animateValue,
+}: StatGridProps) {
   const lg = size === "lg";
 
   return (
@@ -20,7 +28,7 @@ export function StatGrid({ items, size = "lg", className }: StatGridProps) {
         className,
       )}
     >
-      {items.map((stat) => (
+      {items.map((stat, i) => (
         <div
           key={stat.label}
           className={cn(
@@ -34,7 +42,11 @@ export function StatGrid({ items, size = "lg", className }: StatGridProps) {
               lg ? "text-[clamp(1.9rem,3.5vw,2.6rem)]" : "text-[1.5rem]",
             )}
           >
-            {stat.value}
+            {animateValue ? (
+              <CountUp value={stat.value} delay={i * 120} />
+            ) : (
+              stat.value
+            )}
           </div>
           <div
             className={cn(

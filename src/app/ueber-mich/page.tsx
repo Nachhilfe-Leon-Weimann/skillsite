@@ -5,8 +5,10 @@ import { Section } from "@/components/layout/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LinkButton } from "@/components/ui/button";
 import { Heading, Lead, Text } from "@/components/ui/typography";
+import { Reveal } from "@/components/ui/reveal";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { ProfilePhoto } from "@/components/sections/profile-photo";
+import { CodeMockup } from "@/components/sections/code-mockup";
 import { CtaSection } from "@/components/sections/cta-section";
 import {
   aboutIntro,
@@ -30,45 +32,79 @@ export default function AboutPage() {
       <Container className="py-[clamp(2.5rem,6vw,4.5rem)]">
         <div className="grid items-center gap-[clamp(2rem,5vw,3.5rem)] lg:grid-cols-2">
           <div>
-            <Eyebrow>Über mich</Eyebrow>
-            <Heading as="h1" size="h1" className="mt-4">
-              Hi, ich bin Leon.
-            </Heading>
-            <Lead className="mt-5 max-w-[30em]">{aboutIntro}</Lead>
-            <LinkButton
-              href={routes.firstMeeting}
-              variant="primary"
-              size="lg"
+            <Reveal trigger="mount" variant="rise-soft" index={0}>
+              <Eyebrow>Über mich</Eyebrow>
+            </Reveal>
+            <Reveal
+              trigger="mount"
+              variant="rise-soft"
+              index={1}
+              className="mt-4"
+            >
+              <Heading as="h1" size="h1">
+                Hi, ich bin Leon.
+              </Heading>
+            </Reveal>
+            <Reveal
+              trigger="mount"
+              variant="rise-soft"
+              index={2}
+              className="mt-5"
+            >
+              <Lead className="max-w-[30em]">{aboutIntro}</Lead>
+            </Reveal>
+            <Reveal
+              trigger="mount"
+              variant="rise-soft"
+              index={3}
               className="mt-7"
             >
-              Finde heraus, ob wir zusammenpassen{" "}
-              <ArrowRight className="size-4" />
-            </LinkButton>
+              <LinkButton href={routes.firstMeeting} variant="primary" size="lg">
+                Finde heraus, ob wir zusammenpassen{" "}
+                <ArrowRight className="size-4" />
+              </LinkButton>
+            </Reveal>
           </div>
 
           <div className="flex flex-col gap-4">
-            <ProfilePhoto aspect="5/4" />
-            <StatGrid items={aboutStats} size="sm" className="grid-cols-3" />
+            <Reveal trigger="mount" variant="settle" delay={200}>
+              <ProfilePhoto aspect="5/4" />
+            </Reveal>
+            <Reveal trigger="mount" variant="rise-soft" delay={350}>
+              <StatGrid
+                items={aboutStats}
+                size="sm"
+                className="grid-cols-3"
+                animateValue
+              />
+            </Reveal>
           </div>
         </div>
       </Container>
 
       <Container className="pb-section-sm">
-        <div className="mx-auto max-w-220 rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.75rem)] shadow-card">
+        <Reveal
+          variant="rise-soft"
+          blur
+          className="mx-auto max-w-220 rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.75rem)] shadow-card"
+        >
           <p className="font-heading text-[clamp(1.3rem,2.6vw,1.9rem)] font-medium leading-[1.35] text-white">
             „{aboutQuote}“
           </p>
-        </div>
+        </Reveal>
       </Container>
 
       <Container className="py-section-sm">
-        <Heading size="h3" className="mb-8">
-          Woran ich mich halte
-        </Heading>
+        <Reveal variant="rise-soft" className="mb-8">
+          <Heading size="h3">Woran ich mich halte</Heading>
+        </Reveal>
         <div className="grid gap-5 sm:grid-cols-3">
-          {principles.map((principle) => (
-            <div
+          {principles.map((principle, i) => (
+            <Reveal
               key={principle.n}
+              variant="rise-soft"
+              index={i}
+              step={100}
               className="rounded-2xl border border-line bg-surface p-6 shadow-card"
             >
               <span className="font-heading text-[2rem] font-extrabold leading-none text-coral">
@@ -78,7 +114,7 @@ export default function AboutPage() {
                 {principle.title}
               </Heading>
               <Text tone="muted">{principle.text}</Text>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Container>
@@ -86,38 +122,25 @@ export default function AboutPage() {
       <Section surface>
         <div className="grid items-center gap-[clamp(1.75rem,4vw,3.5rem)] lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <Eyebrow>{software.eyebrow}</Eyebrow>
-            <Heading size="h3" className="mt-4 mb-4">
-              {software.title}
-            </Heading>
-            <Text size="lead" tone="muted">
-              {software.text}
-            </Text>
+            <Reveal variant="rise-soft" index={0}>
+              <Eyebrow>{software.eyebrow}</Eyebrow>
+            </Reveal>
+            <Reveal variant="rise-soft" index={1} className="mt-4">
+              <Heading size="h3">{software.title}</Heading>
+            </Reveal>
+            <Reveal variant="rise-soft" index={2} className="mt-4">
+              <Text size="lead" tone="muted">
+                {software.text}
+              </Text>
+            </Reveal>
           </div>
-          <div className="rounded-2xl bg-navy p-6 font-mono text-[0.86rem] leading-[1.7] text-on-navy shadow-card">
-            <div className="text-on-navy-muted">{"// das Prinzip zuerst"}</div>
-            <div>
-              <span className="text-coral-light">function</span>{" "}
-              <span className="text-accent-blue">verstehen</span>
-              {"(stoff) {"}
-            </div>
-            <div className="ml-4">
-              <span className="text-coral-light">if</span>
-              {" (stoff.klickt) "}
-              <span className="text-coral-light">return</span>{" "}
-              <span className="text-[#8FD49B]">{"'kann ich selbst'"}</span>;
-            </div>
-            <div className="ml-4">
-              <span className="text-coral-light">return</span>{" "}
-              <span className="text-accent-blue">nochmal</span>
-              {"(stoff, anderswie);"}
-            </div>
-            <div>{"}"}</div>
-          </div>
+          <CodeMockup />
         </div>
       </Section>
 
-      <CtaSection />
+      <Reveal variant="rise-soft">
+        <CtaSection />
+      </Reveal>
     </>
   );
 }

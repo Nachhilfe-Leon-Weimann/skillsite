@@ -154,6 +154,8 @@
   --transition-duration-quick: 160ms; /* press, chevrons, colour hovers   */
   --transition-duration-base: 260ms; /* reveals, step changes, accordion */
   --transition-duration-slow: 420ms; /* large surfaces / height morph    */
+  --transition-duration-flow: 520ms; /* rise-soft: warmer, longer reveal */
+  --transition-duration-settle: 600ms; /* photo depth-settle             */
 
   --animate-rise: rise var(--transition-duration-base) var(--ease-flow) both;
   --animate-fade: fade var(--transition-duration-quick) var(--ease-flow) both;
@@ -161,9 +163,17 @@
     var(--ease-flow) both;
   --animate-draw: draw var(--transition-duration-slow) var(--ease-flow) 150ms
     both;
+  --animate-rise-soft: rise-soft var(--transition-duration-flow)
+    var(--ease-flow) both;
+  --animate-settle: settle var(--transition-duration-settle) var(--ease-flow)
+    both;
 
   --reveal-travel: 12px; /* lighter than the previous 18px fade-up */
   --reveal-stagger: 70ms;
+  --reveal-travel-soft: 15px; /* rise-soft travel (warmer than rise)  */
+  --reveal-scale-soft: 0.985; /* rise-soft depth                      */
+  --reveal-blur: 4px; /* opt-in blur-to-sharp, small surfaces only    */
+  --code-stagger: 90ms; /* code-line typing cadence                   */
 
   /* Make every bare transition-* utility speak the brand language for free. */
   --default-transition-duration: 180ms;
@@ -260,8 +270,8 @@
    sticky hover; :active gives every consumer a press settle that counters the
    lift (this is the fix for buttons feeling "jumpy" on click). */
 @utility lift {
-  transition-property: transform, box-shadow, border-color, background-color,
-    color, opacity;
+  transition-property:
+    transform, box-shadow, border-color, background-color, color, opacity;
   transition-duration: var(--transition-duration-quick);
   transition-timing-function: var(--ease-flow);
 
@@ -320,6 +330,44 @@
   }
 }
 
+/* Warmer entrance: rise with a touch of depth (scale). Above-the-fold reveals
+   run this as a mount keyframe; below-the-fold uses the .reveal transition. */
+@keyframes rise-soft {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-travel-soft))
+      scale(var(--reveal-scale-soft));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Photo depth-settle: eases down from a slight overscale so the image "lands". */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Terminal-style caret for the code mock-up. */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 /* Self-drawing checkmark. AnimatedCheckMark adds [data-shown] on the <svg> when
    it scrolls into view; the path then strokes in, staggered by --reveal-index.
    Reduced motion: the hook sets [data-shown] immediately and the global
@@ -343,6 +391,100 @@
 @media (prefers-reduced-motion: reduce) {
   .check-draw {
     stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveals. Mirrors the .check-draw model: a hidden rest state that
+   transitions to shown once <Reveal> (useInView) sets [data-shown]. The
+   variant picks the resting transform via [data-reveal]; blur is opt-in via
+   [data-blur] (small surfaces only - never long text or the code block).
+   Stagger reads --reveal-index * --reveal-stagger, or Reveal sets an inline
+   transition-delay directly.
+--------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-travel));
+  transition-property: opacity, transform, filter;
+  transition-duration: var(--reveal-duration, var(--transition-duration-base));
+  transition-timing-function: var(--ease-flow);
+  transition-delay: calc(var(--reveal-index, 0) * var(--reveal-stagger));
+}
+.reveal[data-reveal="rise-soft"] {
+  --reveal-duration: var(--transition-duration-flow);
+  transform: translateY(var(--reveal-travel-soft))
+    scale(var(--reveal-scale-soft));
+}
+.reveal[data-reveal="fade"] {
+  transform: none;
+}
+.reveal[data-reveal="settle"] {
+  --reveal-duration: var(--transition-duration-settle);
+  transform: scale(1.03);
+}
+.reveal[data-blur] {
+  filter: blur(var(--reveal-blur));
+}
+.reveal[data-shown] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+/* Never leave content stuck hidden when it won't animate: no JS, or reduced
+   motion (where the observer may never flip [data-shown] below the fold). */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Code mock-up: lines type in one after another once [data-shown] is set, then
+   a caret blinks after the last line. Same no-JS / reduced-motion fallbacks. */
+.code-line {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--transition-duration-base) var(--ease-flow),
+    transform var(--transition-duration-base) var(--ease-flow);
+  transition-delay: calc(var(--reveal-index, 0) * var(--code-stagger));
+}
+[data-shown] .code-line {
+  opacity: 1;
+  transform: none;
+}
+.code-cursor {
+  opacity: 0;
+}
+[data-shown] .code-cursor {
+  animation: blink 1s steps(1) infinite;
+  animation-delay: calc(var(--code-line-count, 6) * var(--code-stagger));
+}
+@media (scripting: none) {
+  .code-line {
+    opacity: 1;
+    transform: none;
+  }
+  .code-cursor {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-line {
+    opacity: 1;
+    transform: none;
+  }
+  .code-cursor {
+    opacity: 1;
+    animation: none;
   }
 }
 
