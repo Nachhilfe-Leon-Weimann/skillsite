@@ -50,6 +50,39 @@ export const processFaq: Faq[] = [
   },
 ];
 
+export const onlineFaq: Faq[] = [
+  {
+    question: "Ich bin beigetreten, sehe aber keine Kanäle. Ist etwas kaputt?",
+    answer:
+      "Nein, das ist ganz normal. Ich schalte jeden Zugang von Hand frei. Sobald das erledigt ist, tauchen die ‚lounge‘ und dein persönlicher Kanal automatisch auf – spätestens vor deiner ersten Stunde.",
+  },
+  {
+    question: "In der ‚lounge‘ ist niemand und ich kann nicht sprechen.",
+    answer:
+      "Auch das ist gewollt. Die ‚lounge‘ ist nur der Warteraum. Log dich rund 5 Minuten vor dem Termin ein – ich hole dich von dort in unseren privaten Raum.",
+  },
+  {
+    question: "Ich sehe deinen Bildschirm nicht.",
+    answer:
+      "Klick auf ‚Stream anschauen‘, sobald wir im Raum sind. Je nach Gerät steht der Button an einer anderen Stelle. Findest du ihn nicht, frag mich einfach live – ich zeig’s dir sofort.",
+  },
+  {
+    question: "Was brauche ich technisch?",
+    answer:
+      "Computer, Laptop oder Tablet, stabiles Internet – und am besten ein Headset. Eine Kamera brauchst du nicht, und Discord ist komplett kostenlos.",
+  },
+  {
+    question: "Muss ich sonst etwas vorbereiten?",
+    answer:
+      "Nein. Klick dich kurz vorher in die ‚lounge‘ ein und halte deine Aufgaben oder Fragen bereit – um alles andere kümmere ich mich.",
+  },
+  {
+    question: "Ist Discord sicher – auch aus Elternsicht?",
+    answer:
+      "Unser Server ist privat und geschlossen: Er lässt sich nicht öffentlich finden, rein kommt nur, wer den Link hat, und freischalten kann allein ich. Eine Kamera ist nie nötig. Discord selbst ist ein etablierter, kostenloser Dienst – was dabei an Daten verarbeitet wird, findest du in meiner Datenschutzerklärung. Und Eltern schauen jederzeit gern mit.",
+  },
+];
+
 export const pricingFaq: Faq[] = [
   {
     question: "Gibt es versteckte Kosten?",

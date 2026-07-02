@@ -30,7 +30,7 @@ export const platformNav: PlatformNavItem[] = [
   {
     label: "MS Teams",
     note: "Auch über Teams möglich",
-    href: routes.onlineLearning,
+    href: routes.msTeams,
   },
   {
     label: "Termin buchen",

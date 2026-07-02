@@ -22,6 +22,7 @@ export const routes = {
   booking: "/termin",
 
   onlineLearning: "/online-lernen",
+  msTeams: "/online-lernen#ms-teams",
 
   impressum: "/impressum",
   datenschutz: "/datenschutz",

@@ -14,11 +14,17 @@ export type Social = {
   href: string;
 };
 
+/**
+ * The Discord server invite — single source of truth. Reused by the footer
+ * socials list and the join buttons on /online-lernen.
+ */
+export const discordInvite = "https://discord.com/invite/6DuZYhtuf2";
+
 export const socials: Social[] = [
   {
     key: "discord",
     label: "Discord",
-    href: "https://discord.com/invite/6DuZYhtuf2",
+    href: discordInvite,
   },
   {
     key: "whatsapp",

@@ -10,47 +10,66 @@ import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
 import { Reveal } from "@/components/ui/reveal";
 import { Heading, Text } from "@/components/ui/typography";
 import { CtaSection } from "@/components/sections/cta-section";
+import { LessonTimeline } from "@/components/sections/lesson-timeline";
+import { FaqSection } from "@/components/sections/faq-section";
 import {
   discordSetup,
+  lessonSteps,
   discordFeatures,
-  platforms,
+  teamsNote,
   techNote,
 } from "@/content/online-learning";
+import { onlineFaq } from "@/content/faqs";
 import { primaryCta } from "@/content/site";
-import { routes } from "@/lib/routes";
+import { discordInvite } from "@/content/socials";
 import { ArrowRight } from "lucide-react";
+import { SiDiscord } from "@icons-pack/react-simple-icons";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/online-lernen" },
   title: "Online lernen",
   description:
-    "Nachhilfe über Discord oder MS Teams – live mit geteiltem Bildschirm, schnell eingerichtet, Materialien dauerhaft abrufbar.",
+    "Nachhilfe über Discord – kostenlos und ohne Installation. So trittst du bei, wirst freigeschaltet und startest in der ‚lounge‘. Materialien in deinem eigenen Kanal. MS Teams geht auch.",
 };
 
 export default function OnlineLearningPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Plattform - Unser Klassenzimmer"
-        title="Nachhilfe auf Discord – schnell eingerichtet."
-        titleClassName="max-w-[14em]"
-        lead="Discord ist mein Standard-Klassenzimmer: kostenlos, stabil und praktisch. Du nutzt lieber MS Teams? Auch das geht – einfach Bescheid sagen."
+        eyebrow="Discord – unser Klassenzimmer"
+        title="So läuft deine Nachhilfe über Discord."
+        titleClassName="max-w-[15em]"
+        lead="Discord ist mein Klassenzimmer – kostenlos, stabil und in wenigen Minuten eingerichtet. Hier siehst du, wie du beitrittst und wie eine Stunde abläuft. Und wenn du lieber MS Teams nutzt – auch das geht."
       >
         <LinkButton href={primaryCta.href} variant="primary" size="lg">
           {primaryCta.label} <ArrowRight className="size-4" />
         </LinkButton>
-        <LinkButton href={routes.process} variant="outline" size="lg">
-          Zum Ablauf
+        <LinkButton
+          href={discordInvite}
+          variant="outline"
+          size="lg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SiDiscord className="size-4" /> Server beitreten
         </LinkButton>
       </PageHeader>
 
+      {/* Phase 1 — Einmal einrichten */}
       <Container className="py-section-sm">
         <Reveal variant="rise-soft">
-          <Heading size="h3" className="mb-8">
-            In vier Schritten startklar
+          <Heading size="h3" className="mb-1.5">
+            Einmal einrichten – dann bist du dabei.
           </Heading>
         </Reveal>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal variant="rise-soft" index={1}>
+          <Text tone="muted" className="mb-8 max-w-[42em]">
+            Das machst du genau einmal. Danach klickst du dich vor jeder Stunde
+            einfach ein.
+          </Text>
+        </Reveal>
+
+        <div className="grid gap-5 sm:grid-cols-3">
           {discordSetup.map((step, i) => (
             <Reveal
               key={step.n}
@@ -70,12 +89,55 @@ export default function OnlineLearningPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* Beitreten-Band: Server-Link genau dort, wo er gebraucht wird */}
+        <Reveal
+          variant="rise-soft"
+          className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-line bg-surface-2 px-6 py-5"
+        >
+          <Text className="font-medium">
+            Sobald du Discord hast, komm auf den Server – ich schalte dich frei.
+          </Text>
+          <LinkButton
+            href={discordInvite}
+            variant="primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SiDiscord className="size-4" /> Server beitreten
+          </LinkButton>
+        </Reveal>
+        <Reveal variant="rise-soft">
+          <Text size="small" tone="muted" className="mt-3">
+            Das Erstgespräch führen wir ganz entspannt per Telefon. Discord
+            brauchst du erst für die Nachhilfestunden.
+          </Text>
+        </Reveal>
       </Container>
 
+      {/* Phase 2 — So läuft deine Stunde */}
       <Section surface>
+        <div className="grid items-start gap-[clamp(1.75rem,4vw,3.5rem)] lg:grid-cols-[0.9fr_1.1fr]">
+          <SectionHeader
+            eyebrow="In vier Schritten"
+            title="So läuft deine Stunde."
+            lead="Sobald ich dich freigeschaltet habe, siehst du den Sprachkanal ‚lounge‘ und deinen persönlichen Textkanal ‚vorname-nachname‘. Zur Stunde brauchst du nur die ‚lounge‘ – der Rest passiert von selbst."
+            size="h3"
+          />
+          <Reveal
+            variant="rise-soft"
+            className="rounded-2xl border border-line bg-bg p-[clamp(1.5rem,4vw,2.25rem)]"
+          >
+            <LessonTimeline steps={lessonSteps} />
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* Server-Funktionen */}
+      <Container className="py-section-sm">
         <SectionHeader
           eyebrow="Server-Funktionen"
-          title="Alles an einem Ort – auch zwischen den Stunden."
+          title="Dein Kanal – auch zwischen den Stunden."
           size="h3"
           titleClassName="max-w-[16em]"
           className="mb-9"
@@ -86,7 +148,7 @@ export default function OnlineLearningPage() {
               key={feature.title}
               variant="rise-soft"
               index={index}
-              className="flex items-start gap-4 rounded-2xl border border-line bg-bg p-6"
+              className="flex items-start gap-4 rounded-2xl border border-line bg-surface p-6 shadow-card"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--coral)_14%,transparent)] text-coral">
                 <AnimatedCheckMark index={index} className="size-5" />
@@ -102,37 +164,37 @@ export default function OnlineLearningPage() {
             </Reveal>
           ))}
         </div>
+      </Container>
+
+      {/* MS Teams + Technik */}
+      <Section surface id="ms-teams">
+        <div className="grid gap-5">
+          <Reveal
+            variant="rise-soft"
+            className="rounded-2xl border border-line bg-bg p-7"
+          >
+            <div className="mb-3.5 flex items-center justify-between gap-4">
+              <Heading as="h3" size="h4">
+                {teamsNote.name}
+              </Heading>
+              <Tag>{teamsNote.tag}</Tag>
+            </div>
+            <Text tone="muted">{teamsNote.text}</Text>
+          </Reveal>
+          <Reveal
+            variant="rise-soft"
+            index={1}
+            className="flex flex-wrap items-center gap-3.5 rounded-2xl border border-line bg-bg px-6 py-6"
+          >
+            <span className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-caption text-coral">
+              Technik
+            </span>
+            <Text tone="muted">{techNote}</Text>
+          </Reveal>
+        </div>
       </Section>
 
-      <Container className="py-section-sm">
-        <div className="grid gap-5 md:grid-cols-2">
-          {platforms.map((platform, i) => (
-            <Reveal
-              key={platform.name}
-              variant="rise-soft"
-              index={i}
-              className="rounded-2xl border border-line bg-surface p-7 shadow-card"
-            >
-              <div className="mb-3.5 flex items-center justify-between">
-                <Heading as="h3" size="h4">
-                  {platform.name}
-                </Heading>
-                <Tag>{platform.tag}</Tag>
-              </div>
-              <Text tone="muted">{platform.text}</Text>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal
-          variant="rise-soft"
-          className="mt-6 flex flex-wrap items-center gap-3.5 rounded-2xl border border-line bg-surface-2 px-6 py-6"
-        >
-          <span className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-caption text-coral">
-            Technik
-          </span>
-          <Text tone="muted">{techNote}</Text>
-        </Reveal>
-      </Container>
+      <FaqSection id="faq" title="Gut zu wissen" items={onlineFaq} />
 
       <CtaSection />
     </>
