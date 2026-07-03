@@ -14,13 +14,25 @@ import {
 import { ContactAddress } from "@/components/shared/contact-address";
 import { InlineLink, P } from "@/components/ui/typography";
 import {
+  analyticsDomain,
+  dataRecipientCategories,
+  dpaSentence,
   externalPlatformPrivacyLinks,
+  hostingProviders,
+  lawfulBasisContract,
   logFileItems,
   logFilePurposes,
-  ownAppProviders,
   privacyContact,
   privacyPolicyEffectiveDate,
+  privacySectionHeading,
+  privacySectionNumber,
   privacySections,
+  retentionItems,
+  siteDomain,
+  skillBotDataItems,
+  skillForgeDataItems,
+  supervisoryAuthority,
+  umamiCollectedData,
   userRights,
 } from "@/content/privacy";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
@@ -30,8 +42,32 @@ export const metadata: Metadata = {
   alternates: { canonical: "/datenschutz" },
   title: "Datenschutz",
   description:
-    "Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website und im Rahmen der Nachhilfetätigkeit.",
+    "Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website, im Nachhilfebetrieb sowie in den eigenen Anwendungen SkillForge und SkillBot.",
 };
+
+/** Section with its number and heading pulled from the central registry. */
+function PrivacySection({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <DocSection id={id} title={privacySectionHeading(id)}>
+      {children}
+    </DocSection>
+  );
+}
+
+/** Clickable cross-reference to another section; number from the registry. */
+function SectionRef({ id }: { id: string }) {
+  return (
+    <InlineLink variant="doc" href={`#${id}`}>
+      Abschnitt {privacySectionNumber(id)}
+    </InlineLink>
+  );
+}
 
 export default function DatenschutzPage() {
   const effectiveDate = privacyPolicyEffectiveDate.toLocaleDateString("de-DE", {
@@ -45,7 +81,7 @@ export default function DatenschutzPage() {
         badge="Datenschutz nach DSGVO"
         icon={ShieldCheck}
         title="Datenschutzerklärung"
-        lead="Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website und im Rahmen der Nachhilfetätigkeit."
+        lead="Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website, im Nachhilfebetrieb sowie in den eigenen Anwendungen SkillForge und SkillBot."
         facts={[
           {
             icon: CalendarDays,
@@ -64,7 +100,7 @@ export default function DatenschutzPage() {
         ]}
       />
 
-      <DocSection id="verantwortlicher" title="1. Verantwortlicher">
+      <PrivacySection id="verantwortlicher">
         <P variant="doc">
           Verantwortlich für die Verarbeitung Ihrer personenbezogenen Daten ist:
         </P>
@@ -80,25 +116,60 @@ export default function DatenschutzPage() {
             {privacyContact.phone}
           </InlineLink>
         </P>
-      </DocSection>
-
-      <DocSection
-        id="website"
-        title="2. Datenverarbeitung beim Besuch der Website"
-      >
-        <P variant="doc" className="text-ink-soft">
-          Beim Besuch der Website werden technische Abrufe, Kontaktaufnahmen,
-          Terminbuchungen, externe Links sowie notwendige und optionale
-          Speicherungen getrennt betrachtet.
+        <P variant="doc">
+          Diese Datenschutzerklärung gilt für die Website {siteDomain}, für
+          meinen gesamten Nachhilfebetrieb sowie für die von mir entwickelten
+          und betriebenen Anwendungen SkillForge und SkillBot.
         </P>
+      </PrivacySection>
 
-        <DocSubSection title="a) Server-Logfiles">
+      <PrivacySection id="grundsaetze">
+        <P variant="doc">
+          Ich verarbeite personenbezogene Daten nur, soweit dies für die
+          Bereitstellung der Website, die Durchführung der Nachhilfe oder die
+          Organisation meines Geschäftsbetriebs erforderlich ist. Eine
+          automatisierte Entscheidungsfindung einschließlich Profiling (Art. 22
+          DSGVO) findet nicht statt.
+        </P>
+        <P variant="doc">
+          Bei der Terminbuchung und beim Abschluss eines Nachhilfeverhältnisses
+          sind bestimmte Angaben (z. B. Name und Kontaktdaten) erforderlich –
+          ohne sie kann ich die Leistung nicht erbringen. Alle weiteren Angaben
+          sind freiwillig.
+        </P>
+        <P variant="doc">
+          Die Daten erhalte ich in der Regel direkt von Ihnen. Bei
+          minderjährigen Lernenden erhalte ich die Daten üblicherweise von den
+          Erziehungsberechtigten (siehe <SectionRef id="minderjaehrige" />).
+        </P>
+      </PrivacySection>
+
+      <PrivacySection id="hosting">
+        <DocSubSection title="Hosting-Anbieter">
           <P variant="doc">
-            Beim Aufrufen meiner Website
-            <span className="font-medium"> nachhilfe.leonweimann.de </span>
-            werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser
-            automatisch Informationen an den Server meiner Website gesendet.
-            Diese werden temporär in einem sog. Logfile gespeichert:
+            Meine Website und Anwendungen werden bei den folgenden Anbietern
+            betrieben:
+          </P>
+          {hostingProviders.map((provider) => (
+            <div key={provider.name} className="not-first:mt-5">
+              <P variant="doc" className="font-medium">
+                {provider.name}, {provider.seat}
+              </P>
+              <P variant="doc">
+                {provider.services}. {provider.transferNote}
+              </P>
+              <DocProviderLink href={provider.privacyUrl}>
+                Datenschutzerklärung von {provider.shortName}
+              </DocProviderLink>
+            </div>
+          ))}
+        </DocSubSection>
+
+        <DocSubSection title="Server-Logfiles">
+          <P variant="doc">
+            Beim Aufrufen meiner Website {siteDomain} werden durch Ihren Browser
+            automatisch Informationen an den Server gesendet und dort kurzzeitig
+            in Logfiles gespeichert:
           </P>
           <DocDetailGrid>
             <DocDetailList
@@ -110,10 +181,41 @@ export default function DatenschutzPage() {
               items={logFilePurposes}
             />
           </DocDetailGrid>
-          <DocLegalBasis>Art. 6 Abs. 1 lit. f DSGVO.</DocLegalBasis>
+          <P variant="doc">
+            Die Logfiles werden automatisch rotiert und innerhalb weniger Tage
+            überschrieben; eine Zusammenführung mit anderen Daten findet nicht
+            statt.
+          </P>
+          <DocLegalBasis>
+            Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren
+            und stabilen Bereitstellung der Website).
+          </DocLegalBasis>
         </DocSubSection>
 
-        <DocSubSection title="b) Terminbuchung über Cal.com">
+        <DocSubSection title="Schutz vor Missbrauch (Rate-Limiting)">
+          <P variant="doc">
+            Bei Formular- und Buchungsanfragen verarbeite ich Ihre IP-Adresse
+            für höchstens 24 Stunden ausschließlich im Arbeitsspeicher des
+            Servers, um Missbrauch (z. B. automatisierte Massenanfragen) zu
+            verhindern. Diese Daten werden nicht dauerhaft gespeichert und nicht
+            an Dritte weitergegeben.
+          </P>
+          <DocLegalBasis>
+            Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren
+            und stabilen Betrieb von Website und Anwendungen).
+          </DocLegalBasis>
+        </DocSubSection>
+      </PrivacySection>
+
+      <PrivacySection id="website">
+        <P variant="doc">
+          Beim Besuch der Website beschränkt sich die Datenverarbeitung auf das
+          technisch Erforderliche (<SectionRef id="hosting" />), die pseudonyme
+          Webanalyse (<SectionRef id="webanalyse" />) und die folgenden
+          Vorgänge.
+        </P>
+
+        <DocSubSection title="Terminbuchung über Cal.com">
           <P variant="doc">
             Für Terminbuchungen nutze ich den Dienst Cal.com (Cal.com, Inc.,
             2261 Market Street #4382, San Francisco, CA 94114, USA). Die Anzeige
@@ -124,247 +226,377 @@ export default function DatenschutzPage() {
           </P>
           <P variant="doc">
             Zur Buchung übermittle ich nach Absenden des Formulars die
-            eingegebenen Daten an Cal.com: Name, E-Mail-Adresse, Telefonnummer,
-            gewählter Termin, gebuchte Leistung bzw. Fächer sowie freiwillige
+            eingegebenen Daten an Cal.com: Vor- und Nachname, E-Mail-Adresse,
+            Telefonnummer (nur beim kostenlosen Erstgespräch), gewählter Termin,
+            Unterrichtsfächer, bei Online-Nachhilfe der gewünschte
+            Unterrichtsort (Microsoft Teams oder Discord) sowie freiwillige
             Angaben im Hinweisfeld. Zweck ist das Anlegen, Verwalten und
-            Nachbereiten des Erstgesprächs.
+            Nachbereiten des Termins.
           </P>
           <P variant="doc">
-            Cal.com wird für die Terminverwaltung als Auftragsverarbeiter gemäß
-            Art. 28 DSGVO eingesetzt. Eine Verarbeitung personenbezogener Daten
+            {dpaSentence("Cal.com")} Eine Verarbeitung personenbezogener Daten
             in den USA kann stattfinden. Die Drittlandübermittlung erfolgt auf
-            Grundlage geeigneter Transfermechanismen nach Art. 44 ff. DSGVO,
-            insbesondere auf Grundlage des EU-US Data Privacy Frameworks, sofern
-            Cal.com hierfür zertifiziert ist, und ergänzend über
-            EU-Standardvertragsklauseln im Auftragsverarbeitungsvertrag.
+            Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c
+            DSGVO), die Teil dieses Vertrags sind.
           </P>
           <DocProviderLink href="https://cal.com/privacy">
             Datenschutzerklärung von Cal.com
           </DocProviderLink>
           <DocLegalBasis>
-            Art. 6 Abs. 1 lit. b DSGVO, soweit die Buchung der Durchführung
-            vorvertraglicher Maßnahmen oder eines Vertrags dient; ergänzend Art.
-            6 Abs. 1 lit. f DSGVO für die technische Bereitstellung und
-            Organisation der Terminbuchung.
+            {lawfulBasisContract}; ergänzend Art. 6 Abs. 1 lit. f DSGVO
+            (technische Bereitstellung und Organisation der Terminbuchung).
           </DocLegalBasis>
         </DocSubSection>
 
-        <DocSubSection title="c) Verlinkung zu externen Plattformen">
+        <DocSubSection title="Cookies und lokale Speicherung">
           <P variant="doc">
-            Meine Website enthält Links zu externen Diensten (Discord, WhatsApp,
-            Instagram, YouTube, TikTok, GitHub). Erst beim Anklicken werden
-            Daten an den jeweiligen Anbieter übertragen. Bitte beachten Sie die
-            Datenschutzbestimmungen dieser Plattformen:
-          </P>
-          <DocLinkList links={externalPlatformPrivacyLinks} />
-        </DocSubSection>
-
-        <DocSubSection title="d) Cookies und lokale Speicherung">
-          <P variant="doc">
-            Diese Website setzt keine Cookies zu Werbe- oder Analysezwecken ein
-            und bindet keine einwilligungspflichtigen Inhalte Dritter ein.
-            Lediglich technisch notwendige Einstellungen – etwa Ihre gewählte
-            Darstellung (helles oder dunkles Design) – werden lokal in Ihrem
-            Browser gespeichert, damit sie bei Ihrem nächsten Besuch erhalten
-            bleiben. Diese Speicherung erfordert keine Einwilligung.
+            Diese Website setzt keine Cookies ein und bindet keine
+            einwilligungspflichtigen Inhalte Dritter ein. Lediglich technisch
+            notwendige Einstellungen – etwa Ihre gewählte Darstellung (helles
+            oder dunkles Design) – werden lokal in Ihrem Browser gespeichert,
+            damit sie bei Ihrem nächsten Besuch erhalten bleiben. Diese
+            Speicherung erfordert keine Einwilligung.
           </P>
           <P variant="doc">
-            Die Terminbuchung über Cal.com wird serverseitig abgewickelt und
-            setzt keine Cookies in Ihrem Browser (siehe Abschnitt b).
+            Schriftarten und Bilder liegen auf meinem eigenen Server; Ihr
+            Browser baut beim Besuch der Website keine Verbindung zu Servern
+            Dritter auf (auch nicht zu Google Fonts).
           </P>
           <DocLegalBasis>
             § 25 Abs. 2 TDDDG sowie Art. 6 Abs. 1 lit. f DSGVO für technisch
             notwendige Speicherungen.
           </DocLegalBasis>
         </DocSubSection>
-      </DocSection>
 
-      <DocSection
-        id="nachhilfe"
-        title="3. Datenverarbeitung im Rahmen der Nachhilfetätigkeit"
-      >
+        <DocSubSection title="Verlinkung zu externen Plattformen">
+          <P variant="doc">
+            Meine Website enthält Links zu externen Diensten (Discord, WhatsApp,
+            Instagram, YouTube, TikTok, GitHub). Erst beim Anklicken werden Daten
+            an den jeweiligen Anbieter übertragen. Bitte beachten Sie die
+            Datenschutzbestimmungen dieser Plattformen:
+          </P>
+          <DocLinkList links={externalPlatformPrivacyLinks} />
+        </DocSubSection>
+      </PrivacySection>
+
+      <PrivacySection id="webanalyse">
+        <P variant="doc">
+          Ich nutze die Webanalyse-Software Umami, um die Nutzung meiner Website
+          statistisch auszuwerten und mein Angebot zu verbessern. Umami betreibe
+          ich selbst auf meinem eigenen Server ({analyticsDomain}, Hostinger-VPS
+          in Frankfurt am Main); es werden keine Daten an einen externen
+          Analysedienst übertragen. Erfasst werden:
+        </P>
+        <DocList items={umamiCollectedData} />
+        <P variant="doc">
+          Die Daten werden ausschließlich pseudonymisiert und aggregiert
+          gespeichert. Zur Unterscheidung von Besuchern dient eine Kennung, die
+          als Hash aus technischen Merkmalen gebildet wird und deren Bestandteile
+          monatlich wechseln – eine Wiedererkennung über Monatsgrenzen hinweg
+          oder eine Rückrechnung auf Ihre IP-Adresse ist nicht möglich. Ein
+          seitenübergreifendes Tracking findet nicht statt.
+        </P>
+        <P variant="doc">
+          Umami setzt keine Cookies und speichert oder liest keine Informationen
+          auf Ihrem Endgerät; eine Einwilligung nach § 25 TDDDG ist daher nicht
+          erforderlich.
+        </P>
+        <DocLegalBasis>
+          Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+          Reichweitenmessung und Verbesserung meines Angebots). Sie können dieser
+          Verarbeitung jederzeit widersprechen (siehe{" "}
+          <SectionRef id="widerspruch" />).
+        </DocLegalBasis>
+      </PrivacySection>
+
+      <PrivacySection id="nachhilfe">
+        <P variant="doc">
+          Im Rahmen der Nachhilfe verarbeite ich Vertrags- und Stammdaten (Name
+          und Kontaktdaten der Lernenden sowie der Erziehungsberechtigten,
+          Fächer, Termine, Abrechnungsdaten). Dafür setze ich die folgenden
+          Dienste ein.
+        </P>
+
         <DocGroup title="Abrechnung und Buchhaltung">
-          <DocSubSection title="a) Zeiterfassung und Abrechnung (Clockodo)">
+          <DocSubSection title="Zeiterfassung und Abrechnung (Clockodo)">
             <P variant="doc">
               Für Zeiterfassung und Abrechnung nutze ich den Dienst Clockodo
-              (Clockodo GmbH, Viktoriastraße 25A, 59425 Unna). Verarbeitet
-              werden Name, Kontaktdaten und Abrechnungsinformationen. Mit
-              Clockodo besteht ein Auftragsverarbeitungsvertrag.
+              (Clockodo GmbH, Viktoriastraße 25A, 59425 Unna). Verarbeitet werden
+              Name, Kontaktdaten und Abrechnungsinformationen.{" "}
+              {dpaSentence("der Clockodo GmbH")}
             </P>
             <DocProviderLink href="https://www.clockodo.com/de/datenschutz/">
               Datenschutzerklärung von Clockodo
             </DocProviderLink>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+            <DocLegalBasis>{lawfulBasisContract}.</DocLegalBasis>
           </DocSubSection>
 
-          <DocSubSection title="b) Buchhaltung (sevDesk)">
+          <DocSubSection title="Buchhaltung (sevDesk)">
             <P variant="doc">
               Zur Abwicklung meiner Buchhaltung nutze ich sevDesk (sevDesk GmbH,
               Hauptstraße 115, 77652 Offenburg). Dabei werden Kundendaten (Name,
-              Adresse, Rechnungsdaten) verarbeitet. Ein
-              Auftragsverarbeitungsvertrag liegt vor.
+              Adresse, Rechnungsdaten) verarbeitet.{" "}
+              {dpaSentence("der sevDesk GmbH")} Rechnungs- und Buchungsdaten
+              unterliegen den gesetzlichen Aufbewahrungsfristen (§ 147 AO, § 257
+              HGB).
             </P>
             <DocProviderLink href="https://sevdesk.de/datenschutz/">
               Datenschutzerklärung von sevDesk
             </DocProviderLink>
             <DocLegalBasis>
-              Art. 6 Abs. 1 lit. c DSGVO und lit. b DSGVO.
+              {lawfulBasisContract}; ergänzend Art. 6 Abs. 1 lit. c DSGVO
+              (gesetzliche Aufbewahrungspflichten).
             </DocLegalBasis>
           </DocSubSection>
         </DocGroup>
 
         <DocGroup title="Kommunikation und Unterricht">
-          <DocSubSection title="c) Kommunikation per Microsoft 365 Business (E-Mail, Teams, Forms)">
+          <DocSubSection title="E-Mail, Teams und Formulare (Microsoft 365)">
             <P variant="doc">
               Für E-Mails, Online-Meetings und Anmeldungen nutze ich Microsoft
               365 (Microsoft Ireland Operations Limited, Dublin, Irland).
             </P>
             <DocList
               items={[
-                "E-Mail/Teams: Kommunikation mit Schülern/Kunden",
+                "E-Mail und Teams: Kommunikation mit Lernenden und Kunden",
                 "Microsoft Forms: Erfassung von Anmeldedaten (z. B. Name, E-Mail-Adresse, Unterrichtsfach)",
               ]}
             />
+            <P variant="doc">
+              {dpaSentence("Microsoft")} Er ist Bestandteil der
+              Microsoft-Produktbedingungen. Soweit eine Übermittlung in die USA
+              stattfindet, ist Microsoft unter dem EU-US Data Privacy Framework
+              zertifiziert.
+            </P>
             <DocProviderLink href="https://privacy.microsoft.com/de-de/privacystatement">
               Datenschutzerklärung von Microsoft
             </DocProviderLink>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+            <DocLegalBasis>{lawfulBasisContract}.</DocLegalBasis>
           </DocSubSection>
 
-          <DocSubSection title="d) Kommunikation über WhatsApp (Business)">
+          <DocSubSection title="Kommunikation (WhatsApp Business)">
             <P variant="doc">
               Ich biete zur Kontaktaufnahme WhatsApp an (WhatsApp Ireland
               Limited, Dublin / Meta Platforms Inc., USA). Dabei werden
-              Telefonnummern und Nachrichteninhalte verarbeitet; auch eine
-              Übertragung in die USA ist möglich. Die Nutzung ist freiwillig.
+              Telefonnummern und Nachrichteninhalte verarbeitet. Soweit dabei
+              eine Übermittlung in die USA stattfindet, stützt sich WhatsApp
+              Ireland auf das EU-US Data Privacy Framework, unter dem die
+              empfangenden Meta-Gesellschaften zertifiziert sind. Die Nutzung ist
+              freiwillig – Sie erreichen mich ebenso per E-Mail oder Telefon.
             </P>
             <DocProviderLink href="https://www.whatsapp.com/legal/privacy-policy-eea">
               Datenschutzerklärung von WhatsApp
             </DocProviderLink>
             <DocLegalBasis>
-              Art. 6 Abs. 1 lit. b DSGVO, soweit die Kommunikation der
-              Vertragsdurchführung oder vorvertraglichen Maßnahmen dient; im
-              Übrigen Art. 6 Abs. 1 lit. f DSGVO.
+              {lawfulBasisContract}; ergänzend Art. 6 Abs. 1 lit. f DSGVO
+              (Kommunikation auf Ihren Wunsch).
             </DocLegalBasis>
           </DocSubSection>
 
-          <DocSubSection title="e) Kommunikation über Kleinanzeigen">
+          <DocSubSection title="Kontaktanfragen (Kleinanzeigen)">
             <P variant="doc">
               Ich nutze die Plattform Kleinanzeigen (Kleinanzeigen GmbH, Berlin)
               für die Kontaktaufnahme. Bei Anfragen werden dort Name,
-              Kontaktdaten und Nachrichteninhalte verarbeitet. Verantwortlich
-              für die Datenverarbeitung ist die Kleinanzeigen GmbH.
+              Kontaktdaten und Nachrichteninhalte verarbeitet. Verantwortlich für
+              die Datenverarbeitung auf der Plattform ist die Kleinanzeigen GmbH.
             </P>
             <DocProviderLink href="https://themen.kleinanzeigen.de/datenschutzerklaerung/">
               Datenschutzerklärung von Kleinanzeigen
             </DocProviderLink>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+            <DocLegalBasis>
+              {lawfulBasisContract}; ergänzend Art. 6 Abs. 1 lit. f DSGVO
+              (Bearbeitung eingehender Kontaktanfragen).
+            </DocLegalBasis>
           </DocSubSection>
 
-          <DocSubSection title="f) Online-Unterricht über Discord">
+          <DocSubSection title="Online-Unterricht (Discord)">
             <P variant="doc">
               Für Online-Nachhilfe nutze ich einen Discord-Server (Discord Inc.,
               San Francisco, USA). Dabei werden Benutzernamen,
-              Kommunikationsinhalte und Nutzungsdaten verarbeitet. Es kann eine
-              Datenübertragung in die USA erfolgen.
+              Kommunikationsinhalte und Nutzungsdaten verarbeitet. Soweit dabei
+              eine Übermittlung in die USA stattfindet, ist Discord unter dem
+              EU-US Data Privacy Framework zertifiziert.
             </P>
             <DocProviderLink href="https://discord.com/privacy">
               Datenschutzerklärung von Discord
             </DocProviderLink>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+            <DocLegalBasis>{lawfulBasisContract}.</DocLegalBasis>
           </DocSubSection>
         </DocGroup>
 
-        <DocGroup title="Software und Zahlung">
-          <DocSubSection title="g) Eigene Anwendungen (SkillBot & SkillForge)">
+        <DocGroup title="Zahlung">
+          <DocSubSection title="Zahlung (PayPal)">
             <P variant="doc">
-              Zur Organisation der Nachhilfe setze ich eigene Softwarelösungen
-              (SkillBot und SkillForge) ein, die personenbezogene Daten (z. B.
-              Name, Kontaktdaten, Unterrichtszeiten, Kommunikationsdaten)
-              verarbeiten.
-            </P>
-            <P variant="doc">
-              Die Daten werden auf Servern folgender Anbieter gespeichert:
-            </P>
-            <DocList items={ownAppProviders} />
-            <P variant="doc">
-              Mit allen Anbietern bestehen Auftragsverarbeitungsverträge gemäß
-              Art. 28 DSGVO.
-            </P>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
-          </DocSubSection>
-
-          <DocSubSection title="h) Zahlungsabwicklung">
-            <P variant="doc">
-              PayPal: Zahlungsdaten werden an PayPal (Europe) S.à r.l. et Cie,
-              Luxemburg, übermittelt.
+              Bei Zahlung per PayPal werden Zahlungsdaten an PayPal (Europe)
+              S.à r.l. et Cie, Luxemburg, übermittelt. PayPal ist dabei
+              eigenständig datenschutzrechtlich verantwortlich.
             </P>
             <DocProviderLink href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full">
               Datenschutzerklärung von PayPal
             </DocProviderLink>
+            <DocLegalBasis>{lawfulBasisContract}.</DocLegalBasis>
+          </DocSubSection>
+
+          <DocSubSection title="Banküberweisung">
             <P variant="doc">
-              Banküberweisung (C24 Bank / Sparkasse): Für Überweisungen werden
-              die angegebenen Zahlungsdaten an das jeweilige Kreditinstitut
-              übermittelt.
+              Bei Zahlung per Banküberweisung werden die angegebenen
+              Zahlungsdaten an das kontoführende Kreditinstitut übermittelt.
             </P>
-            <DocLegalBasis>Art. 6 Abs. 1 lit. b DSGVO.</DocLegalBasis>
+            <DocLegalBasis>{lawfulBasisContract}.</DocLegalBasis>
           </DocSubSection>
         </DocGroup>
-      </DocSection>
+      </PrivacySection>
 
-      <DocSection id="weitergabe" title="4. Weitergabe von Daten">
+      <PrivacySection id="eigene-software">
         <P variant="doc">
-          Eine Übermittlung Ihrer personenbezogenen Daten an Dritte erfolgt nur
-          in den oben beschriebenen Fällen oder wenn eine gesetzliche
-          Verpflichtung besteht.
+          Zur Organisation der Nachhilfe setze ich zwei selbst entwickelte
+          Anwendungen ein.
         </P>
-      </DocSection>
 
-      <DocSection id="speicherdauer" title="5. Speicherdauer">
+        <DocSubSection title="SkillForge">
+          <P variant="doc">
+            SkillForge unterstützt mich bei der Verwaltung von Lernenden,
+            Terminen und Unterricht. Verarbeitet werden insbesondere:
+          </P>
+          <DocList items={skillForgeDataItems} />
+          <P variant="doc">
+            SkillForge läuft auf meinem eigenen virtuellen Server bei Hostinger
+            in Frankfurt am Main (siehe <SectionRef id="hosting" />); die Daten
+            verbleiben innerhalb der EU.
+          </P>
+        </DocSubSection>
+
+        <DocSubSection title="SkillBot (Discord-Bot)">
+          <P variant="doc">
+            SkillBot ist ein Discord-Bot, der auf meinem Discord-Server
+            Funktionen zur Organisation des Unterrichts bereitstellt. Verarbeitet
+            werden insbesondere:
+          </P>
+          <DocList items={skillBotDataItems} />
+          <P variant="doc">
+            SkillBot wird bei Cybrancee (How About Group Ltd, Vereinigtes
+            Königreich) gehostet. Die Übermittlung in das Vereinigte Königreich
+            ist durch den Angemessenheitsbeschluss der EU-Kommission abgesichert
+            (Art. 45 DSGVO); die Regelungen zur Auftragsverarbeitung nach Art. 28
+            DSGVO finden Sie unter <SectionRef id="hosting" />.
+          </P>
+        </DocSubSection>
+
+        <DocLegalBasis>
+          {lawfulBasisContract}; ergänzend Art. 6 Abs. 1 lit. f DSGVO (effiziente
+          Organisation und Sicherheit des Unterrichtsbetriebs).
+        </DocLegalBasis>
+      </PrivacySection>
+
+      <PrivacySection id="minderjaehrige">
+        <P variant="doc">
+          Meine Nachhilfe richtet sich überwiegend an minderjährige Lernende.
+          Vertragspartner sind in diesen Fällen die Erziehungsberechtigten; von
+          ihnen erhalte ich auch die Daten der Lernenden.
+        </P>
+        <P variant="doc">
+          Die Verarbeitung der Daten der Lernenden erfolgt zur Durchführung des
+          mit den Erziehungsberechtigten geschlossenen Vertrags. Ich stütze keine
+          Datenverarbeitung auf die Einwilligung Minderjähriger; Angebote wie der
+          Discord-Server werden nur in Abstimmung mit den Erziehungsberechtigten
+          genutzt.
+        </P>
+        <DocLegalBasis>
+          Art. 6 Abs. 1 lit. b DSGVO (Durchführung des mit den
+          Erziehungsberechtigten geschlossenen Vertrags).
+        </DocLegalBasis>
+      </PrivacySection>
+
+      <PrivacySection id="weitergabe">
+        <P variant="doc">
+          Ihre Daten gebe ich nur in den in dieser Erklärung beschriebenen Fällen
+          weiter, und zwar an folgende Kategorien von Empfängern:
+        </P>
+        <DocList items={dataRecipientCategories} />
+        <P variant="doc">
+          Eine Verarbeitung außerhalb der EU bzw. des EWR findet nur wie oben
+          beschrieben statt: in den USA (Cal.com auf Grundlage der
+          EU-Standardvertragsklauseln; Microsoft, Discord und WhatsApp/Meta auf
+          Grundlage des EU-US Data Privacy Frameworks) sowie im Vereinigten
+          Königreich (Cybrancee auf Grundlage des Angemessenheitsbeschlusses der
+          EU-Kommission nach Art. 45 DSGVO).
+        </P>
+      </PrivacySection>
+
+      <PrivacySection id="speicherdauer">
         <P variant="doc">
           Ich speichere personenbezogene Daten nur so lange, wie es für die
           jeweiligen Zwecke erforderlich ist oder gesetzliche
-          Aufbewahrungspflichten bestehen. Buchungs-, Vertrags- und
-          Abrechnungsdaten werden für die Dauer der Vertragsdurchführung und
-          anschließend im Rahmen gesetzlicher Aufbewahrungspflichten
-          gespeichert. Kontaktanfragen werden gelöscht, sobald sie erledigt sind
-          und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
-          Server-Logfiles werden nur temporär gespeichert, soweit sie für
-          Betrieb, Sicherheit und Fehleranalyse der Website erforderlich sind.
+          Aufbewahrungspflichten bestehen:
         </P>
-      </DocSection>
+        <DocList items={retentionItems} />
+      </PrivacySection>
 
-      <DocSection id="rechte" title="6. Ihre Rechte">
+      <PrivacySection id="rechte">
         <P variant="doc">Sie haben jederzeit das Recht,</P>
         <DocList items={userRights} />
-      </DocSection>
+        <DocSubSection title="Zuständige Aufsichtsbehörde">
+          <P variant="doc">
+            {supervisoryAuthority.name}
+            <br />
+            {supervisoryAuthority.street}
+            <br />
+            {supervisoryAuthority.city}
+            <br />
+            Telefon: {supervisoryAuthority.phone}
+            <br />
+            E-Mail:{" "}
+            <InlineLink
+              variant="doc"
+              href={`mailto:${supervisoryAuthority.email}`}
+            >
+              {supervisoryAuthority.email}
+            </InlineLink>
+          </P>
+          <DocProviderLink href={supervisoryAuthority.url}>
+            Website der Aufsichtsbehörde
+          </DocProviderLink>
+        </DocSubSection>
+      </PrivacySection>
 
-      <DocSection id="widerspruch" title="7. Widerspruchsrecht">
-        <P variant="doc">
-          Sofern Ihre Daten auf Grundlage von berechtigten Interessen (Art. 6
-          Abs. 1 lit. f DSGVO) verarbeitet werden, haben Sie das Recht, dieser
-          Verarbeitung zu widersprechen.
+      <PrivacySection id="widerspruch">
+        <P variant="doc" className="font-medium">
+          Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen
+          Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender
+          personenbezogener Daten zu widersprechen, die auf Grundlage von Art. 6
+          Abs. 1 lit. f DSGVO erfolgt (Art. 21 Abs. 1 DSGVO).
         </P>
-      </DocSection>
-
-      <DocSection id="datensicherheit" title="8. Datensicherheit">
         <P variant="doc">
-          Ich nutze technische und organisatorische Sicherheitsmaßnahmen, um
-          Ihre Daten gegen Verlust, Zerstörung oder unbefugten Zugriff zu
-          schützen.
+          Ich verarbeite die Daten dann nicht mehr, es sei denn, ich kann
+          zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die
+          Ihre Interessen, Rechte und Freiheiten überwiegen, oder die
+          Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von
+          Rechtsansprüchen. Das betrifft insbesondere die Server-Logfiles und die
+          Webanalyse mit Umami. Direktwerbung betreibe ich nicht. Ein formloser
+          Widerspruch an{" "}
+          <InlineLink variant="doc" href={`mailto:${privacyContact.email}`}>
+            {privacyContact.email}
+          </InlineLink>{" "}
+          genügt.
         </P>
-      </DocSection>
+      </PrivacySection>
 
-      <DocSection
-        id="aktualitaet"
-        title="9. Aktualität und Änderung dieser Datenschutzerklärung"
-      >
+      <PrivacySection id="datensicherheit">
+        <P variant="doc">
+          Ich nutze technische und organisatorische Sicherheitsmaßnahmen, um Ihre
+          Daten gegen Verlust, Zerstörung und unbefugten Zugriff zu schützen. Die
+          Übertragung von Daten an diese Website erfolgt ausschließlich
+          TLS-verschlüsselt (HTTPS).
+        </P>
+      </PrivacySection>
+
+      <PrivacySection id="aktualitaet">
         <P variant="doc">
           Diese Datenschutzerklärung ist aktuell gültig und hat den Stand{" "}
-          {effectiveDate}. Änderungen können durch Anpassungen meiner Dienste
-          oder aufgrund geänderter gesetzlicher Vorgaben notwendig werden.
+          {effectiveDate}. Änderungen können durch Anpassungen meiner Dienste oder
+          aufgrund geänderter gesetzlicher Vorgaben notwendig werden.
         </P>
-      </DocSection>
+      </PrivacySection>
     </DocShell>
   );
 }

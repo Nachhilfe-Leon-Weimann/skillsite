@@ -1,37 +1,163 @@
 import { legalContact } from "@/content/legal";
 
-export const privacyPolicyEffectiveDate = new Date("06-28-2026");
+export const privacyPolicyEffectiveDate = new Date("2026-07-03");
 
 export const privacyContact = {
   email: legalContact.email,
   phone: legalContact.phone,
 };
 
+/** Own domains – kept central so they render identically everywhere. */
+export const siteDomain = "nachhilfe.leonweimann.de";
+export const analyticsDomain = "analytics.leonweimann.de";
+
+/**
+ * Section registry: the single source of truth for order, numbering,
+ * navigation label and heading.
+ * - `label`: compact name shown in the on-page navigation
+ * - `title`: full heading without a number (the number comes from the order)
+ */
 export const privacySections = [
-  { id: "verantwortlicher", label: "Verantwortlicher" },
-  { id: "website", label: "Besuch der Website" },
-  { id: "nachhilfe", label: "Nachhilfetätigkeit" },
-  { id: "weitergabe", label: "Weitergabe von Daten" },
-  { id: "speicherdauer", label: "Speicherdauer" },
-  { id: "rechte", label: "Ihre Rechte" },
-  { id: "widerspruch", label: "Widerspruchsrecht" },
-  { id: "datensicherheit", label: "Datensicherheit" },
-  { id: "aktualitaet", label: "Aktualität & Änderung" },
+  {
+    id: "verantwortlicher",
+    label: "Verantwortlicher",
+    title: "Verantwortlicher",
+  },
+  {
+    id: "grundsaetze",
+    label: "Allgemeine Grundsätze",
+    title: "Allgemeine Grundsätze",
+  },
+  {
+    id: "hosting",
+    label: "Hosting und Server-Logfiles",
+    title: "Hosting und Server-Logfiles",
+  },
+  {
+    id: "website",
+    label: "Besuch der Website",
+    title: "Datenverarbeitung beim Besuch der Website",
+  },
+  {
+    id: "webanalyse",
+    label: "Webanalyse mit Umami",
+    title: "Webanalyse mit Umami",
+  },
+  {
+    id: "nachhilfe",
+    label: "Nachhilfebetrieb",
+    title: "Datenverarbeitung im Nachhilfebetrieb",
+  },
+  {
+    id: "eigene-software",
+    label: "SkillForge und SkillBot",
+    title: "Eigene Software: SkillForge und SkillBot",
+  },
+  {
+    id: "minderjaehrige",
+    label: "Minderjährige",
+    title: "Minderjährige Lernende",
+  },
+  {
+    id: "weitergabe",
+    label: "Weitergabe und Drittland",
+    title: "Weitergabe von Daten und Drittlandübermittlung",
+  },
+  {
+    id: "speicherdauer",
+    label: "Speicherdauer",
+    title: "Speicherdauer",
+  },
+  {
+    id: "rechte",
+    label: "Ihre Rechte und Aufsichtsbehörde",
+    title: "Ihre Rechte und Aufsichtsbehörde",
+  },
+  {
+    id: "widerspruch",
+    label: "Widerspruchsrecht",
+    title: "Widerspruchsrecht (Art. 21 DSGVO)",
+  },
+  {
+    id: "datensicherheit",
+    label: "Datensicherheit",
+    title: "Datensicherheit",
+  },
+  {
+    id: "aktualitaet",
+    label: "Aktualität und Änderung",
+    title: "Aktualität und Änderung dieser Datenschutzerklärung",
+  },
 ];
 
+/** 1-based section number derived from the registry order. */
+export function privacySectionNumber(id: string): number {
+  const index = privacySections.findIndex((section) => section.id === id);
+  return index === -1 ? 0 : index + 1;
+}
+
+/** Full, numbered heading for a section. */
+export function privacySectionHeading(id: string): string {
+  const section = privacySections.find((entry) => entry.id === id);
+  if (!section) return "";
+  return `${privacySectionNumber(id)}. ${section.title}`;
+}
+
+/** Canonical data-processing-agreement sentence – identical everywhere. */
+export function dpaSentence(entity: string): string {
+  return `Mit ${entity} besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.`;
+}
+
+/** Standard lawful basis for contract processing – consistent wording. */
+export const lawfulBasisContract =
+  "Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung und -durchführung)";
+
 export const logFileItems = [
-  "IP-Adresse des anfragenden Rechners",
+  "IP-Adresse des anfragenden Geräts",
   "Datum und Uhrzeit des Zugriffs",
-  "Name und URL der abgerufenen Datei",
-  "Website, von der aus der Zugriff erfolgt (Referrer-URL)",
-  "verwendeter Browser und ggf. Betriebssystem sowie Name des Access-Providers",
+  "aufgerufene URL und HTTP-Methode",
+  "HTTP-Statuscode und übertragene Datenmenge",
+  "Referrer-URL (zuvor besuchte Seite)",
+  "User-Agent (Browser und Betriebssystem)",
 ];
 
 export const logFilePurposes = [
-  "einen reibungslosen Verbindungsaufbau der Website sicherzustellen",
-  "die Nutzung meiner Website komfortabel zu gestalten",
-  "die Systemsicherheit und -stabilität auszuwerten",
-  "zu administrativen Zwecken",
+  "Auslieferung der Website und stabiler Verbindungsaufbau",
+  "Systemsicherheit und Erkennung von Missbrauch",
+  "Fehleranalyse und Sicherstellung des Betriebs",
+  "administrative Zwecke",
+];
+
+export const hostingProviders = [
+  {
+    name: "Hostinger International Ltd.",
+    shortName: "Hostinger",
+    seat: "61 Lordou Vironos Str., 6023 Larnaca, Zypern",
+    services:
+      "Virtueller Server (VPS) für diese Website, SkillForge und die Webanalyse Umami; Serverstandort Frankfurt am Main",
+    transferNote: `Die Verarbeitung findet innerhalb der EU statt. ${dpaSentence(
+      "Hostinger International Ltd.",
+    )}`,
+    privacyUrl: "https://www.hostinger.com/legal/privacy-policy",
+  },
+  {
+    name: "Cybrancee (How About Group Ltd)",
+    shortName: "Cybrancee",
+    seat: "4th Floor, Silverstream House, 45 Fitzroy Street, London W1T 6EB, Vereinigtes Königreich",
+    services: "Hosting des Discord-Bots SkillBot",
+    transferNote: `Die Übermittlung in das Vereinigte Königreich erfolgt auf Grundlage des Angemessenheitsbeschlusses der EU-Kommission (Art. 45 DSGVO). ${dpaSentence(
+      "der How About Group Ltd",
+    )}`,
+    privacyUrl: "https://cybrancee.com/client/privacy-policy.php",
+  },
+];
+
+export const umamiCollectedData = [
+  "aufgerufene Seiten und Zeitpunkt des Aufrufs",
+  "Referrer-URL (Herkunftsseite)",
+  "Browser, Betriebssystem und Gerätetyp",
+  "Bildschirmauflösung und Sprache",
+  "Herkunftsland (aus der IP-Adresse abgeleitet; die IP-Adresse selbst wird nicht gespeichert)",
 ];
 
 export const externalPlatformPrivacyLinks = [
@@ -55,10 +181,33 @@ export const externalPlatformPrivacyLinks = [
   },
 ];
 
-export const ownAppProviders = [
-  "Fly.io, Inc. (Hosting der API)",
-  "Neon.tech, Inc. (PostgreSQL-Datenbank)",
-  "Cybrancee (Hosting SkillBot)",
+export const skillForgeDataItems = [
+  "Stammdaten (Name, Kontaktdaten von Lernenden und Erziehungsberechtigten)",
+  "Unterrichtsfächer, Termine und Unterrichtszeiten",
+  "abrechnungsbezogene Daten",
+];
+
+export const skillBotDataItems = [
+  "Discord-Benutzer-IDs und Benutzernamen",
+  "Server- und Kanal-IDs",
+  "Befehls- und Interaktionsdaten",
+  "Nachrichteninhalte, soweit sie für Bot-Funktionen erforderlich sind",
+  "technische Protokolldaten",
+];
+
+export const dataRecipientCategories = [
+  "Auftragsverarbeiter nach Art. 28 DSGVO: Hosting (Hostinger, Cybrancee), Terminverwaltung (Cal.com), Zeiterfassung und Buchhaltung (Clockodo, sevDesk), Kommunikation (Microsoft)",
+  "eigenständig Verantwortliche: PayPal, Kreditinstitute, Kleinanzeigen sowie die verlinkten Plattformen",
+  "Behörden und öffentliche Stellen, soweit eine gesetzliche Verpflichtung besteht",
+];
+
+export const retentionItems = [
+  "Server-Logfiles: kurzfristig, automatische Rotation innerhalb weniger Tage",
+  "IP-Adressen zur Missbrauchsabwehr bei Formular- und Buchungsanfragen: höchstens 24 Stunden, ausschließlich im Arbeitsspeicher",
+  "Umami-Statistikdaten: pseudonymisiert; eine Wiedererkennung einzelner Besucher über den Monatswechsel hinaus ist ausgeschlossen",
+  "Kontakt- und Buchungsanfragen: bis zur Erledigung, danach Löschung, sofern keine gesetzlichen Aufbewahrungspflichten bestehen",
+  "Vertrags- und Abrechnungsdaten: für die Dauer der Vertragsdurchführung, anschließend im Rahmen der gesetzlichen Aufbewahrungsfristen (§ 147 AO, § 257 HGB)",
+  "Daten in SkillForge und SkillBot: für die Dauer der Zusammenarbeit, danach Löschung, sofern keine gesetzlichen Aufbewahrungspflichten bestehen",
 ];
 
 export const userRights = [
@@ -70,3 +219,12 @@ export const userRights = [
   "erteilte Einwilligungen mit Wirkung für die Zukunft zu widerrufen (Art. 7 Abs. 3 DSGVO)",
   "sich bei einer Aufsichtsbehörde zu beschweren (Art. 77 DSGVO)",
 ];
+
+export const supervisoryAuthority = {
+  name: "Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg",
+  street: "Lautenschlagerstraße 20",
+  city: "70173 Stuttgart",
+  phone: "+49 711 615541-0",
+  email: "poststelle@lfdi.bwl.de",
+  url: "https://www.baden-wuerttemberg.datenschutz.de",
+};
