@@ -9,25 +9,30 @@ import { cn } from "@/lib/utils";
 import { DocSectionNav, type DocNavSection } from "./doc-section-nav";
 
 type DocShellProps = {
+  /** Rendered full-width above the grid so the title always leads the page. */
+  hero: React.ReactNode;
   sections?: DocNavSection[];
   children: React.ReactNode;
 };
 
-export function DocShell({ sections, children }: DocShellProps) {
+export function DocShell({ hero, sections, children }: DocShellProps) {
   return (
     <Container className="py-[clamp(40px,6vw,72px)]">
-      <div
-        className={cn(
-          "mx-auto grid w-full max-w-5xl gap-10",
-          sections && "lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-14",
-        )}
-      >
-        <article className="min-w-0">{children}</article>
-        {sections ? (
-          <aside className="order-first lg:order-last lg:sticky lg:top-24 lg:self-start">
-            <DocSectionNav sections={sections} />
-          </aside>
-        ) : null}
+      <div className="mx-auto w-full max-w-5xl">
+        {hero}
+        <div
+          className={cn(
+            "mt-10 grid gap-10",
+            sections && "lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-14",
+          )}
+        >
+          <article className="min-w-0">{children}</article>
+          {sections ? (
+            <aside className="order-first lg:order-last lg:sticky lg:top-24 lg:self-start">
+              <DocSectionNav sections={sections} />
+            </aside>
+          ) : null}
+        </div>
       </div>
     </Container>
   );

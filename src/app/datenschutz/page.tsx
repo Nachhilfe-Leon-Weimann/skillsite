@@ -76,30 +76,36 @@ export default function DatenschutzPage() {
   });
 
   return (
-    <DocShell sections={privacySections}>
-      <DocHero
-        badge="Datenschutz nach DSGVO"
-        icon={ShieldCheck}
-        title="Datenschutzerklärung"
-        lead="Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website, im Nachhilfebetrieb sowie in den eigenen Anwendungen SkillForge und SkillBot."
-        facts={[
-          {
-            icon: CalendarDays,
-            label: "Stand",
-            children: <>{effectiveDate}</>,
-          },
-          {
-            icon: Mail,
-            label: "Kontakt",
-            children: (
-              <InlineLink variant="doc" href={`mailto:${privacyContact.email}`}>
-                {privacyContact.email}
-              </InlineLink>
-            ),
-          },
-        ]}
-      />
-
+    <DocShell
+      sections={privacySections}
+      hero={
+        <DocHero
+          badge="Datenschutz nach DSGVO"
+          icon={ShieldCheck}
+          title={<>Datenschutz&shy;erklärung</>}
+          lead="Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website, im Nachhilfebetrieb sowie in den eigenen Anwendungen SkillForge und SkillBot."
+          facts={[
+            {
+              icon: CalendarDays,
+              label: "Stand",
+              children: <>{effectiveDate}</>,
+            },
+            {
+              icon: Mail,
+              label: "Kontakt",
+              children: (
+                <InlineLink
+                  variant="doc"
+                  href={`mailto:${privacyContact.email}`}
+                >
+                  {privacyContact.email}
+                </InlineLink>
+              ),
+            },
+          ]}
+        />
+      }
+    >
       <PrivacySection id="verantwortlicher">
         <P variant="doc">
           Verantwortlich für die Verarbeitung Ihrer personenbezogenen Daten ist:

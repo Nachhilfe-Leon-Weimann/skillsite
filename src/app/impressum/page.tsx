@@ -18,14 +18,16 @@ export const metadata: Metadata = {
 
 export default function ImpressumPage() {
   return (
-    <DocShell>
-      <DocHero
-        badge="Anbieterkennzeichnung"
-        icon={FileText}
-        title="Impressum"
-        lead="Rechtliche Angaben und Kontaktinformationen zu Nachhilfe Leon Weimann."
-      />
-
+    <DocShell
+      hero={
+        <DocHero
+          badge="Anbieterkennzeichnung"
+          icon={FileText}
+          title="Impressum"
+          lead="Rechtliche Angaben und Kontaktinformationen zu Nachhilfe Leon Weimann."
+        />
+      }
+    >
       <DocSection id="anbieter" title="Inhalte gemäß §5 DDG">
         <ContactAddress />
       </DocSection>

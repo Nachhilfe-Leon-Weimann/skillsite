@@ -32,7 +32,7 @@ export function Heading({
   return (
     <Tag
       className={cn(
-        "font-heading text-balance",
+        "font-heading text-balance hyphens-heading",
         headingSizeClass[size],
         className,
       )}
@@ -112,7 +112,7 @@ export function H1({
   return (
     <h1
       className={cn(
-        "font-heading text-balance",
+        "font-heading text-balance hyphens-heading",
         variant === "site" ? "text-display" : "text-h1",
         className,
       )}
@@ -129,7 +129,7 @@ export function H2({
   return (
     <h2
       className={cn(
-        "scroll-mt-24 font-heading",
+        "scroll-mt-24 font-heading hyphens-heading",
         variant === "site"
           ? "text-h2"
           : "text-2xl font-bold tracking-tight text-ink",
@@ -148,7 +148,7 @@ export function H3({
   return (
     <h3
       className={cn(
-        "font-heading",
+        "font-heading hyphens-heading",
         variant === "site" ? "text-h3" : "text-lg font-bold text-ink",
         className,
       )}

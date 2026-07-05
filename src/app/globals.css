@@ -255,6 +255,17 @@
   padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
 }
 
+/* German-aware hyphenation for headings: only break long words and keep the
+   fragments readable (no "Ge-" / "-gen" splits). Soft hyphens (&shy;) placed
+   in the text take precedence over these automatic break points. */
+@utility hyphens-heading {
+  hyphens: auto;
+  -webkit-hyphenate-limit-before: 4;
+  -webkit-hyphenate-limit-after: 4;
+  -webkit-hyphenate-limit-lines: 2;
+  hyphenate-limit-chars: 10 4 4;
+}
+
 /* Scrollable region without a visible scrollbar (booker time list). */
 @utility no-scrollbar {
   scrollbar-width: none;

@@ -46,30 +46,33 @@ export default function AgbPage() {
   });
 
   return (
-    <DocShell sections={agbSections}>
-      <DocHero
-        badge="Nachhilfebedingungen"
-        icon={ScrollText}
-        title="Allgemeine Geschäftsbedingungen"
-        lead="Bedingungen für die Nachhilfeleistungen von Nachhilfe Leon Weimann."
-        facts={[
-          {
-            icon: CalendarDays,
-            label: "Stand",
-            children: <>{effectiveDate}</>,
-          },
-          {
-            icon: Mail,
-            label: "Kontakt",
-            children: (
-              <InlineLink variant="doc" href={`mailto:${agbContact.email}`}>
-                {agbContact.email}
-              </InlineLink>
-            ),
-          },
-        ]}
-      />
-
+    <DocShell
+      sections={agbSections}
+      hero={
+        <DocHero
+          badge="Nachhilfebedingungen"
+          icon={ScrollText}
+          title={<>Allgemeine Geschäfts&shy;bedingungen</>}
+          lead="Bedingungen für die Nachhilfeleistungen von Nachhilfe Leon Weimann."
+          facts={[
+            {
+              icon: CalendarDays,
+              label: "Stand",
+              children: <>{effectiveDate}</>,
+            },
+            {
+              icon: Mail,
+              label: "Kontakt",
+              children: (
+                <InlineLink variant="doc" href={`mailto:${agbContact.email}`}>
+                  {agbContact.email}
+                </InlineLink>
+              ),
+            },
+          ]}
+        />
+      }
+    >
       <AgbSection id="geltungsbereich">
         <P variant="doc">
           Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle
