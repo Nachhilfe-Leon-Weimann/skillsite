@@ -172,11 +172,11 @@ export default function HomePage() {
       </Section>
 
       {/* Testimonials */}
-      <Section surface bleed>
+      {/* <Section surface bleed>
         <Reveal variant="fade">
           <Testimonials />
         </Reveal>
-      </Section>
+      </Section> */}
 
       <CtaSection />
     </>
