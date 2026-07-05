@@ -91,7 +91,9 @@ export function Footer() {
           </FooterColumn>
 
           <FooterColumn title="Kontakt">
-            <FooterLink href={contactDetails.whatsapp.href}>WhatsApp</FooterLink>
+            <FooterLink href={contactDetails.whatsapp.href}>
+              WhatsApp
+            </FooterLink>
             <FooterLink href={contactDetails.eMail.href}>E-Mail</FooterLink>
           </FooterColumn>
         </div>
@@ -104,6 +106,9 @@ export function Footer() {
             </Link>
             <Link href={routes.datenschutz} className={legalLinkClass}>
               Datenschutz
+            </Link>
+            <Link href={routes.agb} className={legalLinkClass}>
+              AGB
             </Link>
             {/* <CookieSettingsButton className={legalLinkClass} /> */}
             <ThemeToggle />

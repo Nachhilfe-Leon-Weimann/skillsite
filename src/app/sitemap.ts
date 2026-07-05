@@ -10,6 +10,7 @@ const PRIORITY: Record<string, number> = {
   "/kontakt": 0.8,
   "/impressum": 0.3,
   "/datenschutz": 0.3,
+  "/agb": 0.3,
 };
 
 const PATHS = [
@@ -23,14 +24,18 @@ const PATHS = [
   "/termin",
   "/impressum",
   "/datenschutz",
+  "/agb",
 ];
+
+// Legal pages change rarely; everything else is refreshed more often.
+const LEGAL_PATHS = new Set(["/impressum", "/datenschutz", "/agb"]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return PATHS.map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified,
-    changeFrequency: path === "/impressum" || path === "/datenschutz" ? "yearly" : "monthly",
+    changeFrequency: LEGAL_PATHS.has(path) ? "yearly" : "monthly",
     priority: PRIORITY[path] ?? 0.7,
   }));
 }

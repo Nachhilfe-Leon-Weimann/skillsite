@@ -165,6 +165,33 @@ export function DocList({
   );
 }
 
+/**
+ * Indented plain-text copy template, e.g. the statutory model
+ * withdrawal form.
+ */
+export function DocIndentBlock({
+  lines,
+  footnote,
+}: {
+  lines: string[];
+  footnote?: string;
+}) {
+  return (
+    <div className="my-4 pl-4 sm:pl-6">
+      <div className="space-y-2">
+        {lines.map((line) => (
+          <p key={line} className="leading-7 text-ink">
+            {line}
+          </p>
+        ))}
+      </div>
+      {footnote ? (
+        <p className="mt-3 text-sm leading-6 text-ink-soft">{footnote}</p>
+      ) : null}
+    </div>
+  );
+}
+
 export function DocDetailGrid({ children }: { children: React.ReactNode }) {
   return <div className="my-5 grid gap-4 sm:grid-cols-2">{children}</div>;
 }

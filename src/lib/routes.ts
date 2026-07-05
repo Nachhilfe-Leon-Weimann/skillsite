@@ -26,6 +26,7 @@ export const routes = {
 
   impressum: "/impressum",
   datenschutz: "/datenschutz",
+  agb: "/agb",
 } as const;
 
 export type RouteKey = keyof typeof routes;
