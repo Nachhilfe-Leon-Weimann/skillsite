@@ -50,6 +50,11 @@ export const metadata: Metadata = {
     description:
       "Persönliche Online-Nachhilfe – flexibel, ohne Mindestlaufzeit und für 30 € pro 60 Minuten.",
   },
+  verification: {
+    other: {
+      "facebook-domain-verification": "mgl8asl7f0d24t8p3g6kb2x9bw9or0",
+    },
+  },
 };
 
 export const viewport: Viewport = {
