@@ -36,6 +36,7 @@ import {
   shownMonth,
 } from "@/lib/booking/dates";
 import { routes } from "@/lib/routes";
+import { trackEvent } from "@/lib/analytics";
 
 const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 const MONTHS = [
@@ -120,6 +121,12 @@ export function Booker({
   const cardRef = useRef<HTMLDivElement>(null);
 
   const shown = useMemo(() => shownMonth(monthOffset), [monthOffset]);
+
+  // Funnel entry: the booking widget was opened. `event` distinguishes the
+  // nachhilfe vs. kennenlernen flows and is stable, so this fires once.
+  useEffect(() => {
+    trackEvent("booking-started", { type: event });
+  }, [event]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -212,6 +219,8 @@ export function Booker({
   const pickSlot = (date: string, slot: BookingSlot) => {
     setSelectedSlot({ date, time: slot.time, start: slot.start });
     setStep("form");
+    // Funnel step: a time slot was chosen and the form opened.
+    trackEvent("slot-selected", { type: event });
   };
 
   const backToSelect = () => {
@@ -243,6 +252,8 @@ export function Booker({
       const result = await requestBooking(payload);
       if (result.ok) {
         setBookingPhase("confirmed");
+        // Conversion: a booking was actually confirmed by Cal.com.
+        trackEvent("booking-confirmed", { type: event, duration });
       } else {
         setBookingError({
           message: result.error,
@@ -782,11 +793,7 @@ function ResultStep({
             : "Die Terminbestätigung kommt per E-Mail. Die Einwahl richtet sich nach der gewählten Plattform."}
         </Text>
         <Button variant="outline" onClick={onChooseAnother}>
-          {event === "kennenlernen" ? (
-            <>Fertig</>
-          ) : (
-            <>Weiteren Termin buchen</>
-          )}
+          {event === "kennenlernen" ? <>Fertig</> : <>Weiteren Termin buchen</>}
         </Button>
       </CenteredState>
     );
