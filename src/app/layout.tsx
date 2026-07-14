@@ -66,6 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="de"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={cn(bricolage.variable, hanken.variable)}
     >

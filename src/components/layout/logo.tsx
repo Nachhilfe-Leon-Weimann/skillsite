@@ -22,7 +22,7 @@ export function Logo({
         src={brand.logo}
         alt={brand.name}
         width={42}
-        height={42}
+        height={41}
         priority
         className="rounded-xl shadow-[0_5px_14px_-5px_rgba(16,29,45,0.5)]"
       />

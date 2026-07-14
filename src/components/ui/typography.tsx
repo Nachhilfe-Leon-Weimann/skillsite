@@ -129,7 +129,7 @@ export function H2({
   return (
     <h2
       className={cn(
-        "scroll-mt-24 font-heading hyphens-heading",
+        "font-heading hyphens-heading",
         variant === "site"
           ? "text-h2"
           : "text-2xl font-bold tracking-tight text-ink",

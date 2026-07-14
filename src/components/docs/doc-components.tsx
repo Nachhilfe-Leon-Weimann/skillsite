@@ -104,7 +104,7 @@ export function DocSection({
   return (
     <section
       id={id}
-      className="scroll-mt-24 border-b border-line py-10 last:border-b-0 sm:py-12"
+      className="border-b border-line py-10 last:border-b-0 sm:py-12"
     >
       <H2 variant="doc" className="max-w-3xl">
         {title}

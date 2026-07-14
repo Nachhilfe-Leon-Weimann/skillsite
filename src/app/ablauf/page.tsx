@@ -58,7 +58,7 @@ export default function ProcessPage() {
           <Reveal variant="rise-soft">
             <div
               id="discord"
-              className="scroll-mt-24 rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.5rem)] text-on-navy shadow-card"
+              className="rounded-3xl bg-navy p-[clamp(1.75rem,4vw,2.5rem)] text-on-navy shadow-card"
             >
               <span className="text-eyebrow uppercase text-accent-blue">
                 Unser Klassenzimmer

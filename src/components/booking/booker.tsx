@@ -295,7 +295,7 @@ export function Booker({
   return (
     <div
       ref={cardRef}
-      className="mx-auto @container scroll-mt-20 overflow-hidden rounded-3xl border border-line bg-surface shadow-card"
+      className="mx-auto @container overflow-hidden rounded-3xl border border-line bg-surface shadow-card"
     >
       <div className="grid @2xl:grid-cols-[20rem_1fr]">
         <aside className="flex flex-col bg-navy p-[clamp(1.5rem,3vw,2.25rem)] text-on-navy">

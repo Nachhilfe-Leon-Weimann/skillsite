@@ -27,7 +27,6 @@ export function Section({
       id={id}
       className={cn(
         surface && "border-y border-line bg-surface",
-        id && "scroll-mt-24",
         className,
       )}
       {...props}
