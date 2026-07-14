@@ -3,8 +3,9 @@ import type { MetadataRoute } from "next";
 import { brand } from "@/content/site";
 
 // Web app manifest. Next serves this at /manifest.webmanifest and auto-injects
-// the <link rel="manifest"> tag. Icons reuse the file-based icons in this
-// directory (icon.png / apple-icon.png), served at their root paths.
+// the <link rel="manifest"> tag. The 512px icon reuses the file-based app icon;
+// the smaller install icon lives in public. apple-icon.png is declared
+// separately by Next as an Apple touch icon and does not belong in the manifest.
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: brand.name,
@@ -18,8 +19,12 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#faf6f0",
     theme_color: "#faf6f0",
     icons: [
-      { src: "/icon.png", sizes: "512x503", type: "image/png" },
-      { src: "/apple-icon.png", sizes: "180x177", type: "image/png" },
+      {
+        src: "/web-app-manifest-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      { src: "/icon.png", sizes: "512x512", type: "image/png" },
     ],
   };
 }
