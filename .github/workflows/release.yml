@@ -26,6 +26,7 @@ concurrency:
 jobs:
   release:
     name: Bump version and tag
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -162,6 +163,7 @@ jobs:
     name: Trigger Dokploy deploy
     needs: [release, build, github-release]
     runs-on: ubuntu-latest
+    environment: production
     timeout-minutes: 5
     steps:
       - name: Trigger deploy webhook
