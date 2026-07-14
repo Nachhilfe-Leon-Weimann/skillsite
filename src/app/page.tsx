@@ -9,7 +9,6 @@ import { StatGrid } from "@/components/sections/stat-grid";
 import { StepGrid } from "@/components/sections/step-grid";
 import { BenefitGrid } from "@/components/sections/benefit-grid";
 import { SubjectCards } from "@/components/sections/subject-cards";
-import { Testimonials } from "@/components/sections/testimonials";
 import { CtaSection } from "@/components/sections/cta-section";
 import { ProfilePhoto } from "@/components/sections/profile-photo";
 import { homeStats, benefits } from "@/content/home";
@@ -27,7 +26,7 @@ export default function HomePage() {
           <div>
             <Reveal trigger="mount" variant="rise-soft" index={0}>
               <Eyebrow>
-                Nachhilfe in Mathematik, Informatik &amp; Physik
+                Nachhilfe in Mathematik, Informatik und Physik
               </Eyebrow>
             </Reveal>
             <Reveal
@@ -68,8 +67,8 @@ export default function HomePage() {
             >
               <Lead className="max-w-[30em]">
                 Hi, ich bin Leon. Ich erkläre dir den Stoff so lange, bis er
-                wirklich Sinn ergibt – persönlich, online und ohne Vertrag.
-                Verstehen statt auswendig lernen.
+                wirklich Sinn ergibt – persönlich, online und ohne
+                Mindestlaufzeit.
               </Lead>
             </Reveal>
             <Reveal
@@ -111,9 +110,9 @@ export default function HomePage() {
                 30&nbsp;€
               </span>
               <Text size="caption" tone="muted" className="leading-tight">
-                pro Stunde
+                pro 60 Minuten
                 <br />
-                alle Fächer
+                jedes angebotene Fach
               </Text>
             </Reveal>
             <Reveal
@@ -122,7 +121,7 @@ export default function HomePage() {
               delay={580}
               className="absolute -right-3.5 top-6 rounded-[14px] flex flex-row gap-2 items-center bg-navy px-4 py-2.5 text-[0.84rem] font-semibold text-white shadow-card"
             >
-              Ohne Vertragsbindung <Check className="size-4" />
+              Ohne Mindestlaufzeit <Check className="size-4" />
             </Reveal>
           </div>
         </div>
@@ -164,8 +163,8 @@ export default function HomePage() {
       {/* Benefits */}
       <Section>
         <SectionHeader
-          eyebrow="Fair & unkompliziert"
-          title="Nachhilfe ohne Kleingedrucktes."
+          eyebrow="Fair und unkompliziert"
+          title="Nachhilfe mit klaren Bedingungen."
           className="mb-10"
         />
         <BenefitGrid items={benefits} />

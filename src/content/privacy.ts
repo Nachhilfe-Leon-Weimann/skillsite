@@ -1,6 +1,6 @@
 import { legalContact } from "@/content/legal";
 
-export const privacyPolicyEffectiveDate = new Date("2026-07-03");
+export const privacyPolicyEffectiveDate = new Date("2026-07-14");
 
 export const privacyContact = {
   email: legalContact.email,

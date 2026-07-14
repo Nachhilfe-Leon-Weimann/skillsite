@@ -14,7 +14,7 @@ export type ContactDetail = {
 export const contactDetails = {
   eMail: {
     key: "eMail",
-    label: "eMail",
+    label: "E-Mail",
     content: CONTACT_EMAIL,
     href: `mailto:${CONTACT_EMAIL}`,
   },

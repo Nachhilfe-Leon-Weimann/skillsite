@@ -2,16 +2,16 @@ import type { Step } from "@/content/process";
 
 export const lessonPrice = {
   amount: "30 €",
-  unit: "/ 60 Min.",
-  note: "Einheitlich für Mathe, Informatik und Physik – jede Klassenstufe.",
+  unit: "· 60 Min.",
+  note: "Ein Preis für Mathe, Informatik und Physik – in allen angebotenen Klassenstufen.",
 };
 
 export const priceIncludes: string[] = [
   "Keine Anmeldegebühr, keine versteckten Kosten",
   "Keine Mindestlaufzeit – flexibel planbar",
-  "Bis 24 h vorher kostenfrei absagen",
-  "Materialien & Notizen inklusive",
-  "Förderung über Bildung & Teilhabe möglich",
+  "Bis 24 Stunden vorher kostenfrei absagen oder verschieben",
+  "Materialien und Notizen inklusive",
+  "Förderung über das Bildungs- und Teilhabepaket möglich",
 ];
 
 export type Condition = { strong?: string; text: string };
@@ -22,18 +22,20 @@ export const fairConditions: Condition[] = [
     text: "kostenfrei absagen oder verschieben.",
   },
   { text: "Bei kurzfristigen Notfällen finden wir eine faire Lösung." },
-  { text: "Flexibel planbar, keine Mindestlaufzeit – Blöcke nach Bedarf." },
+  { text: "Termine einzeln oder regelmäßig planen – ganz nach Bedarf." },
 ];
 
 export const paymentOptions: Condition[] = [
   { strong: "Überweisung", text: "– Rechnung mit GiroCode." },
   { strong: "PayPal", text: "– einfacher Zahlungslink." },
-  { text: "Abrechnung einzeln nach dem Termin oder gebündelt als Block." },
+  {
+    text: "Abrechnung einzeln nach dem Termin oder gesammelt für mehrere Termine.",
+  },
 ];
 
 export const but = {
   intro:
-    "Über das Bildungs- und Teilhabepaket (z. B. bei Bürgergeld, Wohngeld mit Kinderzuschlag). Kein Sonderfall für mich, die Abrechnung übernehme ich direkt mit der Stelle.",
+    "Nachhilfe kann über das Bildungs- und Teilhabepaket (BuT) gefördert werden – zum Beispiel bei Bürgergeld oder Wohngeld mit Kinderzuschlag. Für mich ist das kein Sonderfall: Bei passender Bewilligung rechne ich direkt mit der zuständigen Stelle ab.",
   officialInfo: {
     href: "https://familienportal.de/familienportal/familienleistungen/bildung-und-teilhabe/wie-beantrage-ich-leistungen-fuer-bildung-und-teilhabe--136770",
     label: "Offizielle BuT-Infos",
@@ -53,7 +55,7 @@ export const but = {
     {
       n: "3",
       title: "",
-      text: "Unterricht startet – Abrechnung übernehme ich direkt.",
+      text: "Unterricht starten – die Abrechnung übernehme ich direkt.",
     },
   ] satisfies Step[],
 };

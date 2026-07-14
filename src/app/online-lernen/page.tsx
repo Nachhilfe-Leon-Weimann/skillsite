@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
@@ -22,15 +20,16 @@ import {
 import { onlineFaq } from "@/content/faqs";
 import { primaryCta } from "@/content/site";
 import { discordInvite } from "@/content/socials";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight } from "lucide-react";
 import { SiDiscord } from "@icons-pack/react-simple-icons";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/online-lernen" },
+export const metadata = pageMetadata({
+  canonical: "/online-lernen",
   title: "Online lernen",
   description:
-    "Nachhilfe über Discord – kostenlos und ohne Installation. So trittst du bei, wirst freigeschaltet und startest in der ‚lounge‘. Materialien in deinem eigenen Kanal. MS Teams geht auch.",
-};
+    "So läuft Online-Nachhilfe über Discord: beitreten, persönlich freischalten lassen und in der ‚lounge‘ starten. Microsoft Teams ist ebenfalls möglich.",
+});
 
 export default function OnlineLearningPage() {
   return (
@@ -39,7 +38,7 @@ export default function OnlineLearningPage() {
         eyebrow="Discord – unser Klassenzimmer"
         title="So läuft deine Nachhilfe über Discord."
         titleClassName="max-w-[15em]"
-        lead="Discord ist mein Klassenzimmer – kostenlos, stabil und in wenigen Minuten eingerichtet. Hier siehst du, wie du beitrittst und wie eine Stunde abläuft. Und wenn du lieber MS Teams nutzt – auch das geht."
+        lead="Discord ist unser Klassenzimmer – kostenlos und per App oder Browser schnell startklar. Den Zugriff auf die Unterrichtskanäle schalte ich persönlich frei. Microsoft Teams ist ebenfalls möglich."
       >
         <LinkButton href={primaryCta.href} variant="primary" size="lg">
           {primaryCta.label} <ArrowRight className="size-4" />
@@ -166,7 +165,7 @@ export default function OnlineLearningPage() {
         </div>
       </Container>
 
-      {/* MS Teams + Technik */}
+      {/* Microsoft Teams + Technik */}
       <Section surface id="ms-teams">
         <div className="grid gap-5">
           <Reveal

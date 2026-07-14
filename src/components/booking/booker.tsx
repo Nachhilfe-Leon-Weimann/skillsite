@@ -367,7 +367,7 @@ export function Booker({
               tone="inherit"
               className="mt-auto pt-6 text-on-navy-muted"
             >
-              Bis 24&nbsp;h vorher kostenfrei verschieben oder absagen.
+              Bis 24&nbsp;Stunden vorher kostenfrei verschieben oder absagen.
             </Text>
           ) : null}
         </aside>
@@ -504,7 +504,7 @@ function UnavailableNotice({
     return (
       <CenteredState
         icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
-        title="Verfügbarkeit nicht geladen"
+        title="Termine konnten nicht geladen werden"
       >
         <Text tone="muted" className="mb-5">
           Das hat gerade nicht geklappt. Bitte versuch es noch einmal.
@@ -744,10 +744,10 @@ function ResultStep({
             aria-hidden
           />
         }
-        title="Anfrage wird gesendet …"
+        title="Termin wird gebucht …"
       >
         <Text tone="muted" aria-live="polite">
-          Einen Moment – ich bestätige deinen Termin.
+          Einen Moment – die Buchung wird bestätigt.
         </Text>
       </CenteredState>
     );
@@ -757,7 +757,7 @@ function ResultStep({
     return (
       <CenteredState
         icon={<Check className="size-7 text-coral" aria-hidden />}
-        title="Anfrage gesendet!"
+        title="Termin gebucht!"
       >
         {summary ? (
           <div className="mx-auto mb-5 flex max-w-xs items-center gap-3 rounded-2xl border border-line bg-bg p-3.5 text-left">
@@ -778,14 +778,14 @@ function ResultStep({
         ) : null}
         <Text tone="muted" className="mb-6">
           {event === "kennenlernen"
-            ? "Ich melde mich telefonisch zum Termin und bestätige vorab kurz per Mail."
-            : "Du bekommst die Terminbestätigung mit allen Infos per Mail – inklusive Zugang zum Online-Raum."}
+            ? "Ich rufe dich zum vereinbarten Termin an. Die Bestätigung kommt per E-Mail."
+            : "Die Terminbestätigung kommt per E-Mail. Die Einwahl richtet sich nach der gewählten Plattform."}
         </Text>
         <Button variant="outline" onClick={onChooseAnother}>
           {event === "kennenlernen" ? (
             <>Fertig</>
           ) : (
-            <>Weiteren Termin anfragen</>
+            <>Weiteren Termin buchen</>
           )}
         </Button>
       </CenteredState>

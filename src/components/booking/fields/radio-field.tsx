@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import type { FieldDef } from "@/lib/booking/fields";
 
-/** Single-choice radio group as selectable rows (e.g. the "Ort" choice). */
+/** Single-choice radio group as selectable rows (e.g. the platform choice). */
 export function RadioField({
   field,
   value,

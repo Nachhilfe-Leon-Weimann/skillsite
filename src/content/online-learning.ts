@@ -10,7 +10,7 @@ export const discordSetup: SetupStep[] = [
   {
     n: "2",
     title: "Über den Link beitreten",
-    text: "Ein Klick auf den Einladungslink, und du bist auf dem Server. Den Link findest du gleich hier drunter.",
+    text: "Ein Klick auf den Einladungslink, und du bist auf dem Server. Den Link findest du direkt darunter.",
   },
   {
     n: "3",
@@ -29,7 +29,7 @@ export const lessonSteps: SetupStep[] = [
   {
     n: "2",
     title: "Ich hole dich in unseren Raum",
-    text: "Von der ‚lounge‘ ziehe ich dich in unseren privaten Raum. Dass dort niemand spricht oder du selbst nicht sprechen kannst, ist völlig normal – und genau so gewollt.",
+    text: "In der ‚lounge‘ hörst du niemanden und kannst selbst nicht sprechen – das ist so eingestellt. Zum Termin hole ich dich von dort in unseren privaten Raum.",
   },
   {
     n: "3",
@@ -48,29 +48,29 @@ export type Feature = { title: string; text: string };
 export const discordFeatures: Feature[] = [
   {
     title: "Dein persönlicher Kanal",
-    text: "Ein Textkanal nur für dich – ‚vorname-nachname‘. Hier schreiben wir und laden Dateien hoch.",
+    text: "Ein Textkanal nur für dich und mich – ‚vorname-nachname‘. Hier schreiben wir und laden Dateien hoch.",
   },
   {
     title: "Materialien bleiben da",
-    text: "Aufschrieb, Aufgaben und Lösungen sammeln sich in deinem Kanal – dauerhaft abrufbar, auch nach der Stunde.",
+    text: "Aufschrieb, Aufgaben und Lösungen sammeln sich in deinem Kanal – während unserer Zusammenarbeit auch zwischen den Stunden abrufbar.",
   },
   {
     title: "Fragen zwischendurch",
-    text: "Kurz vor der Klausur noch eine Frage – schreib mir einfach in deinem Kanal. Antwort meist am selben Tag.",
+    text: "Kurz vor der Klausur noch eine Frage? Schreib mir einfach in deinem Kanal. Meistens antworte ich noch am selben Tag.",
   },
   {
-    title: "Der Server wächst",
-    text: "Ankündigungen, Termine und mehr an einem Ort. Ich baue den Server laufend aus – da kommt noch einiges.",
+    title: "Alles an einem Ort",
+    text: "Ankündigungen, Termine, Materialien und Nachrichten findest du gebündelt auf dem Server.",
   },
 ];
 
 export type TeamsNote = { name: string; tag: string; text: string };
 
 export const teamsNote: TeamsNote = {
-  name: "MS Teams",
+  name: "Microsoft Teams",
   tag: "Auf Wunsch",
-  text: "MS Teams geht auch. Wenn du das über die Schule ohnehin nutzt, läuft die Stunde genauso – sag mir einfach vorher Bescheid.",
+  text: "Microsoft Teams geht auch. Wenn du Teams über die Schule ohnehin nutzt, läuft die Stunde genauso – sag mir einfach vorher Bescheid.",
 };
 
 export const techNote =
-  "Computer, Laptop oder Tablet · stabiles Internet · Headset empfohlen. Eine Kamera brauchst du nicht – Discord ist kostenlos.";
+  "Computer, Laptop oder Tablet · stabiles Internet · Headset empfohlen. Eine Kamera brauchst du nicht. Discord ist kostenlos.";

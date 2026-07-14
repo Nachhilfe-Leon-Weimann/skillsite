@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
+
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { LinkButton } from "@/components/ui/button";
 import { Heading, Text } from "@/components/ui/typography";
 import { routes } from "@/lib/routes";
+
+export const metadata: Metadata = {
+  title: "Seite nicht gefunden",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (
@@ -12,8 +19,8 @@ export default function NotFound() {
         Seite nicht gefunden.
       </Heading>
       <Text size="lead" tone="muted" className="mt-4 max-w-[34em]">
-        Diese Seite gibt es (noch) nicht. Vielleicht hilft dir eine dieser
-        Optionen weiter.
+        Diese Seite gibt es nicht. Vielleicht hilft dir eine dieser Optionen
+        weiter.
       </Text>
       <div className="mt-8 flex flex-wrap justify-center gap-3.5">
         <LinkButton href={routes.home} variant="primary" size="lg">

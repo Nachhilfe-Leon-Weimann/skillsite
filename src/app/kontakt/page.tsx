@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
@@ -13,14 +12,16 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { contactDetails } from "@/content/contact";
 import { subjects } from "@/content/subjects";
 import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/metadata";
+import { trustLine } from "@/content/site";
 import { ArrowRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/kontakt" },
+export const metadata = pageMetadata({
+  canonical: "/kontakt",
   title: "Kontakt",
   description:
-    "Schreib mir einfach – per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Kostenloses Erstgespräch direkt buchbar.",
-};
+    "Schreib mir per WhatsApp oder E-Mail. Meistens antworte ich noch am selben Tag. Das kostenlose Erstgespräch kannst du direkt buchen.",
+});
 
 const sideCardClass =
   "flex flex-1 flex-col justify-center rounded-2xl border border-line bg-surface p-6 shadow-card lift [--lift:-0.25rem] hover:border-coral";
@@ -50,7 +51,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       <PageHeader
         eyebrow="Kontakt"
         title="Schreib mir einfach."
-        lead="Eine kurze Nachricht reicht – meistens antworte ich noch am selben Tag. Unverbindlich, kostenlos und ohne Anmeldung."
+        lead={`Eine kurze Nachricht reicht – meistens antworte ich noch am selben Tag. ${trustLine}`}
       />
 
       <Container className="py-section-sm">
@@ -63,7 +64,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               className="flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-coral-gradient p-[clamp(1.75rem,3.5vw,2.5rem)] text-white shadow-[0_22px_44px_-22px_var(--coral)] lift [--lift:-0.25rem]"
             >
               <span className="text-eyebrow uppercase text-white/90">
-                Am liebsten – WhatsApp
+                Am liebsten per WhatsApp
               </span>
               <Heading size="h3" className="mt-2.5 mb-1.5">
                 Schreib mir auf WhatsApp.
@@ -73,8 +74,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 tone="inherit"
                 className="max-w-[24em] text-white/90"
               >
-                Der schnellste Weg: Antwort meistens noch am selben Tag. Einfach
-                kurz dein Anliegen schicken.
+                Über WhatsApp erreichst du mich am schnellsten. Meistens antworte
+                ich noch am selben Tag.
               </Text>
               <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/35 bg-white/20 px-5 py-2.5 font-semibold">
                 Jetzt anschreiben <ArrowRight className="size-4" />
@@ -103,11 +104,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 {email}
               </Heading>
               <Text size="small" tone="muted">
-                Lieber schriftlich &amp; ausführlich? Auch gut.
+                Du möchtest dein Anliegen ausführlicher schildern? Schreib mir
+                gern eine E-Mail.
               </Text>
             </a>
             <Link href={routes.onlineLearning} className={sideCardClass}>
-              <span className={sideLabelClass}>Discord &amp; MS Teams</span>
+              <span className={sideLabelClass}>Discord und Microsoft Teams</span>
               <Heading as="h2" size="title" className="mt-2 mb-1">
                 Unser Klassenzimmer
               </Heading>
@@ -116,7 +118,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 tone="muted"
                 className="inline-flex items-center gap-1.5"
               >
-                Unterricht, Materialien &amp; kurze Fragen. Mehr erfahren{" "}
+                Unterricht, Materialien und kurze Fragen. Mehr erfahren{" "}
                 <ArrowRight className="size-4" />
               </Text>
             </Link>
@@ -138,13 +140,13 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
           <Text tone="muted">
             Such dir einen freien Termin aus. Im kostenlosen, telefonischen
             Erstgespräch klären wir Situation, Fach und Ziel – ganz
-            unverbindlich, Eltern herzlich willkommen.
+            unverbindlich. Eltern sind herzlich willkommen.
           </Text>
         </Reveal>
         <Booker
           event="kennenlernen"
           title="Kostenloses Erstgespräch"
-          subtitle="Wir klären Situation, Fach und Ziel."
+          subtitle="Kostenlos und unverbindlich – ich rufe dich an."
           initialSubject={initialSubject}
         />
       </Section>

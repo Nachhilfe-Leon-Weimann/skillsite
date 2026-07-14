@@ -33,12 +33,12 @@ export const lessonFlow: Step[] = [
   {
     n: "3",
     title: "Festhalten",
-    text: "Am Ende ist klar, was du verstanden hast, und was du bis zum nächsten Mal übst.",
+    text: "Am Ende ist klar, was du verstanden hast und was du bis zum nächsten Mal übst.",
   },
 ];
 
 export const discordHighlights: string[] = [
   "Live im Sprachkanal mit geteiltem Bildschirm.",
-  "Notizen & Materialien bleiben dauerhaft abrufbar.",
-  "Kurze Fragen zwischendurch jederzeit möglich.",
+  "Notizen und Materialien bleiben während unserer Zusammenarbeit abrufbar.",
+  "Kurze Fragen kannst du auch zwischen den Stunden stellen.",
 ];

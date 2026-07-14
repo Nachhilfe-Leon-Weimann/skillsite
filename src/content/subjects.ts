@@ -29,16 +29,16 @@ export const subjects: Subject[] = [
     name: "Mathematik",
     glyph: SigmaIcon,
     tag: "Sehr gefragt",
-    claim: "Mathe logisch erklärt – nicht nur auswendig lernen.",
+    claim: "Mathe logisch erklärt – verstehen statt auswendig lernen.",
     description:
-      "Von den Grundlagen bis zur Analysis: Wir bauen Sicherheit auf, statt Formeln zu pauken. Wer das Prinzip versteht, löst auch die unbekannte Aufgabe.",
+      "Von den Grundlagen bis zur Analysis: Wir bauen Sicherheit auf, statt Formeln zu pauken. So kannst du auch Aufgaben lösen, die du noch nie gesehen hast.",
     anchorId: "mathematik",
     href: routes.maths,
     topics: [
       {
         title: "Grundlagen festigen",
         description:
-          "Bruchrechnung, Terme und Gleichungen: die Basis sitzt sauber, bevor es weitergeht.",
+          "Bruchrechnung, Terme und Gleichungen: Die Grundlagen sitzen, bevor es weitergeht.",
         image: "/subjects/maths-foundations.jpg",
         alt: "Abstrakte Mathematik-Illustration mit Formen, Symbolen und Grundlagenmotiven",
       },
@@ -59,7 +59,7 @@ export const subjects: Subject[] = [
       {
         title: "Geometrie mit System",
         description:
-          "Winkel, Flächen und Beweise werden strukturiert statt auswendig gelernt.",
+          "Winkel, Flächen und Beweise werden mit System erarbeitet statt auswendig gelernt.",
         image: "/subjects/maths-geometry.jpg",
         alt: "Geometrische Illustration mit Körpern, Zirkel und Konstruktionslinien",
       },
@@ -71,14 +71,14 @@ export const subjects: Subject[] = [
     glyph: BracesIcon,
     claim: "Code verstehen statt kopieren – das Warum hinter dem Wie.",
     description:
-      "Ich baue selbst Software – das fließt direkt in die Stunde ein. Echte Beispiele statt trockener Theorie: Code verstehen, nicht kopieren.",
+      "Ich baue selbst Software – das fließt direkt in die Stunde ein. Wir arbeiten mit echten Beispielen aus Projekten, die wirklich laufen.",
     anchorId: "informatik",
     href: routes.computerScience,
     topics: [
       {
         title: "Programmieren mit Struktur",
         description:
-          "Variablen, Bedingungen und Schleifen: klare Denkmodelle statt Syntax-Raten.",
+          "Variablen, Bedingungen und Schleifen: klare Denkmodelle statt Ausprobieren auf gut Glück.",
         image: "/subjects/cs-programming.jpg",
         alt: "Abstrakte Informatik-Illustration mit modularen Code- und Logikbausteinen",
       },
@@ -98,14 +98,14 @@ export const subjects: Subject[] = [
     tag: "Neu",
     claim: "Hinter die Formel blicken, Schritt für Schritt.",
     description:
-      "Hinter jede Formel blicken: Was passiert da eigentlich? Wir verbinden Anschauung und Rechnung, bis der Stoff Sinn ergibt.",
+      "Was passiert da eigentlich? Wir verbinden Anschauung und Rechnung, bis der Stoff hinter den Formeln Sinn ergibt.",
     anchorId: "physik",
     href: routes.physics,
     topics: [
       {
         title: "Mechanik verstehen",
         description:
-          "Kräfte, Bewegung und Energie – vom Alltag ausgehen, bis die Rechnung sitzt.",
+          "Wir starten mit Beispielen aus dem Alltag und übertragen sie Schritt für Schritt in die Rechnung.",
         image: "/subjects/physics-mechanics.jpg",
         alt: "Physik-Illustration mit Hebeln, Pendel und Bewegungsbahnen",
       },

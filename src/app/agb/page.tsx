@@ -13,16 +13,16 @@ import {
   agbSections,
 } from "@/content/agb";
 import { legalContact } from "@/content/legal";
+import { pageMetadata } from "@/lib/metadata";
 import { routes } from "@/lib/routes";
 import { CalendarDays, Mail, ScrollText } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/agb" },
+export const metadata = pageMetadata({
   title: "AGB",
   description:
     "Allgemeine Geschäftsbedingungen für die Nachhilfeleistungen von Nachhilfe Leon Weimann.",
-};
+  canonical: "/agb",
+});
 
 /** Section with its number and heading pulled from the central registry. */
 function AgbSection({
@@ -91,14 +91,17 @@ export default function AgbPage() {
 
       <AgbSection id="vertragsschluss">
         <P variant="doc">
-          Der Vertrag über die Nachhilfe kommt zustande, wenn sich die Kundin
-          oder der Kunde anmeldet oder einen Termin bucht und der Anbieter die
-          Anmeldung bestätigt oder mit der Nachhilfe beginnt. Ein gesondertes
-          schriftliches Dokument ist dafür nicht erforderlich.
+          Bei der kostenpflichtigen Online-Terminbuchung kommt der
+          Nachhilfevertrag zustande, sobald die Buchung erfolgreich bestätigt
+          wird. Bei einer individuellen Anmeldung kommt er zustande, wenn der
+          Anbieter die Anmeldung bestätigt oder mit der Nachhilfe beginnt. Ein
+          gesondertes schriftliches Dokument ist dafür nicht erforderlich.
         </P>
         <P variant="doc">
           Ist die lernende Person minderjährig, kommt der Vertrag mit den
-          Erziehungsberechtigten zustande; die Anmeldung erfolgt durch sie.
+          Erziehungsberechtigten zustande. Bucht die minderjährige Person einen
+          Termin selbst, bedarf der Vertrag der Zustimmung der
+          Erziehungsberechtigten.
         </P>
       </AgbSection>
 
@@ -114,9 +117,9 @@ export default function AgbPage() {
           voraus; hierfür ist die Kundin oder der Kunde verantwortlich.
         </P>
         <P variant="doc">
-          Die Nachhilfe ist ein Dienstvertrag (§ 611 BGB). Geschuldet ist die
-          fachgerechte Durchführung des Unterrichts, nicht ein bestimmter Lern-
-          oder Prüfungserfolg (etwa eine bestimmte Note).
+          Der Nachhilfevertrag ist ein Dienstvertrag (§ 611 BGB). Geschuldet ist
+          die fachgerechte Durchführung des Unterrichts, nicht ein bestimmter
+          Lern- oder Prüfungserfolg (etwa eine bestimmte Note).
         </P>
       </AgbSection>
 
@@ -126,13 +129,13 @@ export default function AgbPage() {
           gebucht.
         </P>
         <P variant="doc">
-          Eine Absage ist bis 24 Stunden vor dem vereinbarten Beginn kostenfrei
-          möglich. Bei einer späteren Absage oder bei Nichterscheinen wird das
-          vereinbarte Honorar für den Termin berechnet, es sei denn, die Kundin
-          oder der Kunde weist nach, dass die Absage auf einem wichtigen, nicht
-          zu vertretenden Grund beruht (z. B. Krankheit). Gelingt es dem
-          Anbieter, den Termin anderweitig zu vergeben, entfällt die
-          Zahlungspflicht.
+          Eine Absage oder Verschiebung ist bis 24 Stunden vor dem vereinbarten
+          Beginn kostenfrei möglich. Bei einer späteren Absage oder bei
+          Nichterscheinen wird das vereinbarte Honorar für den Termin berechnet,
+          es sei denn, die Kundin oder der Kunde weist nach, dass die Absage auf
+          einem wichtigen, nicht zu vertretenden Grund beruht (z. B. Krankheit).
+          Gelingt es dem Anbieter, den Termin anderweitig zu vergeben, entfällt
+          die Zahlungspflicht.
         </P>
         <P variant="doc">
           Muss der Anbieter einen Termin absagen, wird nach Möglichkeit ein
@@ -186,7 +189,7 @@ export default function AgbPage() {
             Tage ab dem Tag des Vertragsschlusses.
           </P>
           <P variant="doc">
-            Um Ihr Widerrufsrecht auszuüben, müssen Sie dem Anbieter (
+            Um Ihr Widerrufsrecht auszuüben, müssen Sie den Anbieter (
             {legalContact.businessName}, {legalContact.street},{" "}
             {legalContact.city}; E-Mail:{" "}
             <InlineLink variant="doc" href={`mailto:${agbContact.email}`}>

@@ -24,7 +24,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "Leon ist ruhig, verlässlich und erklärt so lange, bis es sitzt. Als Eltern hatten wir sofort ein gutes Gefühl.",
     name: "Eltern",
-    detail: "Mathe & Physik - Oberstufe",
+    detail: "Mathematik und Physik · Oberstufe",
   },
   {
     quote:
@@ -42,6 +42,6 @@ export const testimonials: Testimonial[] = [
     quote:
       "Endlich Struktur statt Chaos. Die Stunden sind klar aufgebaut und genau auf unser Kind zugeschnitten.",
     name: "Eltern, Abitur",
-    detail: "Mathematik - Mittelstufe",
+    detail: "Mathematik · Mittelstufe",
   },
 ];

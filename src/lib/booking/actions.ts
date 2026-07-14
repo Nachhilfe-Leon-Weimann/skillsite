@@ -7,6 +7,7 @@ import {
   ANTI_SPAM,
   bookingEvents,
   CAL_SLOTS_TAG,
+  startsWithinWithdrawalPeriod,
   type BookingSubmission,
   type SubmitResult,
 } from "@/lib/booking/config";
@@ -77,6 +78,29 @@ export async function requestBooking(
     return {
       ok: false,
       error: `Bitte überprüfe deine Eingaben: ${missing.join(", ")}.`,
+      reason: "validation",
+    };
+  }
+
+  if (
+    submission.event === "nachhilfe" &&
+    !submission.agreements?.termsAccepted
+  ) {
+    return {
+      ok: false,
+      error: "Bitte bestätige die AGB.",
+      reason: "validation",
+    };
+  }
+
+  if (
+    submission.event === "nachhilfe" &&
+    startsWithinWithdrawalPeriod(submission.slot) &&
+    !submission.agreements?.earlyPerformanceRequested
+  ) {
+    return {
+      ok: false,
+      error: "Bitte bestätige den Hinweis zum Widerrufsrecht.",
       reason: "validation",
     };
   }

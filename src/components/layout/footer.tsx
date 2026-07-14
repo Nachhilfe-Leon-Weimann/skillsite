@@ -69,7 +69,7 @@ export function Footer() {
             </Link>
             <p className="max-w-[26em] text-small text-on-navy-muted">
               Persönliche Online-Nachhilfe in Mathematik, Informatik und Physik
-              – ohne Vertrag, auf Augenhöhe.
+              – flexibel und auf Augenhöhe.
             </p>
             <SocialLinks className="mt-1" />
           </div>

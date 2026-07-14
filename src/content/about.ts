@@ -18,7 +18,7 @@ export const principles: Principle[] = [
   {
     n: "1",
     title: "Verstehen schlägt Auswendiglernen",
-    text: "Wer das Prinzip versteht, löst auch die unbekannte Aufgabe.",
+    text: "Wer das Prinzip versteht, kann auch unbekannte Aufgaben lösen.",
   },
   {
     n: "2",
@@ -27,13 +27,13 @@ export const principles: Principle[] = [
   },
   {
     n: "3",
-    title: "Auf Augenhöhe, ohne Druck",
-    text: "Keine dummen Fragen. Nur Erklärungen, die noch nicht passen.",
+    title: "Fragen gehören dazu",
+    text: "Du kannst jederzeit nachhaken – ohne Druck und auf Augenhöhe.",
   },
 ];
 
 export const software = {
   eyebrow: "Praxis statt Lehrbuch",
   title: "Ich baue selbst Software.",
-  text: "Diese Website samt Buchungssystem habe ich von Design bis Code selbst entwickelt. In der Informatik-Nachhilfe heißt das: echte Beispiele statt trockener Theorie – Code verstehen, nicht kopieren.",
+  text: "Diese Website samt Buchungssystem habe ich vom Design bis zum Code selbst entwickelt. In der Informatik-Nachhilfe heißt das: echte Beispiele aus Projekten, die wirklich laufen, statt trockener Theorie.",
 };

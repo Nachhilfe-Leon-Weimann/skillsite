@@ -6,15 +6,15 @@ import {
 import { ContactAddress } from "@/components/shared/contact-address";
 import { InlineLink, P } from "@/components/ui/typography";
 import { legalContact } from "@/content/legal";
+import { pageMetadata } from "@/lib/metadata";
 import { FileText } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/impressum" },
+export const metadata = pageMetadata({
   title: "Impressum",
   description:
     "Anbieterkennzeichnung und rechtliche Angaben zu Nachhilfe Leon Weimann.",
-};
+  canonical: "/impressum",
+});
 
 export default function ImpressumPage() {
   return (
@@ -28,7 +28,7 @@ export default function ImpressumPage() {
         />
       }
     >
-      <DocSection id="anbieter" title="Inhalte gemäß §5 DDG">
+      <DocSection id="anbieter" title="Angaben gemäß § 5 DDG">
         <ContactAddress />
       </DocSection>
 
@@ -51,7 +51,7 @@ export default function ImpressumPage() {
         title="Verbraucherstreitbeilegung / Universalschlichtungsstelle"
       >
         <P variant="doc">
-          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren
+          Ich bin weder bereit noch verpflichtet, an Streitbeilegungsverfahren
           vor einer Verbraucherschlichtungsstelle teilzunehmen.
         </P>
       </DocSection>

@@ -1,6 +1,6 @@
 import { legalContact } from "@/content/legal";
 
-export const agbEffectiveDate = new Date("2026-07-05");
+export const agbEffectiveDate = new Date("2026-07-14");
 
 export const agbContact = {
   email: legalContact.email,

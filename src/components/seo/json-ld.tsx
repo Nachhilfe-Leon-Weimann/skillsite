@@ -16,7 +16,7 @@ const jsonLd = {
   name: brand.name,
   url: BASE_URL,
   description:
-    "Persönliche Online-Nachhilfe in Mathematik, Informatik und Physik – ohne Vertrag, 30 € pro 60 Minuten.",
+    "Persönliche Online-Nachhilfe in Mathematik, Informatik und Physik – ohne Mindestlaufzeit, 30 € pro 60 Minuten.",
   founder: { "@type": "Person", name: legalContact.ownerName },
   email: contactDetails.eMail.content,
   telephone: legalContact.phone,
@@ -28,8 +28,8 @@ const jsonLd = {
     addressCountry: "DE",
   },
   areaServed: { "@type": "Country", name: "Deutschland" },
-  knowsAbout: ["Mathematik", "Informatik", "Physik", "Nachhilfe"],
-  priceRange: "€",
+  knowsAbout: ["Mathematik", "Informatik", "Physik"],
+  priceRange: "30 € pro 60 Minuten",
   makesOffer: {
     "@type": "Offer",
     price: "30",
@@ -40,8 +40,10 @@ const jsonLd = {
       serviceType: "Online-Nachhilfe",
     },
   },
-  // Social profiles (WhatsApp is a contact link, not a profile, so it's excluded).
-  sameAs: socials.filter((s) => s.key !== "whatsapp").map((s) => s.href),
+  // Contact and invite links are not stable social profiles.
+  sameAs: socials
+    .filter((social) => !["whatsapp", "discord"].includes(social.key))
+    .map((social) => social.href),
 };
 
 /** Site-wide Organization/LocalBusiness structured data for search engines. */

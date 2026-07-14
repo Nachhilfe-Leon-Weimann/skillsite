@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -18,14 +16,15 @@ import {
   software,
 } from "@/content/about";
 import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/ueber-mich" },
+export const metadata = pageMetadata({
+  canonical: "/ueber-mich",
   title: "Über mich",
   description:
     "Hi, ich bin Leon. Ich gebe Nachhilfe in Mathe, Informatik und Physik – individuell statt nach Schema, auf Augenhöhe und ohne Druck.",
-};
+});
 
 export default function AboutPage() {
   return (

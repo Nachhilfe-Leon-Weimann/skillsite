@@ -35,15 +35,15 @@ import {
   umamiCollectedData,
   userRights,
 } from "@/content/privacy";
+import { pageMetadata } from "@/lib/metadata";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/datenschutz" },
+export const metadata = pageMetadata({
   title: "Datenschutz",
   description:
     "Informationen zur Verarbeitung personenbezogener Daten beim Besuch dieser Website, im Nachhilfebetrieb sowie in den eigenen Anwendungen SkillForge und SkillBot.",
-};
+  canonical: "/datenschutz",
+});
 
 /** Section with its number and heading pulled from the central registry. */
 function PrivacySection({
@@ -138,10 +138,11 @@ export default function DatenschutzPage() {
           DSGVO) findet nicht statt.
         </P>
         <P variant="doc">
-          Bei der Terminbuchung und beim Abschluss eines Nachhilfeverhältnisses
-          sind bestimmte Angaben (z. B. Name und Kontaktdaten) erforderlich –
-          ohne sie kann ich die Leistung nicht erbringen. Alle weiteren Angaben
-          sind freiwillig.
+          Bei der Terminbuchung sind Name, E-Mail-Adresse, Wunschtermin und Fach
+          beziehungsweise Fächer erforderlich. Beim kostenlosen Erstgespräch
+          benötige ich zusätzlich eine Telefonnummer, bei einer
+          Nachhilfestunde die gewünschte Unterrichtsplattform. Nur ausdrücklich
+          als freiwillig gekennzeichnete Angaben sind optional.
         </P>
         <P variant="doc">
           Die Daten erhalte ich in der Regel direkt von Ihnen. Bei
@@ -234,10 +235,13 @@ export default function DatenschutzPage() {
             Zur Buchung übermittle ich nach Absenden des Formulars die
             eingegebenen Daten an Cal.com: Vor- und Nachname, E-Mail-Adresse,
             Telefonnummer (nur beim kostenlosen Erstgespräch), gewählter Termin,
-            Unterrichtsfächer, bei Online-Nachhilfe der gewünschte
-            Unterrichtsort (Microsoft Teams oder Discord) sowie freiwillige
-            Angaben im Hinweisfeld. Zweck ist das Anlegen, Verwalten und
-            Nachbereiten des Termins.
+            Fach beziehungsweise Fächer, bei Online-Nachhilfe die gewünschte
+            Unterrichtsplattform (Microsoft Teams oder Discord) sowie
+            freiwillige Angaben im Hinweisfeld. Bei einer kostenpflichtigen
+            Buchung übermittle ich außerdem die Bestätigung der AGB- und
+            Widerrufshinweise sowie die Fassung der einbezogenen AGB als
+            Buchungsmetadaten. Zweck ist das Anlegen, Verwalten und Nachbereiten
+            des Termins sowie der Nachweis der Buchungsbestätigungen.
           </P>
           <P variant="doc">
             {dpaSentence("Cal.com")} Eine Verarbeitung personenbezogener Daten

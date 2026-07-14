@@ -9,12 +9,12 @@ export const subjectsFaq: Faq[] = [
   {
     question: "Für welches Niveau ist das geeignet?",
     answer:
-      "Für Lücken, sichere Noten und Spitzennoten. Wir starten dort, wo du stehst, und bauen fehlende Grundlagen gezielt nach.",
+      "Vom Schließen von Lücken bis zur Spitzennote: Wir starten dort, wo du stehst, und bauen fehlende Grundlagen gezielt nach.",
   },
   {
     question: "Wie läuft eine Stunde ab?",
     answer:
-      "60 Minuten: Ziel klären, gemeinsam rechnen oder programmieren und am Ende festhalten, was verstanden wurde und was du weiter übst.",
+      "60 Minuten: Ziel klären, gemeinsam rechnen oder programmieren und am Ende festhalten, was du verstanden hast und was du weiter übst.",
   },
   {
     question: "Muss ich mich vorbereiten?",
@@ -26,12 +26,12 @@ export const processFaq: Faq[] = [
   {
     question: "Läuft der Unterricht wirklich komplett online?",
     answer:
-      "Ja – live über Discord oder MS Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
+      "Ja – live über Discord oder Microsoft Teams mit geteiltem Bildschirm. Wie am selben Tisch, nur ohne Anfahrt.",
   },
   {
     question: "Welche Technik brauche ich?",
     answer:
-      "Computer, Laptop oder Tablet, stabiles Internet und idealerweise ein Headset. Discord ist kostenlos – bei der Einrichtung helfe ich.",
+      "Computer, Laptop oder Tablet, stabiles Internet und am besten ein Headset. Discord ist kostenlos – bei der Einrichtung helfe ich.",
   },
   {
     question: "Wie oft sollten wir uns sehen?",
@@ -41,12 +41,12 @@ export const processFaq: Faq[] = [
   {
     question: "Wie sage ich ab?",
     answer:
-      "Bis 24 Stunden vorher kannst du kostenfrei verschieben oder absagen. Bei echten Notfällen finden wir eine faire Lösung.",
+      "Bis 24 Stunden vorher kannst du kostenfrei verschieben oder absagen. Bei kurzfristigen Notfällen finden wir eine faire Lösung.",
   },
   {
     question: "Können Eltern beim Erstgespräch dabei sein?",
     answer:
-      "Sehr gerne. Viele Erstgespräche führen wir gemeinsam – so haben alle das gleiche Bild.",
+      "Sehr gern. Viele Erstgespräche führen wir gemeinsam – so haben alle denselben Informationsstand.",
   },
 ];
 
@@ -69,7 +69,7 @@ export const onlineFaq: Faq[] = [
   {
     question: "Was brauche ich technisch?",
     answer:
-      "Computer, Laptop oder Tablet, stabiles Internet – und am besten ein Headset. Eine Kamera brauchst du nicht, und Discord ist komplett kostenlos.",
+      "Computer, Laptop oder Tablet, stabiles Internet und am besten ein Headset. Eine Kamera brauchst du nicht. Discord ist kostenlos.",
   },
   {
     question: "Muss ich sonst etwas vorbereiten?",
@@ -79,7 +79,7 @@ export const onlineFaq: Faq[] = [
   {
     question: "Ist Discord sicher – auch aus Elternsicht?",
     answer:
-      "Unser Server ist privat und geschlossen: Er lässt sich nicht öffentlich finden, rein kommt nur, wer den Link hat, und freischalten kann allein ich. Eine Kamera ist nie nötig. Discord selbst ist ein etablierter, kostenloser Dienst – was dabei an Daten verarbeitet wird, findest du in meiner Datenschutzerklärung. Und Eltern schauen jederzeit gern mit.",
+      "Der Einladungslink ist öffentlich erreichbar. Die Unterrichtskanäle siehst du aber erst nach meiner persönlichen Freischaltung, und jede lernende Person erhält einen eigenen Bereich. Eine Kamera brauchst du nicht. Welche Daten Discord verarbeitet, steht in meiner Datenschutzerklärung. Eltern können beim Einrichten und im Unterricht gern dabeibleiben.",
   },
 ];
 
@@ -87,7 +87,7 @@ export const pricingFaq: Faq[] = [
   {
     question: "Gibt es versteckte Kosten?",
     answer:
-      "Nein. 30 € pro 60 Minuten, für alle Fächer und Klassenstufen. Keine Anmeldegebühr, keine Mindestlaufzeit.",
+      "Nein. Es gelten 30 € pro 60 Minuten – unabhängig vom angebotenen Fach und von der Klassenstufe. Es gibt weder eine Anmeldegebühr noch eine Mindestlaufzeit.",
   },
   {
     question: "Wie bezahle ich?",
@@ -95,8 +95,8 @@ export const pricingFaq: Faq[] = [
       "Per Überweisung mit Rechnung und GiroCode oder per PayPal-Link. Die Abrechnung erfolgt einzeln nach dem Termin oder gesammelt für mehrere Stunden.",
   },
   {
-    question: "Was ist Bildung & Teilhabe?",
+    question: "Was ist das Bildungs- und Teilhabepaket?",
     answer:
-      "Nachhilfe kann über Bildung & Teilhabe gefördert werden. Ich helfe dir bei der Einordnung und rechne bei passender Bewilligung direkt mit der zuständigen Stelle ab.",
+      "Nachhilfe kann über das Bildungs- und Teilhabepaket (BuT) gefördert werden. Ich helfe dir herauszufinden, ob eine Förderung infrage kommt, und rechne bei passender Bewilligung direkt mit der zuständigen Stelle ab.",
   },
 ];

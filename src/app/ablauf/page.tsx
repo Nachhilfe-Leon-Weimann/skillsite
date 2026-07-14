@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
@@ -15,14 +13,15 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { startSteps, lessonFlow, discordHighlights } from "@/content/process";
 import { processFaq } from "@/content/faqs";
 import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/ablauf" },
+export const metadata = pageMetadata({
+  canonical: "/ablauf",
   title: "Ablauf",
   description:
-    "So läuft die Nachhilfe ab: kostenloses Erstgespräch, erste Stunde, dein Rhythmus. Unterricht online über Discord oder MS Teams.",
-};
+    "So läuft die Nachhilfe ab: kostenloses Erstgespräch, erste Stunde und flexible Termine. Online über Discord oder Microsoft Teams.",
+});
 
 export default function ProcessPage() {
   return (
@@ -31,7 +30,7 @@ export default function ProcessPage() {
         eyebrow="Ablauf"
         title="So läuft die Nachhilfe bei mir ab."
         titleClassName="max-w-[13em]"
-        lead="Kein Schema F. Wir klären zuerst, wo du stehst, und bauen daraus einen Plan, der zu deinem Ziel passt."
+        lead="Kein Schema F. Wir klären zuerst, wo du stehst, und machen daraus einen Plan, der zu deinem Ziel passt."
       />
 
       <Container className="py-section-sm">
@@ -64,7 +63,7 @@ export default function ProcessPage() {
                 Unser Klassenzimmer
               </span>
               <Heading as="h3" size="h4" className="mt-3.5 mb-2.5 text-white">
-                Unterricht über Discord oder MS Teams
+                Unterricht über Discord oder Microsoft Teams
               </Heading>
               <Text tone="on-navy-soft" className="mb-4">
                 Live mit geteiltem Bildschirm: wie am selben Tisch, nur ohne
@@ -76,7 +75,7 @@ export default function ProcessPage() {
                   Discord
                 </span>
                 <span className="rounded-full border border-white/25 px-3.5 py-1.5 text-small font-semibold text-white">
-                  MS Teams
+                  Microsoft Teams
                 </span>
               </div>
               <div className="flex flex-col gap-3">
@@ -114,7 +113,7 @@ export default function ProcessPage() {
         <Reveal variant="rise-soft" index={1}>
           <Text tone="muted" className="mx-auto mt-3 mb-7 max-w-[32em]">
             Freie Slots direkt im Kalender wählen – wöchentlich, vor Klausuren
-            intensiver oder nach Bedarf. Bis 24&nbsp;h vorher kostenfrei
+            intensiver oder nach Bedarf. Bis 24&nbsp;Stunden vorher kostenfrei
             absagen.
           </Text>
         </Reveal>

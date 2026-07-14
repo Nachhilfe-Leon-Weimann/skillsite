@@ -30,25 +30,25 @@ const hanken = Hanken_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL("https://nachhilfe.leonweimann.de"),
   title: {
-    default: "Nachhilfe Leon Weimann",
+    default: "Online-Nachhilfe für Mathe, Informatik und Physik",
     template: "%s – Nachhilfe Leon Weimann",
   },
   description:
-    "Online-Nachhilfe in Mathematik, Informatik und Physik – persönlich, ohne Vertrag, 30 € pro Stunde. Lernen, bis es klick macht.",
+    "Persönliche Online-Nachhilfe in Mathematik, Informatik und Physik – flexibel, ohne Mindestlaufzeit und für 30 € pro 60 Minuten.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "de_DE",
     siteName: "Nachhilfe Leon Weimann",
-    title: "Nachhilfe Leon Weimann",
+    title: "Online-Nachhilfe für Mathe, Informatik und Physik",
     description:
-      "Online-Nachhilfe in Mathematik, Informatik und Physik – persönlich, ohne Vertrag. Lernen, bis es klick macht.",
+      "Persönliche Online-Nachhilfe – flexibel, ohne Mindestlaufzeit und für 30 € pro 60 Minuten.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nachhilfe Leon Weimann",
+    title: "Online-Nachhilfe für Mathe, Informatik und Physik",
     description:
-      "Online-Nachhilfe in Mathematik, Informatik und Physik – persönlich, ohne Vertrag. Lernen, bis es klick macht.",
+      "Persönliche Online-Nachhilfe – flexibel, ohne Mindestlaufzeit und für 30 € pro 60 Minuten.",
   },
 };
 

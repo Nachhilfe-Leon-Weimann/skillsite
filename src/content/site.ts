@@ -24,11 +24,11 @@ export type PlatformNavItem = NavLink & { note: string };
 export const platformNav: PlatformNavItem[] = [
   {
     label: "Discord",
-    note: "Server, Einrichtung & Funktionen",
+    note: "Server, Einrichtung und Funktionen",
     href: routes.onlineLearning,
   },
   {
-    label: "MS Teams",
+    label: "Microsoft Teams",
     note: "Auch über Teams möglich",
     href: routes.msTeams,
   },
@@ -46,4 +46,4 @@ export const primaryCta = {
   href: routes.firstMeeting,
 };
 
-export const trustLine = "Unverbindlich, kostenlos und ohne Anmeldung.";
+export const trustLine = "Kostenlos, unverbindlich und ohne Benutzerkonto.";

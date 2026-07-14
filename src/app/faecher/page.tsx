@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 
 import { Container } from "@/components/layout/container";
@@ -14,13 +13,15 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { subjects } from "@/content/subjects";
 import { subjectsFaq } from "@/content/faqs";
 import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/faecher" },
+export const metadata = pageMetadata({
+  canonical: "/faecher",
   title: "Fächer",
-  description: "Mathematik, Informatik und Physik aus einer Hand.",
-};
+  description:
+    "Online-Nachhilfe in Mathematik, Informatik und Physik – verständlich erklärt und zum Festpreis von 30 € pro 60 Minuten.",
+});
 
 export default function SubjectsPage() {
   return (
@@ -31,9 +32,9 @@ export default function SubjectsPage() {
         titleClassName="max-w-[14em]"
         lead={
           <>
-            Die drei Fächer gehören zusammen: Wer das Prinzip in einem versteht,
-            tut sich auch in den anderen leichter. Ein fairer Festpreis von
-            30&nbsp;€/h gilt für alle.
+            In allen drei Fächern geht es darum, Zusammenhänge zu verstehen und
+            sicher anzuwenden. Der Festpreis beträgt jeweils 30&nbsp;€ pro
+            60&nbsp;Minuten.
           </>
         }
       />
@@ -58,7 +59,7 @@ export default function SubjectsPage() {
                   </span>
                   <div>
                     <Heading size="h3">{subject.name}</Heading>
-                    <Tag className="mt-2">30 € / Stunde</Tag>
+                    <Tag className="mt-2">30 € · 60 Min.</Tag>
                   </div>
                 </div>
                 <Text size="lead" tone="muted" className="mt-6">
@@ -69,7 +70,7 @@ export default function SubjectsPage() {
                   variant="navy"
                   className="mt-6"
                 >
-                  Erstgespräch zu {subject.name}{" "}
+                  Erstgespräch: {subject.name}{" "}
                   <ArrowRight className="size-4" />
                 </LinkButton>
               </Reveal>

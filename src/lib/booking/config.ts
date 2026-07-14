@@ -3,6 +3,44 @@ import type { FieldDef, FieldOption, FieldValue } from "@/lib/booking/fields";
 
 export const BOOKING_TIMEZONE = "Europe/Berlin";
 
+const bookingDateFormatter = new Intl.DateTimeFormat("en", {
+  timeZone: BOOKING_TIMEZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+function bookingDateKey(date: Date): string {
+  const parts = bookingDateFormatter.formatToParts(date);
+  const part = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((entry) => entry.type === type)?.value ?? "";
+  return [part("year"), part("month"), part("day")].join("-");
+}
+
+function addCalendarDays(dateKey: string, days: number): string {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const result = new Date(Date.UTC(year, month - 1, day + days));
+  return [
+    result.getUTCFullYear(),
+    String(result.getUTCMonth() + 1).padStart(2, "0"),
+    String(result.getUTCDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+/**
+ * Whether a paid lesson falls on or before the final calendar day of the
+ * regular 14-day withdrawal period. Invalid dates stay on the safe side.
+ */
+export function startsWithinWithdrawalPeriod(
+  slotStart: string,
+  now = Date.now(),
+): boolean {
+  const start = new Date(slotStart);
+  if (!Number.isFinite(start.getTime())) return true;
+  const cutoff = addCalendarDays(bookingDateKey(new Date(now)), 14);
+  return bookingDateKey(start) <= cutoff;
+}
+
 /** Cache tag for the Cal.com slots fetch - revalidated after every booking. */
 export const CAL_SLOTS_TAG = "cal-slots";
 
@@ -56,11 +94,6 @@ export type BookingEventConfig = {
   formNote?: string;
   /** Schema-driven form fields; render, validation and Cal mapping read these. */
   fields: FieldDef[];
-  /**
-   * Constant booking-field responses Cal.com requires but we don't ask for
-   * (e.g. a mandatory policy confirmation). Merged into the request verbatim.
-   */
-  calExtraResponses?: Record<string, unknown>;
 };
 
 /** Name + e-mail are shared by every event. */
@@ -108,8 +141,8 @@ const noteField = (label: string): FieldDef => ({
   key: "note",
   kind: "textarea",
   label,
-  hint: "(optional)",
-  placeholder: "Klassenstufe, Thema, Ziel ...",
+  hint: "(freiwillig)",
+  placeholder: "Klassenstufe, Thema, Ziel …",
   maxLength: FIELD_LIMITS.note,
   target: { to: "bookingField", slug: "notes" },
 });
@@ -122,18 +155,17 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
     medium: "phone",
     mediumLabel: "Telefonisches Erstgespräch",
     pricePerHour: null,
-    priceLabel: "Komplett kostenlos und unverbindlich",
-    submitLabel: "Erstgespräch anfragen",
-    formNote:
-      "Unverbindlich & kostenlos. Ich rufe dich zum gewählten Termin an.",
+    priceLabel: "Kostenlos und unverbindlich",
+    submitLabel: "Erstgespräch buchen",
+    formNote: "Ich rufe dich zum gewählten Termin an.",
     fields: [
       ...nameFields,
       emailField,
       {
         key: "phone",
         kind: "tel",
-        label: "Telefon",
-        placeholder: "+49 ...",
+        label: "Telefonnummer",
+        placeholder: "+49 …",
         half: true,
         autoComplete: "tel",
         maxLength: FIELD_LIMITS.phone,
@@ -144,13 +176,13 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
       {
         key: "subjects",
         kind: "chips",
-        label: "Fach / Fächer",
+        label: "Fächer",
         multiple: true,
         required: true,
         options: subjectOptions,
         target: { to: "bookingField", slug: "subjects" },
       },
-      noteField("Worum geht's?"),
+      noteField("Worum geht’s?"),
     ],
   },
   nachhilfe: {
@@ -158,25 +190,22 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
     durations: [45, 60, 90],
     defaultDuration: 60,
     medium: "online",
-    mediumLabel: "Online via Discord oder MS Teams",
+    mediumLabel: "Online über Discord oder Microsoft Teams",
     pricePerHour: 30,
-    priceLabel: "30 € pro Stunde",
-    submitLabel: "Termin buchen",
+    priceLabel: "30 € pro 60 Minuten",
+    submitLabel: "Zahlungspflichtig buchen",
     formNote:
-      "Online via Discord oder MS Teams. Bis 24 h vorher kostenfrei stornierbar.",
-    // Cal marks "policies-accepted" required; we don't surface the checkbox in
-    // v1, so we confirm it on the user's behalf to let the booking go through.
-    calExtraResponses: { "policies-accepted": true },
+      "Online über Discord oder Microsoft Teams. Bis 24 Stunden vorher kostenfrei verschiebbar oder stornierbar.",
     fields: [
       ...nameFields,
       emailField,
       {
         key: "location",
         kind: "radio",
-        label: "Ort",
+        label: "Plattform",
         required: true,
         options: [
-          { value: "office365-video", label: "MS Teams" },
+          { value: "office365-video", label: "Microsoft Teams" },
           { value: "discord-video", label: "Discord" },
         ],
         target: { to: "location" },
@@ -184,7 +213,7 @@ export const bookingEvents: Record<BookingEventKey, BookingEventConfig> = {
       {
         key: "subject",
         kind: "chips",
-        label: "Bei welchem Fach kann ich dir helfen?",
+        label: "In welchem Fach kann ich dir helfen?",
         shortLabel: "Fach",
         multiple: false,
         required: true,
@@ -230,6 +259,11 @@ export type BookingSubmission = {
   duration?: number;
   /** Field values keyed by `FieldDef.key`. */
   values: Record<string, FieldValue>;
+  /** Explicit legal confirmations required for a paid lesson booking. */
+  agreements?: {
+    termsAccepted: boolean;
+    earlyPerformanceRequested: boolean;
+  };
   /** Anti-spam honeypot - bots fill it, humans never see it. */
   honeypot?: string;
   /** Anti-spam: client ms timestamp at form mount (time-trap). */

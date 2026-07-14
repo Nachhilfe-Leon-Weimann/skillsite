@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { routes } from "@/lib/routes";
 import {
   bookingEvents,
+  startsWithinWithdrawalPeriod,
   type BookingEventKey,
   type BookingSubmission,
 } from "@/lib/booking/config";
@@ -91,12 +92,32 @@ export function BookingForm({
     buildSubmission,
   } = useBookingForm(event, initialSubject);
 
+  const isPaidBooking = event === "nachhilfe";
+  const needsEarlyPerformanceConsent =
+    isPaidBooking && startsWithinWithdrawalPeriod(slotStart);
+  const [earlyPerformanceRequested, setEarlyPerformanceRequested] =
+    useState(false);
+
   const groups = useMemo(() => groupFields(config.fields), [config.fields]);
+  const readyToSubmit =
+    canSubmit &&
+    (!needsEarlyPerformanceConsent || earlyPerformanceRequested);
+  const openItems = [
+    ...missing,
+    ...(needsEarlyPerformanceConsent && !earlyPerformanceRequested
+      ? ["Widerrufshinweis"]
+      : []),
+  ];
 
   function handleSubmit(formEvent: React.FormEvent) {
     formEvent.preventDefault();
-    if (!canSubmit) return;
-    onSubmit(buildSubmission(slotStart, duration));
+    if (!readyToSubmit) return;
+    onSubmit({
+      ...buildSubmission(slotStart, duration),
+      agreements: isPaidBooking
+        ? { termsAccepted: true, earlyPerformanceRequested }
+        : undefined,
+    });
   }
 
   return (
@@ -158,15 +179,42 @@ export function BookingForm({
         </div>
       ))}
 
-      <Button type="submit" disabled={!canSubmit} className="mt-1">
+      {isPaidBooking ? (
+        <div className="flex flex-col gap-3 rounded-2xl border border-line bg-bg p-4">
+          {needsEarlyPerformanceConsent ? (
+            <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-ink">
+              <input
+                type="checkbox"
+                checked={earlyPerformanceRequested}
+                onChange={(formEvent) =>
+                  setEarlyPerformanceRequested(formEvent.target.checked)
+                }
+                className="mt-1 size-4 shrink-0 accent-coral"
+                required
+              />
+              <span>
+                Der Unterricht darf vor Ablauf der 14-tägigen Widerrufsfrist
+                beginnen. Mir ist bekannt, dass mein Widerrufsrecht nach
+                vollständiger Durchführung der gebuchten Stunde erlischt.
+              </span>
+            </label>
+          ) : null}
+          <Text tone="muted" className="text-sm">
+            Mit Klick auf „Zahlungspflichtig buchen“ akzeptierst du die{" "}
+            <InlineLink href={routes.agb}>AGB</InlineLink>. Informationen zur
+            Datenverarbeitung findest du in der{" "}
+            <InlineLink href={routes.datenschutz}>
+              Datenschutzerklärung
+            </InlineLink>
+            .
+          </Text>
+        </div>
+      ) : null}
+
+      <Button type="submit" disabled={!readyToSubmit} className="mt-1">
         {config.submitLabel} <ArrowRight className="size-4" />
       </Button>
-      <Text tone="muted" className="text-center text-sm">
-        Mit Absenden der Anfrage werden deine Angaben zur Terminbuchung an
-        Cal.com übermittelt. Details findest du in der{" "}
-        <InlineLink href={routes.datenschutz}>Datenschutzerklärung</InlineLink>.
-      </Text>
-      {canSubmit ? (
+      {readyToSubmit ? (
         config.formNote ? (
           <Text size="caption" tone="muted" className="text-center">
             {config.formNote}
@@ -177,8 +225,8 @@ export function BookingForm({
           aria-live="polite"
           className="text-center text-caption text-ink-soft"
         >
-          Noch offen:{" "}
-          <span className="font-semibold text-ink">{missing.join(" - ")}</span>
+          Bitte noch ausfüllen oder bestätigen:{" "}
+          <span className="font-semibold text-ink">{openItems.join(", ")}</span>
         </p>
       )}
     </form>

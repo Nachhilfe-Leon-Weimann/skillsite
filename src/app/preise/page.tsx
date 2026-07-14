@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
@@ -20,14 +18,15 @@ import {
 } from "@/content/pricing";
 import { pricingFaq } from "@/content/faqs";
 import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/preise" },
+export const metadata = pageMetadata({
+  canonical: "/preise",
   title: "Preise",
   description:
-    "Klare Preise ohne Überraschungen: 30 € pro 60 Minuten für alle Fächer und Klassenstufen. Förderung über Bildung & Teilhabe möglich.",
-};
+    "Klare Preise ohne Überraschungen: 30 € pro 60 Minuten für alle angebotenen Fächer und Klassenstufen. BuT-Förderung ist möglich.",
+});
 
 export default function PricingPage() {
   return (
@@ -45,7 +44,7 @@ export default function PricingPage() {
             <div className="flex flex-col justify-center bg-navy p-[clamp(2rem,4vw,2.75rem)] text-white">
               <Reveal trigger="mount" variant="rise-soft" delay={0}>
                 <span className="font-semibold tracking-[0.04em] text-accent-blue">
-                  Festpreis für alle Fächer
+                  Festpreis für jedes angebotene Fach
                 </span>
               </Reveal>
               <Reveal
@@ -103,7 +102,7 @@ export default function PricingPage() {
           <Reveal variant="rise-soft" index={0}>
             <Card className="h-full p-7">
               <Heading as="h2" size="h4" className="mb-4">
-                Fair bleibt fair
+                Faire Bedingungen
               </Heading>
               <div className="flex flex-col gap-3">
                 {fairConditions.map((condition) => (
@@ -120,7 +119,7 @@ export default function PricingPage() {
           <Reveal variant="rise-soft" index={1}>
             <Card className="h-full p-7">
               <Heading as="h2" size="h4" className="mb-4">
-                Zahlung &amp; Abrechnung
+                Zahlung und Abrechnung
               </Heading>
               <div className="flex flex-col gap-3">
                 {paymentOptions.map((option) => (
@@ -140,9 +139,9 @@ export default function PricingPage() {
       <Section id="but" surface>
         <div className="mb-8 flex flex-wrap justify-between items-end">
           <Reveal variant="rise-soft">
-            <Eyebrow>Bildung &amp; Teilhabe</Eyebrow>
+            <Eyebrow>Bildung und Teilhabe</Eyebrow>
             <Heading size="h3" className="mt-4 mb-2.5 max-w-[18em]">
-              Nachhilfe kann gefördert werden – ganz normaler Unterricht.
+              Geförderte Nachhilfe – unkompliziert abgerechnet.
             </Heading>
             <Text tone="muted" className="max-w-[38em]">
               {but.intro}
@@ -186,7 +185,10 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      <FaqSection title="Fragen zu Preis & Zahlung" items={pricingFaq} />
+      <FaqSection
+        title="Häufige Fragen zu Preis und Zahlung"
+        items={pricingFaq}
+      />
       <CtaSection />
     </>
   );

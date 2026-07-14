@@ -113,7 +113,7 @@ export function ThemeToggle() {
   return (
     <div
       role="group"
-      aria-label="Farbschema überschreiben"
+      aria-label="Farbschema wählen"
       aria-describedby={hasOverride ? resetId : undefined}
       className="relative grid grid-cols-2 rounded-full border border-white/15 bg-white/[0.07] p-1"
     >
