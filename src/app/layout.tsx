@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/routes";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -28,7 +29,7 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nachhilfe.leonweimann.de"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Online-Nachhilfe für Mathe, Informatik und Physik",
     template: "%s – Nachhilfe Leon Weimann",

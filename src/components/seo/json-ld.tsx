@@ -2,8 +2,7 @@ import { brand } from "@/content/site";
 import { legalContact } from "@/content/legal";
 import { contactDetails } from "@/content/contact";
 import { socials } from "@/content/socials";
-
-const BASE_URL = "https://nachhilfe.leonweimann.de";
+import { SITE_URL } from "@/lib/routes";
 
 // legalContact.city is "77963 Schwanau" -> split into postal code + locality.
 const [postalCode, ...localityParts] = legalContact.city.split(" ");
@@ -12,9 +11,9 @@ const addressLocality = localityParts.join(" ");
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
-  "@id": `${BASE_URL}/#business`,
+  "@id": `${SITE_URL}/#business`,
   name: brand.name,
-  url: BASE_URL,
+  url: SITE_URL,
   description:
     "Persönliche Online-Nachhilfe in Mathematik, Informatik und Physik – ohne Mindestlaufzeit, 30 € pro 60 Minuten.",
   founder: { "@type": "Person", name: legalContact.ownerName },

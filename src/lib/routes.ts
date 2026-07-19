@@ -1,3 +1,6 @@
+/** Canonical production origin, shared by sitemap, robots, metadata and JSON-LD. */
+export const SITE_URL = "https://nachhilfe.leonweimann.de";
+
 export const routes = {
   home: "/",
 
