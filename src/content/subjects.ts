@@ -28,7 +28,6 @@ export const subjects: Subject[] = [
     key: "maths",
     name: "Mathematik",
     glyph: SigmaIcon,
-    tag: "Sehr gefragt",
     claim: "Mathe logisch erklärt – verstehen statt auswendig lernen.",
     description:
       "Von den Grundlagen bis zur Analysis: Wir bauen Sicherheit auf, statt Formeln zu pauken. So kannst du auch Aufgaben lösen, die du noch nie gesehen hast.",
@@ -95,7 +94,6 @@ export const subjects: Subject[] = [
     key: "physics",
     name: "Physik",
     glyph: TriangleIcon,
-    tag: "Neu",
     claim: "Hinter die Formel blicken, Schritt für Schritt.",
     description:
       "Was passiert da eigentlich? Wir verbinden Anschauung und Rechnung, bis der Stoff hinter den Formeln Sinn ergibt.",
