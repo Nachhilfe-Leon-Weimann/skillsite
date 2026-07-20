@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import type { FieldDef } from "@/lib/booking/fields";
 
 /** Single-choice radio group as selectable rows (e.g. the platform choice). */

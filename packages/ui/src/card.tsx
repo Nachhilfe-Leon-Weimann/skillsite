@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./utils";
 
 /** Surface panel: bordered, rounded, soft shadow. Padding is set by the caller. */
 export function Card({ className, ...props }: React.ComponentProps<"div">) {

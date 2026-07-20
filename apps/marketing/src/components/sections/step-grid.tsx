@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/ui/reveal";
+import { cn } from "@skillsite/ui/utils";
+import { Reveal } from "@skillsite/ui/reveal";
 import type { Step } from "@/content/process";
 
 type StepGridProps = {

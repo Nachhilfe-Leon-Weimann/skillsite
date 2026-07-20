@@ -1,7 +1,7 @@
 import { Container } from "@/components/layout/container";
-import { LinkButton } from "@/components/ui/button";
-import { Reveal } from "@/components/ui/reveal";
-import { Heading, Text } from "@/components/ui/typography";
+import { LinkButton } from "@skillsite/ui/button";
+import { Reveal } from "@skillsite/ui/reveal";
+import { Heading, Text } from "@skillsite/ui/typography";
 import { primaryCta, trustLine } from "@/content/site";
 import { ArrowRight } from "lucide-react";
 

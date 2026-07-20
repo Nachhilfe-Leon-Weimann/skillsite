@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import { SITE_URL } from "@/lib/routes";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";

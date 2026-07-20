@@ -1,9 +1,9 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { LinkButton } from "@/components/ui/button";
-import { Heading, Lead, Text } from "@/components/ui/typography";
-import { Reveal } from "@/components/ui/reveal";
+import { Eyebrow } from "@skillsite/ui/eyebrow";
+import { LinkButton } from "@skillsite/ui/button";
+import { Heading, Lead, Text } from "@skillsite/ui/typography";
+import { Reveal } from "@skillsite/ui/reveal";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { ProfilePhoto } from "@/components/sections/profile-photo";
 import { CodeTypewriter } from "@/components/sections/code-typewriter";

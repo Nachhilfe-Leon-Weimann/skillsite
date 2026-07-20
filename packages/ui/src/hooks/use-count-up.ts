@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { useInView } from "@/lib/use-in-view";
+import { useInView } from "./use-in-view";
 
 // useLayoutEffect warns during SSR (it no-ops there); fall back to useEffect on
 // the server. The chosen hook is fixed per environment, so it's always called.

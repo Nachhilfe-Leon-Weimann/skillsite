@@ -1,6 +1,6 @@
-import { Accordion, type AccordionEntry } from "@/components/ui/accordion";
-import { Reveal } from "@/components/ui/reveal";
-import { Heading } from "@/components/ui/typography";
+import { Accordion, type AccordionEntry } from "@skillsite/ui/accordion";
+import { Reveal } from "@skillsite/ui/reveal";
+import { Heading } from "@skillsite/ui/typography";
 
 type FaqSectionProps = {
   title?: string;

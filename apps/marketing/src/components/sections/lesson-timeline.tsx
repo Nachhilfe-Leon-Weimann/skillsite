@@ -2,9 +2,9 @@
 
 import type { CSSProperties } from "react";
 
-import { Text } from "@/components/ui/typography";
-import { useInView } from "@/lib/use-in-view";
-import { cn } from "@/lib/utils";
+import { Text } from "@skillsite/ui/typography";
+import { useInView } from "@skillsite/ui/hooks/use-in-view";
+import { cn } from "@skillsite/ui/utils";
 
 type LessonStep = { n: string; title: string; text: string };
 

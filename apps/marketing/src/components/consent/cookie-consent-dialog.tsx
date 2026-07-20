@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Dialog } from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
+import { Dialog } from "@skillsite/ui/dialog";
+import { Switch } from "@skillsite/ui/switch";
+import { Button } from "@skillsite/ui/button";
 import type { ConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/routes";
 import { useConsent } from "@/providers/consent-provider";

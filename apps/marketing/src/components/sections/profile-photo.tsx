@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 
 const PROFILE_PHOTO_LIGHT = "/images/leon-ueber-mich-light.webp";
 const PROFILE_PHOTO_DARK = "/images/leon-ueber-mich-dark.webp";

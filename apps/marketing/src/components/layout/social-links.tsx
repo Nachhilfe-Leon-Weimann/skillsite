@@ -8,7 +8,7 @@ import {
 } from "@icons-pack/react-simple-icons";
 
 import { socials, type SocialKey } from "@/content/socials";
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 
 type IconType = typeof SiDiscord;
 

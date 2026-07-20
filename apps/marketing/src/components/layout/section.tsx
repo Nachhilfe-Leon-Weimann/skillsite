@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import { Container } from "@/components/layout/container";
 
 type SectionProps = React.ComponentProps<"section"> & {

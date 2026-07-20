@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { LinkButton } from "@/components/ui/button";
-import { Heading, Text } from "@/components/ui/typography";
+import { Eyebrow } from "@skillsite/ui/eyebrow";
+import { LinkButton } from "@skillsite/ui/button";
+import { Heading, Text } from "@skillsite/ui/typography";
 import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {

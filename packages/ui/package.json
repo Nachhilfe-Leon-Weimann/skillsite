@@ -1,0 +1,32 @@
+{
+  "name": "@skillsite/ui",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./styles/*": "./styles/*",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./utils": "./src/utils.ts",
+    "./*": "./src/*.tsx"
+  },
+  "scripts": {
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "peerDependencies": {
+    "lucide-react": "^1.24.0",
+    "next": "^16",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@skillsite/config": "workspace:*",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "next": "16.2.10",
+    "typescript": "^6.0.3"
+  }
+}

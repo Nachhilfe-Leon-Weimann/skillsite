@@ -8,8 +8,8 @@ import type {
   Ref,
 } from "react";
 
-import { cn } from "@/lib/utils";
-import { useInView } from "@/lib/use-in-view";
+import { cn } from "./utils";
+import { useInView } from "./hooks/use-in-view";
 
 type RevealVariant = "rise" | "rise-soft" | "fade" | "settle";
 type RevealTrigger = "in-view" | "mount";

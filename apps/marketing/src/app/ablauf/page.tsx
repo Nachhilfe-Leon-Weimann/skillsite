@@ -1,11 +1,11 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/layout/page-header";
-import { SectionHeader } from "@/components/ui/section-header";
-import { LinkButton } from "@/components/ui/button";
-import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
-import { Reveal } from "@/components/ui/reveal";
-import { Heading, Text } from "@/components/ui/typography";
+import { SectionHeader } from "@skillsite/ui/section-header";
+import { LinkButton } from "@skillsite/ui/button";
+import { AnimatedCheckMark } from "@skillsite/ui/animated-check-mark";
+import { Reveal } from "@skillsite/ui/reveal";
+import { Heading, Text } from "@skillsite/ui/typography";
 import { StepGrid } from "@/components/sections/step-grid";
 import { LessonTimeline } from "@/components/sections/lesson-timeline";
 import { FaqSection } from "@/components/sections/faq-section";

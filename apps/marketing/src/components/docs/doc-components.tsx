@@ -1,10 +1,10 @@
 import { ExternalLink, type LucideIcon, Scale } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
-import { Card } from "@/components/ui/card";
-import { Reveal } from "@/components/ui/reveal";
-import { H1, H2, H3, InlineLink, Lead } from "@/components/ui/typography";
-import { cn } from "@/lib/utils";
+import { Card } from "@skillsite/ui/card";
+import { Reveal } from "@skillsite/ui/reveal";
+import { H1, H2, H3, InlineLink, Lead } from "@skillsite/ui/typography";
+import { cn } from "@skillsite/ui/utils";
 
 import { DocSectionNav, type DocNavSection } from "./doc-section-nav";
 

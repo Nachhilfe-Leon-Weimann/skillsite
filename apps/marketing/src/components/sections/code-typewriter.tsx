@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { useInView } from "@/lib/use-in-view";
+import { useInView } from "@skillsite/ui/hooks/use-in-view";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;

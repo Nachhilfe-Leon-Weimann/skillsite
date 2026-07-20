@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import { useConsent } from "@/providers/consent-provider";
 
 type CookieSettingsButtonProps = {

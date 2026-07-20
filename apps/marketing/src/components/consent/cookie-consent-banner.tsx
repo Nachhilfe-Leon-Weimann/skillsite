@@ -3,9 +3,9 @@
 import { useCallback, useState } from "react";
 import { Cookie } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@skillsite/ui/button";
 import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import { useConsent } from "@/providers/consent-provider";
 
 const EXIT_MS = 220;

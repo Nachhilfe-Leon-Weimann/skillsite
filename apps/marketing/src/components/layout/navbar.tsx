@@ -5,13 +5,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@skillsite/ui/utils";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
-import { Button, LinkButton } from "@/components/ui/button";
+import { Button, LinkButton } from "@skillsite/ui/button";
 import { primaryCta, primaryNav, platformNav } from "@/content/site";
-import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
-import { useMediaQuery } from "@/lib/use-media-query";
+import { useBodyScrollLock } from "@skillsite/ui/hooks/use-body-scroll-lock";
+import { useMediaQuery } from "@skillsite/ui/hooks/use-media-query";
 import { routes } from "@/lib/routes";
 import { MENU_STATE_EVENT } from "@/components/layout/ios-toolbar-tint";
 

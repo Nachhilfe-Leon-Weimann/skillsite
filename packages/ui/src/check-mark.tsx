@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./utils";
 
 type CheckMarkProps = React.ComponentProps<"svg"> & {
   /** Extra classes for the stroke path (AnimatedCheckMark uses this to draw it). */

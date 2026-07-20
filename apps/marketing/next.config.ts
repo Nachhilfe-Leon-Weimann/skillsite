@@ -33,6 +33,8 @@ const nextConfig: NextConfig = {
   // The app lives in a pnpm workspace; trace files from the repo root so the
   // standalone bundle includes dependencies hoisted to the root store.
   outputFileTracingRoot: path.join(__dirname, "../.."),
+  // Internal packages ship TypeScript sources; Next compiles them in place.
+  transpilePackages: ["@skillsite/ui"],
   allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
     ? process.env.ALLOWED_DEV_ORIGINS.split(",")
     : [],

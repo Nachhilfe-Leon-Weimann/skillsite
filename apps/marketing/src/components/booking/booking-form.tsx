@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { InlineLink, Text } from "@/components/ui/typography";
-import { cn } from "@/lib/utils";
+import { Button } from "@skillsite/ui/button";
+import { InlineLink, Text } from "@skillsite/ui/typography";
+import { cn } from "@skillsite/ui/utils";
 import { routes } from "@/lib/routes";
 import {
   bookingEvents,

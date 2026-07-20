@@ -1,10 +1,10 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { LinkButton } from "@/components/ui/button";
-import { Heading, Lead, Text } from "@/components/ui/typography";
-import { Reveal } from "@/components/ui/reveal";
-import { SectionHeader } from "@/components/ui/section-header";
+import { Eyebrow } from "@skillsite/ui/eyebrow";
+import { LinkButton } from "@skillsite/ui/button";
+import { Heading, Lead, Text } from "@skillsite/ui/typography";
+import { Reveal } from "@skillsite/ui/reveal";
+import { SectionHeader } from "@skillsite/ui/section-header";
 import { StatGrid } from "@/components/sections/stat-grid";
 import { StepGrid } from "@/components/sections/step-grid";
 import { BenefitGrid } from "@/components/sections/benefit-grid";

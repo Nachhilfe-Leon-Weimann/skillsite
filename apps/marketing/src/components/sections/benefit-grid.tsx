@@ -1,5 +1,5 @@
-import { AnimatedCheckMark } from "@/components/ui/animated-check-mark";
-import { Reveal } from "@/components/ui/reveal";
+import { AnimatedCheckMark } from "@skillsite/ui/animated-check-mark";
+import { Reveal } from "@skillsite/ui/reveal";
 import type { Benefit } from "@/content/home";
 
 export function BenefitGrid({ items }: { items: Benefit[] }) {

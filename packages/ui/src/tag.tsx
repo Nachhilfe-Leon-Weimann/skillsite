@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./utils";
 
 type TagProps = React.ComponentProps<"span"> & {
   tone?: "coral" | "navy" | "outline";

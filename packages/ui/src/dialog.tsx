@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import { cn } from "@/lib/utils";
-import { useBodyScrollLock } from "@/lib/use-body-scroll-lock";
-import { useHydrated } from "@/lib/use-hydrated";
+import { cn } from "./utils";
+import { useBodyScrollLock } from "./hooks/use-body-scroll-lock";
+import { useHydrated } from "./hooks/use-hydrated";
 
 type DialogProps = {
   open: boolean;

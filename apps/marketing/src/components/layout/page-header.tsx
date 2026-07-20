@@ -1,8 +1,8 @@
 import { Container } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { Reveal } from "@/components/ui/reveal";
-import { Heading, Lead } from "@/components/ui/typography";
-import { cn } from "@/lib/utils";
+import { Eyebrow } from "@skillsite/ui/eyebrow";
+import { Reveal } from "@skillsite/ui/reveal";
+import { Heading, Lead } from "@skillsite/ui/typography";
+import { cn } from "@skillsite/ui/utils";
 
 type PageHeaderProps = {
   eyebrow?: React.ReactNode;
