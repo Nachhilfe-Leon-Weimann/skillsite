@@ -18,7 +18,7 @@ function bookingDateKey(date: Date): string {
 }
 
 function addCalendarDays(dateKey: string, days: number): string {
-  const [year, month, day] = dateKey.split("-").map(Number);
+  const [year = NaN, month = NaN, day = NaN] = dateKey.split("-").map(Number);
   const result = new Date(Date.UTC(year, month - 1, day + days));
   return [
     result.getUTCFullYear(),

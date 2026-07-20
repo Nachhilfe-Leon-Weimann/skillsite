@@ -21,7 +21,7 @@ export function bookingToday(): string {
  * for viewers in other timezones (and stays SSR/CSR consistent).
  */
 export function shownMonth(offset: number) {
-  const [year, month] = bookingToday().split("-").map(Number);
+  const [year = NaN, month = NaN] = bookingToday().split("-").map(Number);
   const target = new Date(Date.UTC(year, month - 1 + offset, 1));
   return { year: target.getUTCFullYear(), month: target.getUTCMonth() + 1 };
 }

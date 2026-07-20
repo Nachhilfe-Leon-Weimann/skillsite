@@ -127,7 +127,9 @@ export function Select<T extends string | number>({
   };
 
   const selectOption = (index: number) => {
-    onChange(options[index].value);
+    const option = options[index];
+    if (!option) return;
+    onChange(option.value);
     closeMenu(true);
   };
 

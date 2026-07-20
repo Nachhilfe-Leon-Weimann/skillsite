@@ -81,6 +81,7 @@ function buildTimeline(): Frame[] {
     const out = segs.slice();
     while (n > 0 && out.length) {
       const last = out[out.length - 1];
+      if (!last) break;
       if (last.text.length <= n) {
         n -= last.text.length;
         out.pop();
@@ -119,7 +120,8 @@ function buildTimeline(): Frame[] {
   // Type over the first pending closer.
   const overtype = () => {
     const first = after[0];
-    const ch = first.text[0];
+    if (!first) return;
+    const ch = first.text.charAt(0);
     const rest = first.text.slice(1);
     after = rest
       ? [{ ...first, text: rest }, ...after.slice(1)]
@@ -269,11 +271,12 @@ export function CodeTypewriter() {
     const loop = () => {
       const elapsed = performance.now() - start;
       let advanced = false;
-      while (i < frames.length && frames[i].t <= elapsed) {
+      while (i < frames.length && (frames[i]?.t ?? Infinity) <= elapsed) {
         i += 1;
         advanced = true;
       }
-      if (advanced) setFrame(frames[i - 1]);
+      const current = frames[i - 1];
+      if (advanced && current) setFrame(current);
       if (i < frames.length) raf = requestAnimationFrame(loop);
       else setPhase("ending");
     };

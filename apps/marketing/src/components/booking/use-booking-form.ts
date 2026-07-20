@@ -18,8 +18,9 @@ function initialValues(
   const values: Record<string, FieldValue> = {};
   for (const field of bookingEvents[event].fields) {
     let value = emptyValueFor(field);
-    if (field.kind === "radio" && field.options?.length) {
-      value = field.options[0].value;
+    const firstOption = field.options?.[0];
+    if (field.kind === "radio" && firstOption) {
+      value = firstOption.value;
     }
     if (
       field.kind === "chips" &&

@@ -19,7 +19,7 @@ const DESKTOP_NAV_QUERY = "(min-width: 1080px)";
 
 /** Whether `href` points at the section the user is currently on. */
 function isActive(pathname: string, href: string) {
-  const base = href.split("#")[0];
+  const base = href.split("#")[0] ?? href;
   return base === "/" ? pathname === "/" : pathname.startsWith(base);
 }
 

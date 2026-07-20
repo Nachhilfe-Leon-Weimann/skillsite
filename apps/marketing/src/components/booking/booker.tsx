@@ -65,7 +65,7 @@ const firstWeekdayIndex = (year: number, month: number) =>
   (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7;
 
 function dateLabel(dateStr: string) {
-  const [year, month, day] = dateStr.split("-").map(Number);
+  const [year = NaN, month = NaN, day = NaN] = dateStr.split("-").map(Number);
   return new Intl.DateTimeFormat("de-DE", {
     weekday: "short",
     day: "numeric",
@@ -148,9 +148,10 @@ export function Booker({
         setAvailability(data);
         setLoading(false);
         if (data.status !== "ok") return;
-        if (data.days.length > 0) {
+        const firstDay = data.days[0];
+        if (firstDay) {
           // Preselect the soonest free day so its times show right away.
-          setSelectedDate(data.days[0].date);
+          setSelectedDate(firstDay.date);
         } else if (autoAdvance.current && monthOffset < MAX_MONTH_OFFSET) {
           // Empty month → hop forward to the next month with free slots, but
           // only while auto-searching, never in response to manual navigation.

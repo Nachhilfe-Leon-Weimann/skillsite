@@ -35,7 +35,7 @@ export function IosToolbarTint() {
     if (!footer) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
+      ([entry]) => setActive(entry?.isIntersecting ?? false),
       { threshold: 0 },
     );
     observer.observe(footer);

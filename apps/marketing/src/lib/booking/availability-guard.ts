@@ -72,7 +72,7 @@ export class AvailabilityRateLimiter {
       this.store(clientId, recent, now);
       return {
         ok: false,
-        retryAfterMs: Math.max(1, recent[0] + this.options.windowMs - now),
+        retryAfterMs: Math.max(1, (recent[0] ?? now) + this.options.windowMs - now),
       };
     }
 

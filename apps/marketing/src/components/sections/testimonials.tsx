@@ -12,6 +12,7 @@ export function Testimonials() {
   const count = testimonials.length;
   const active = ((index % count) + count) % count;
   const current = testimonials[active];
+  if (!current) return null;
 
   return (
     <div className="mx-auto max-w-220 px-6 py-section text-center">

@@ -15,10 +15,10 @@ type CountUpProps = {
 function parseStat(value: string) {
   const match = value.match(/^(\D*)([\d.,]+)(\D*)$/);
   if (!match) return null;
-  const [, prefix, digits, suffix] = match;
+  const [, prefix = "", digits = "", suffix = ""] = match;
   const normalised = digits.replace(/\./g, "").replace(",", ".");
   const decimals = normalised.includes(".")
-    ? normalised.split(".")[1].length
+    ? (normalised.split(".")[1] ?? "").length
     : 0;
   return { prefix, suffix, to: Number(normalised), decimals };
 }

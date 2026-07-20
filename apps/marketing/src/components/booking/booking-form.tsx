@@ -13,7 +13,11 @@ import {
   type BookingEventKey,
   type BookingSubmission,
 } from "@/lib/booking/config";
-import type { FieldDef, FieldValue } from "@/lib/booking/fields";
+import {
+  emptyValueFor,
+  type FieldDef,
+  type FieldValue,
+} from "@/lib/booking/fields";
 import { useBookingForm } from "@/components/booking/use-booking-form";
 import { TextField } from "@/components/booking/fields/text-field";
 import { ChipsField } from "@/components/booking/fields/chips-field";
@@ -48,7 +52,7 @@ function groupFields(fields: FieldDef[]): FieldDef[][] {
   const groups: FieldDef[][] = [];
   for (const field of fields) {
     const last = groups[groups.length - 1];
-    if (field.half && last?.length === 1 && last[0].half) last.push(field);
+    if (field.half && last?.length === 1 && last[0]?.half) last.push(field);
     else groups.push([field]);
   }
   return groups;
@@ -161,7 +165,7 @@ export function BookingForm({
           the user fills the form, not watches it; mounts once per form step. */}
       {groups.map((group, index) => (
         <div
-          key={group[0].key}
+          key={group[0]?.key ?? index}
           className={cn(
             "motion-safe:animate-rise [--reveal-travel:8px]",
             group.length === 2 && "grid gap-4 sm:grid-cols-2",
@@ -172,7 +176,7 @@ export function BookingForm({
             <FieldControl
               key={field.key}
               field={field}
-              value={values[field.key]}
+              value={values[field.key] ?? emptyValueFor(field)}
               onChange={(value) => setValue(field.key, value)}
             />
           ))}
