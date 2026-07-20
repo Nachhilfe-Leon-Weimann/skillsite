@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "../styles/theme.css";
+
+/* Generate utilities for classes used inside the component sources. */
+@source "../src";
