@@ -1,10 +1,12 @@
-# Dependencies & build output (reinstalled / regenerated inside the image)
-node_modules
-.next
-out
+# Dependencies & build output (reinstalled / regenerated inside the image).
+# Workspace layout: patterns need **/ to match inside apps/* and packages/*.
+**/node_modules
+**/.next
+**/out
+**/.turbo
 
 # Local env & secrets — provided at runtime via Dokploy, never baked in
-.env*
+**/.env*
 
 # Version control & CI
 .git
@@ -13,14 +15,15 @@ out
 
 # Editor & OS cruft
 .vscode
-.DS_Store
+**/.DS_Store
 
 # TS/Next build metadata (regenerated on build)
-*.tsbuildinfo
-next-env.d.ts
+**/*.tsbuildinfo
+**/next-env.d.ts
 
 # Container & docs (not needed inside the image)
 Dockerfile
 .dockerignore
 compose.yml
 README.md
+docs
