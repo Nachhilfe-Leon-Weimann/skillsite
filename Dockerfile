@@ -1,36 +1,39 @@
 # syntax=docker/dockerfile:1.7
 # Multi-stage build for one Next.js app from the pnpm/turbo monorepo
 # (standalone output). Select the app via: --build-arg APP=marketing|portal
-# The runtime image ships only the standalone server plus static assets and
-# runs as a non-root user.
+# `turbo prune` derives the app's workspace dependencies from the graph, so
+# new packages/* never need Dockerfile changes.
 ARG APP=marketing
 
 FROM node:26-bookworm-slim AS base
 ENV PNPM_HOME="/pnpm" \
     PATH="/pnpm:$PATH" \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
-    NEXT_TELEMETRY_DISABLED=1
+    NEXT_TELEMETRY_DISABLED=1 \
+    TURBO_TELEMETRY_DISABLED=1
 RUN npm install -g corepack && corepack enable
 WORKDIR /app
 
-# --- Install dependencies (layer cached on lockfile + workspace manifests) ---
-FROM base AS deps
+# --- Prune the monorepo to the target app and its workspace deps ---
+FROM base AS pruner
 ARG APP
-# pnpm-workspace.yaml carries the allowBuilds entries (e.g. sharp) and .npmrc
-# the hoist patterns, so both must be present for install to behave the same
-# as locally.
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
-COPY apps/${APP}/package.json ./apps/${APP}/
+COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile
+    pnpm dlx turbo@2.10.5 prune "@skillsite/${APP}" --docker
 
 # --- Build the selected app ---
 FROM base AS build
 ARG APP
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/${APP}/node_modules ./apps/${APP}/node_modules
-COPY . .
-RUN pnpm --filter "./apps/${APP}" build
+# out/json holds every relevant package.json plus the pruned lockfile, so the
+# install layer only invalidates when dependencies change. pnpm-workspace.yaml
+# and .npmrc come verbatim from the context (allowBuilds + hoist patterns must
+# match local installs).
+COPY --from=pruner /app/out/json/ .
+COPY pnpm-workspace.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile
+COPY --from=pruner /app/out/full/ .
+RUN pnpm turbo run build --filter="@skillsite/${APP}"
 
 # --- Runtime image ---
 FROM node:26-bookworm-slim AS runner
