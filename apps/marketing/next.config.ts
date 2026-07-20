@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import type { NextConfig } from "next";
 
 // Baseline security headers applied to every response. Intentionally excludes a
@@ -28,6 +30,9 @@ const nextConfig: NextConfig = {
   // Emit a self-contained server bundle (.next/standalone) so the Docker
   // runtime image ships only the server plus the node_modules it actually uses.
   output: "standalone",
+  // The app lives in a pnpm workspace; trace files from the repo root so the
+  // standalone bundle includes dependencies hoisted to the root store.
+  outputFileTracingRoot: path.join(__dirname, "../.."),
   allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
     ? process.env.ALLOWED_DEV_ORIGINS.split(",")
     : [],
