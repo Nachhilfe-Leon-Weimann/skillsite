@@ -10,6 +10,12 @@ overrides:
 importers:
 
   .:
+    devDependencies:
+      turbo:
+        specifier: ^2.10.5
+        version: 2.10.5
+
+  apps/marketing:
     dependencies:
       '@icons-pack/react-simple-icons':
         specifier: ^13.13.0
@@ -60,9 +66,6 @@ importers:
       tailwindcss:
         specifier: ^4.3.2
         version: 4.3.2
-      turbo:
-        specifier: ^2.10.5
-        version: 2.10.5
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
