@@ -15,6 +15,14 @@ export const testimonialsAreExamples = true;
 
 export const testimonials: Testimonial[] = [
   {
+    // Real testimonial
+    quote:
+      "Leon Weimann hat meinen Sohn zuverlässig bis zum Abitur im Leistungsfach Physik begleitet. Er war jederzeit hilfsbereit, flexibel, online sowie telefonisch gut erreichbar und arbeitete kooperativ sowie immer auf dem aktuellen Stand der Schule – für uns eine klare Empfehlung für eine engagierte und kompetente Nachhilfe.",
+    name: "Rebekka & David Schienle",
+    detail: "Physik · Abitur",
+  },
+  {
+    // Examples
     quote:
       "Zum ersten Mal habe ich verstanden, warum eine Rechnung funktioniert – nicht nur wie. Meine Mathenote ging von 4 auf 2.",
     name: "Schülerin, 10. Klasse",
