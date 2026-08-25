@@ -48,7 +48,7 @@ unter `apps/<application>/.env.local.example` dokumentiert.
 Ein Release wird manuell angestoßen und läuft dann vollautomatisch durch:
 
 ```bash
-gh workflow run release.yml -f bump=patch     # patch | minor | major
+pnpm release patch                            # patch | minor | major
 gh workflow run release.yml -f version=1.4.0  # alternativ: explizite Version
 ```
 
