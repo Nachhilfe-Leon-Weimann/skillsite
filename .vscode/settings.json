@@ -6,5 +6,14 @@
     "class:list",
     "containerClassName"
   ],
-  "css.lint.unknownAtRules": "ignore"
+  "css.lint.unknownAtRules": "ignore",
+  "files.exclude": {
+    "**/.turbo": true,
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/storybook-static": true,
+    "**/coverage": true,
+    "**/*.tsbuildinfo": true,
+    "**/next-env.d.ts": true
+  }
 }
