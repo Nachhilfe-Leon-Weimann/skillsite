@@ -9,4 +9,17 @@ allowBuilds:
   unrs-resolver: true
 
 overrides:
-  "next>postcss": 8.5.16
+  "brace-expansion@<1.1.18": 1.1.18
+  "js-yaml@>=4.0.0 <4.3.1": 4.3.1
+
+publicHoistPattern:
+  - "*eslint*"
+  - "*prettier*"
+  - "@types/react"
+  - "@types/react-dom"
+
+peerDependencyRules:
+  allowedVersions:
+    "@napi-rs/wasm-runtime>@emnapi/core": "1"
+    "@napi-rs/wasm-runtime>@emnapi/runtime": "1"
+    "tsconfck>typescript": "7"

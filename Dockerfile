@@ -26,10 +26,10 @@ FROM base AS build
 ARG APP
 # out/json holds every relevant package.json plus the pruned lockfile, so the
 # install layer only invalidates when dependencies change. pnpm-workspace.yaml
-# and .npmrc come verbatim from the context (allowBuilds + hoist patterns must
+# comes verbatim from the context (allowBuilds + hoist patterns must
 # match local installs).
 COPY --from=pruner /app/out/json/ .
-COPY pnpm-workspace.yaml .npmrc ./
+COPY pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm install --frozen-lockfile
 COPY --from=pruner /app/out/full/ .
