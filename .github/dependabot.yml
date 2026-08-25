@@ -18,7 +18,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "ci"
+      prefix: "ci(docker)"
     groups:
       docker-minor-patch:
         update-types:
@@ -30,7 +30,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "ci"
+      prefix: "ci(deps)"
     groups:
       github-actions-minor-patch:
         update-types:
