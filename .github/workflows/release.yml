@@ -69,13 +69,15 @@ jobs:
           set -euo pipefail
           if [[ -n "${INPUT_VERSION}" ]]; then
             npm version "${INPUT_VERSION#v}" --no-git-tag-version >/dev/null
+            commit_scope="explicit"
           else
             npm version "${INPUT_BUMP}" --no-git-tag-version >/dev/null
+            commit_scope="${INPUT_BUMP}"
           fi
           version="$(node -p "require('./package.json').version")"
 
           git add package.json
-          git commit -m "chore(release): v${version}"
+          git commit -m "release(${commit_scope}): v${version}"
           git tag "v${version}"
           git push --atomic origin main "v${version}"
 
