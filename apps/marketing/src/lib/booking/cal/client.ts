@@ -74,8 +74,17 @@ export async function fetchCalSlots(params: {
 }
 
 export type CreateBookingResult =
-  | { ok: true }
+  /** `uid` is Cal.com's booking id, `null` if the response didn't carry one. */
+  | { ok: true; uid: string | null }
   | { ok: false; slotTaken: boolean };
+
+/** Booking uid of a create response; recurring events answer with a list. */
+function bookingUid(json: unknown): string | null {
+  const data = (json as { data?: unknown } | null)?.data;
+  const booking: unknown = Array.isArray(data) ? data[0] : data;
+  const uid = (booking as { uid?: unknown } | null)?.uid;
+  return typeof uid === "string" ? uid : null;
+}
 
 /**
  * Create a booking. `slotTaken` distinguishes a gone slot (send the user back to
@@ -113,7 +122,13 @@ export async function createCalBooking(
         );
       return { ok: false, slotTaken };
     }
-    return { ok: true };
+    const uid = bookingUid(await res.json().catch(() => null));
+    if (!uid) {
+      console.warn(
+        "[booking] Cal.com accepted the booking but the response had no uid",
+      );
+    }
+    return { ok: true, uid };
   } catch (error) {
     console.error("[booking] Cal.com booking request errored", error);
     return { ok: false, slotTaken: false };

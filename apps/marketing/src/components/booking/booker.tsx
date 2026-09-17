@@ -19,14 +19,15 @@ import { Heading, Text } from "@skillsite/ui/typography";
 import { cn } from "@skillsite/ui/utils";
 import { BookingForm } from "@/components/booking/booking-form";
 import { requestBooking } from "@/lib/booking/actions";
+import { withFillDuration } from "@/lib/booking/anti-spam";
 import {
   BOOKING_TIMEZONE,
   bookingEvents,
   type AvailabilityResponse,
   type AvailabilityStatus,
+  type BookingDraft,
   type BookingEventKey,
   type BookingSlot,
-  type BookingSubmission,
   type SubmitFailureReason,
 } from "@/lib/booking/config";
 import {
@@ -112,8 +113,7 @@ export function Booker({
     message: string;
     reason: SubmitFailureReason;
   } | null>(null);
-  const [bookingPayload, setBookingPayload] =
-    useState<BookingSubmission | null>(null);
+  const [bookingDraft, setBookingDraft] = useState<BookingDraft | null>(null);
   // Auto-skip empty months only while searching (initial load / duration
   // change). Manual month navigation switches this off so going "back" into an
   // empty month doesn't bounce the user forward again.
@@ -237,7 +237,7 @@ export function Booker({
     setSelectedSlot(null);
     setSelectedDate(null);
     setBookingError(null);
-    setBookingPayload(null);
+    setBookingDraft(null);
     setStep("select");
     autoAdvance.current = true;
     retry();
@@ -247,10 +247,13 @@ export function Booker({
   // real result before claiming success — Cal's create pipeline (mail, calendar
   // event, webhooks) takes a few seconds, and a slot can be gone by now, so we
   // never tell the user "sent" until Cal.com confirms it.
-  const finalizeBooking = async (payload: BookingSubmission) => {
+  const finalizeBooking = async (draft: BookingDraft) => {
     setBookingPhase("pending");
     try {
-      const result = await requestBooking(payload);
+      // Measured per send, so a retry carries the time elapsed up to the retry.
+      const result = await requestBooking(
+        withFillDuration(draft, performance.now()),
+      );
       if (result.ok) {
         setBookingPhase("confirmed");
         // Conversion: a booking was actually confirmed by Cal.com.
@@ -261,6 +264,7 @@ export function Booker({
           reason: result.reason,
         });
         setBookingPhase("failed");
+        trackEvent("booking-failed", { type: event, reason: result.reason });
       }
     } catch {
       setBookingError({
@@ -269,20 +273,23 @@ export function Booker({
         reason: "generic",
       });
       setBookingPhase("failed");
+      // The request never produced a result (offline, stale deployment), so the
+      // server log has no outcome line - this event is the only trace.
+      trackEvent("booking-failed", { type: event, reason: "request_error" });
     }
   };
 
-  const submitBooking = (payload: BookingSubmission) => {
-    setBookingPayload(payload);
+  const submitBooking = (draft: BookingDraft) => {
+    setBookingDraft(draft);
     setBookingError(null);
     setStep("result");
-    void finalizeBooking(payload);
+    void finalizeBooking(draft);
   };
 
   const retryBooking = () => {
-    if (!bookingPayload) return;
+    if (!bookingDraft) return;
     setBookingError(null);
-    void finalizeBooking(bookingPayload);
+    void finalizeBooking(bookingDraft);
   };
 
   const status: AvailabilityStatus = availability?.status ?? "ok";
@@ -804,11 +811,16 @@ function ResultStep({
     error?.message ??
     "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.";
 
-  if (error?.reason === "rate_limited") {
+  // Retrying can't help in either case - point to the direct contact instead.
+  if (error?.reason === "rate_limited" || error?.reason === "blocked") {
     return (
       <CenteredState
         icon={<CalendarX2 className="size-7 text-coral" aria-hidden />}
-        title="Zu viele Anfragen"
+        title={
+          error.reason === "blocked"
+            ? "Termin nicht gebucht"
+            : "Zu viele Anfragen"
+        }
       >
         <Text tone="muted" className="mb-5">
           {message}

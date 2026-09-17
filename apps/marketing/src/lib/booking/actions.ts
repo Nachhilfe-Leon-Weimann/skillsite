@@ -11,10 +11,12 @@ import {
   type BookingSubmission,
   type SubmitResult,
 } from "@/lib/booking/config";
+import { detectSpamSignal } from "@/lib/booking/anti-spam";
 import { checkRateLimit } from "@/lib/booking/rate-limit";
 import { validateBookingValues } from "@/lib/booking/validation";
 import { buildCalBookingBody } from "@/lib/booking/mapping";
 import { createCalBooking } from "@/lib/booking/cal/client";
+import { describeAttempt, logBooking } from "@/lib/booking/log";
 
 /**
  * Real client IP behind Traefik (Dokploy). Traefik sets `x-forwarded-for` and
@@ -31,17 +33,43 @@ async function clientIp(): Promise<string> {
   return headerList.get("x-real-ip")?.trim() || "unknown";
 }
 
+const GENERIC_FAILURE: SubmitResult = {
+  ok: false,
+  reason: "generic",
+  error:
+    "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.",
+};
+
 /**
  * Create a booking in Cal.com from a validated submission. Public endpoint, so
  * it re-runs the full schema validation and only forwards whitelisted values.
- * Thin orchestration: rate-limit -> anti-spam -> validate -> map -> Cal client.
+ *
+ * Two guarantees hold on every path: success is only ever reported for a
+ * booking Cal.com confirmed, and each attempt leaves one outcome line in the log.
  */
 export async function requestBooking(
   submission: BookingSubmission,
 ): Promise<SubmitResult> {
-  // Layer 1 - per-IP rate limit (counts every attempt, including ones dropped below).
+  const attempt = describeAttempt(submission);
+  try {
+    return await processBooking(submission, attempt);
+  } catch (error) {
+    // A bug or an unexpected input shape - still one outcome line, not a bare 500.
+    logBooking("failed", { ...attempt, error: String(error) });
+    console.error("[booking] unexpected error while booking", error);
+    return GENERIC_FAILURE;
+  }
+}
+
+/** Thin orchestration: rate-limit -> anti-spam -> validate -> map -> Cal client. */
+async function processBooking(
+  submission: BookingSubmission,
+  attempt: Record<string, unknown>,
+): Promise<SubmitResult> {
+  // Layer 1 - per-IP rate limit (counts every attempt, including ones blocked below).
   const ip = await clientIp();
   if (!checkRateLimit(ip).ok) {
+    logBooking("rate_limited", attempt);
     return {
       ok: false,
       reason: "rate_limited",
@@ -50,47 +78,57 @@ export async function requestBooking(
     };
   }
 
-  // Layer 2 - honeypot: a human never touches this hidden field, so any value
-  // is a bot. Feign success so the bot gets no signal.
-  if (submission.honeypot && submission.honeypot.length > 0) {
-    return { ok: true };
-  }
-
-  // Layer 3 - time-trap: humans don't fill the form faster than minFillMs; a
-  // missing timestamp counts as suspicious. Feign success too.
-  if (
-    !submission.formLoadedAt ||
-    Date.now() - submission.formLoadedAt < ANTI_SPAM.minFillMs
-  ) {
-    return { ok: true };
-  }
-
-  if (!(submission.event in bookingEvents) || !submission.slot) {
+  // Layer 2 - honeypot and time-trap. Both are heuristics that real customers
+  // can trip (autofill writes into hidden fields), so a hit is answered with a
+  // visible failure and logged. Never feign success here: the customer would
+  // leave believing in a booking that doesn't exist.
+  const spamSignal = detectSpamSignal(submission, ANTI_SPAM);
+  if (spamSignal) {
+    logBooking("blocked", { signal: spamSignal, ...attempt });
+    // Too fast resolves itself: the retry re-measures and passes.
+    if (spamSignal === "too_fast") {
+      return {
+        ok: false,
+        reason: "too_fast",
+        error:
+          "Das ging schneller, als mein Spamschutz erlaubt. Es wurde noch kein Termin gebucht – bitte sende die Buchung einfach noch einmal.",
+      };
+    }
     return {
       ok: false,
-      error: "Bitte wähle einen Termin.",
-      reason: "validation",
+      reason: "blocked",
+      error:
+        "Mein Spamschutz hat diese Buchung leider aufgehalten. Es wurde kein Termin gebucht – bitte schreib mir kurz direkt, dann trage ich dich ein.",
     };
+  }
+
+  // The form validates the same schema, so a rejection here means client and
+  // server disagree (or the request was hand-made) - worth a log line either way.
+  const rejected = (
+    check: Record<string, unknown>,
+    error: string,
+  ): SubmitResult => {
+    logBooking("rejected", { ...check, ...attempt });
+    return { ok: false, reason: "validation", error };
+  };
+
+  if (!Object.hasOwn(bookingEvents, submission.event) || !submission.slot) {
+    return rejected({ check: "slot" }, "Bitte wähle einen Termin.");
   }
 
   const missing = validateBookingValues(submission.event, submission.values);
   if (missing.length > 0) {
-    return {
-      ok: false,
-      error: `Bitte überprüfe deine Eingaben: ${missing.join(", ")}.`,
-      reason: "validation",
-    };
+    return rejected(
+      { check: "fields", fields: missing },
+      `Bitte überprüfe deine Eingaben: ${missing.join(", ")}.`,
+    );
   }
 
   if (
     submission.event === "nachhilfe" &&
     !submission.agreements?.termsAccepted
   ) {
-    return {
-      ok: false,
-      error: "Bitte bestätige die AGB.",
-      reason: "validation",
-    };
+    return rejected({ check: "terms" }, "Bitte bestätige die AGB.");
   }
 
   if (
@@ -98,11 +136,10 @@ export async function requestBooking(
     startsWithinWithdrawalPeriod(submission.slot) &&
     !submission.agreements?.earlyPerformanceRequested
   ) {
-    return {
-      ok: false,
-      error: "Bitte bestätige den Hinweis zum Widerrufsrecht.",
-      reason: "validation",
-    };
+    return rejected(
+      { check: "withdrawal_notice" },
+      "Bitte bestätige den Hinweis zum Widerrufsrecht.",
+    );
   }
 
   const result = await createCalBooking(buildCalBookingBody(submission));
@@ -110,10 +147,12 @@ export async function requestBooking(
   // A booked or gone slot both change availability, so drop the cached view in
   // either case. A generic failure leaves the slot intact - keep the cache.
   if (result.ok) {
+    logBooking("created", { ...attempt, calUid: result.uid });
     updateTag(CAL_SLOTS_TAG);
     return { ok: true };
   }
   if (result.slotTaken) {
+    logBooking("slot_taken", attempt);
     updateTag(CAL_SLOTS_TAG);
     return {
       ok: false,
@@ -122,10 +161,6 @@ export async function requestBooking(
         "Dieser Termin wurde gerade vergeben. Bitte wähle einen anderen Zeitpunkt.",
     };
   }
-  return {
-    ok: false,
-    reason: "generic",
-    error:
-      "Die Buchung hat nicht geklappt. Bitte versuch es erneut oder schreib mir direkt.",
-  };
+  logBooking("failed", attempt);
+  return GENERIC_FAILURE;
 }

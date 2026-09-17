@@ -43,6 +43,29 @@ Umgebungsvariablen in `apps/<application>/.env` (siehe `apps/<application>/.env.
 für die benötigten Keys). Nur für die Entwicklung nötige Konfiguration wird
 unter `apps/<application>/.env.local.example` dokumentiert.
 
+## Betrieb: Buchungs-Logs
+
+Jeder Buchungsversuch, der den Server erreicht, hinterlässt genau eine Zeile im
+Container-Log (`[booking] <outcome> {…}`). Die UI meldet nur dann Erfolg, wenn
+Cal.com die Buchung bestätigt hat (`created`).
+
+| Outcome        | Level | Bedeutung                                                         |
+| -------------- | ----- | ----------------------------------------------------------------- |
+| `created`      | info  | Cal.com hat gebucht (`calUid` = Buchung in Cal.com)               |
+| `slot_taken`   | info  | Slot war inzwischen vergeben                                      |
+| `blocked`      | warn  | Spamschutz hat gestoppt (`signal`) – kann ein echter Kunde sein   |
+| `rate_limited` | warn  | IP-Limit erreicht                                                 |
+| `rejected`     | warn  | Server-Validierung schlug fehl, obwohl das Formular dasselbe prüft |
+| `failed`       | error | Cal.com nicht erreichbar, nicht konfiguriert oder Fehlerantwort   |
+
+```bash
+docker logs <container> 2>&1 | grep -F "[booking]" | grep -vE "created|slot_taken"
+```
+
+Einziges personenbezogenes Detail ist die maskierte E-Mail (`ma***@example.com`),
+damit sich ein fälschlich blockierter Kunde erkennen lässt. Im Browser
+gescheiterte Buchungen landen zusätzlich als Umami-Event `booking-failed`.
+
 ## Deployment
 
 Ein Release wird manuell angestoßen und läuft dann vollautomatisch durch:
@@ -60,7 +83,7 @@ Der `release.yml`-Workflow erledigt nacheinander:
 4. **deploy** - Dokploy-Webhook auslösen -> zieht das neue Image und startet neu
 
 Die Version ist für alle Apps einheitlich und lebt in der Root-`package.json`.
-Auf jedem Pull Request (und Push auf `main`) läuft `ci.yml` mit `pnpm lint` + `pnpm build`.
+Auf jedem Pull Request (und Push auf `main`) läuft `ci.yml` mit `pnpm lint`, `pnpm test` + `pnpm build`.
 
 ### Lokal als Container testen
 

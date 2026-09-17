@@ -266,16 +266,34 @@ export type BookingSubmission = {
   };
   /** Anti-spam honeypot - bots fill it, humans never see it. */
   honeypot?: string;
-  /** Anti-spam: client ms timestamp at form mount (time-trap). */
-  formLoadedAt?: number;
+  /**
+   * Anti-spam time-trap: ms between form mount and this send, measured on the
+   * client's own clock. A duration on purpose - a client timestamp compared with
+   * the server clock fails for every device whose clock is off.
+   */
+  fillDurationMs?: number;
+};
+
+/**
+ * What the form hands to the booker. Stays on the client and becomes a
+ * `BookingSubmission` at send time (see `withFillDuration`).
+ */
+export type BookingDraft = Omit<BookingSubmission, "fillDurationMs"> & {
+  /** `performance.now()` at form mount. */
+  formLoadedAt: number;
 };
 
 export type SubmitFailureReason =
   | "validation"
   | "slot_taken"
   | "rate_limited"
+  /** Stopped by an anti-spam layer; retrying can't help, contacting can. */
+  | "blocked"
+  /** Tripped the anti-spam time-trap; the retry re-measures and passes. */
+  | "too_fast"
   | "generic";
 
+/** `ok: true` means Cal.com confirmed the booking - never reported otherwise. */
 export type SubmitResult =
   | { ok: true }
   | { ok: false; error: string; reason: SubmitFailureReason };
