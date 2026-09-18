@@ -10,8 +10,8 @@ import { routes } from "@/lib/routes";
 import {
   bookingEvents,
   startsWithinWithdrawalPeriod,
+  type BookingDraft,
   type BookingEventKey,
-  type BookingSubmission,
 } from "@/lib/booking/config";
 import {
   emptyValueFor,
@@ -67,14 +67,14 @@ type BookingFormProps = {
   duration?: number;
   initialSubject?: string;
   onBack: () => void;
-  /** Hand the assembled submission to the parent, which submits optimistically. */
-  onSubmit: (payload: BookingSubmission) => void;
+  /** Hand the assembled draft to the parent, which sends it. */
+  onSubmit: (draft: BookingDraft) => void;
 };
 
 /**
  * Schema-driven booking form: renders the event's declared fields, validates
  * live against the same schema the server re-checks, and emits a
- * `BookingSubmission`. One component serves every event.
+ * `BookingDraft`. One component serves every event.
  */
 export function BookingForm({
   event,
@@ -93,7 +93,7 @@ export function BookingForm({
     setHoneypot,
     missing,
     canSubmit,
-    buildSubmission,
+    buildDraft,
   } = useBookingForm(event, initialSubject);
 
   const isPaidBooking = event === "nachhilfe";
@@ -117,7 +117,7 @@ export function BookingForm({
     formEvent.preventDefault();
     if (!readyToSubmit) return;
     onSubmit({
-      ...buildSubmission(slotStart, duration),
+      ...buildDraft(slotStart, duration),
       agreements: isPaidBooking
         ? { termsAccepted: true, earlyPerformanceRequested }
         : undefined,
@@ -126,18 +126,27 @@ export function BookingForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {/* Honeypot: off-screen, invisible to humans; bots auto-fill it and the booking is dropped server-side. */}
+      {/* Honeypot: off-screen, invisible to humans; bots fill it and the booking
+          is blocked server-side. Name and label must stay meaningless to
+          autofill: browsers ignore autoComplete="off" for anything that reads
+          like profile data ("company", "Firma", "website" ...) and would fill it
+          for real customers. The data attributes opt out of password managers
+          (1Password, LastPass, Bitwarden, Dashlane). */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-2500 top-0 h-0 w-0 overflow-hidden"
       >
-        <label htmlFor="company">Firma (bitte leer lassen)</label>
+        <label htmlFor="booking-hp">Dieses Feld bitte leer lassen</label>
         <input
-          id="company"
-          name="company"
+          id="booking-hp"
+          name="booking-hp"
           type="text"
           tabIndex={-1}
           autoComplete="off"
+          data-1p-ignore
+          data-lpignore="true"
+          data-bwignore
+          data-form-type="other"
           value={honeypot}
           onChange={(formEvent) => setHoneypot(formEvent.target.value)}
         />

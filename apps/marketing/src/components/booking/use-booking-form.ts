@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 
 import {
   bookingEvents,
+  type BookingDraft,
   type BookingEventKey,
-  type BookingSubmission,
 } from "@/lib/booking/config";
 import { emptyValueFor, type FieldValue } from "@/lib/booking/fields";
 import { validateBookingValues } from "@/lib/booking/validation";
@@ -37,7 +37,7 @@ function initialValues(
 /**
  * Form state for a schema-driven booking event: holds the field values plus the
  * anti-spam honeypot and mount timestamp, validates live against the event
- * schema, and assembles the `BookingSubmission` for the server action.
+ * schema, and assembles the `BookingDraft` the booker sends to the server action.
  */
 export function useBookingForm(
   event: BookingEventKey,
@@ -47,8 +47,9 @@ export function useBookingForm(
     initialValues(event, initialSubject),
   );
   const [honeypot, setHoneypot] = useState("");
-  // Mount time (lazy initializer runs once); the server time-trap checks elapsed time.
-  const [formLoadedAt] = useState(() => Date.now());
+  // Mount time (lazy initializer runs once) on the monotonic clock; the booker
+  // turns it into the elapsed fill time the server time-trap checks.
+  const [formLoadedAt] = useState(() => performance.now());
 
   const setValue = (key: string, value: FieldValue) =>
     setValues((current) => ({ ...current, [key]: value }));
@@ -59,10 +60,7 @@ export function useBookingForm(
     [event, values],
   );
 
-  const buildSubmission = (
-    slot: string,
-    duration?: number,
-  ): BookingSubmission => ({
+  const buildDraft = (slot: string, duration?: number): BookingDraft => ({
     event,
     slot,
     duration,
@@ -78,6 +76,6 @@ export function useBookingForm(
     setHoneypot,
     missing,
     canSubmit: missing.length === 0,
-    buildSubmission,
+    buildDraft,
   };
 }
