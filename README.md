@@ -1,131 +1,77 @@
 # Skillsite
 
-Website von Nachhilfe Leon Weimann mit den Kernfunktionen
+The website of Nachhilfe Leon Weimann - marketing pages, appointment booking through Cal.com and the
+payment links printed on invoices - as a pnpm/Turborepo workspace with the Next.js app in
+[`apps/marketing`](apps/marketing) and shared packages in [`packages/`](packages).
 
-- Marketing und Information
-- Terminbuchung (via Cal.com)
-- Kundenportal
+## Development
 
-## Struktur
+Needs Node 26, `pnpm`, `just` and an `apps/marketing/.env` (see `.env.example` next to it;
+`.env.local.example` documents what only local development needs).
 
-pnpm-Workspace mit [Turborepo](https://turborepo.com):
+| Command | |
+|---|---|
+| `just dev` | run the site |
+| `just check` | lint, tests and build - keep green before every push |
+| `just docker-build` / `just docker-run` | build and run the production image locally |
 
-```
-apps/
-  marketing/   # nachhilfe.leonweimann.de — Marketing-Site inkl. Terminbuchung
-packages/      # geteilte Pakete (folgen mit dem Portal-Ausbau)
-```
+Everything else is in the [`justfile`](justfile). The image builds the marketing app by default;
+another app comes from `--build-arg APP=<name>`.
 
-## Entwicklung
+## Operating the booking
 
-Gebaut mit [Next.js](https://nextjs.org) 16, React 19 und Tailwind CSS 4.
+Every booking attempt that reaches the server leaves exactly one line in the container log
+(`[booking] <outcome> {…}`). The UI reports success only for `created`, which means Cal.com confirmed
+the booking. The only personal detail is a masked e-mail (`ma***@example.com`), so a wrongly blocked
+customer stays recognisable.
 
-```bash
-pnpm install
-pnpm dev
-```
-
-## Skripte
-
-Alle Befehle laufen im Repo-Root über Turbo (für alle Apps); eine einzelne App
-lässt sich per Filter ansteuern, z.B. `pnpm --filter @skillsite/marketing dev`.
-
-| Befehl       | Zweck                       |
-| ------------ | --------------------------- |
-| `pnpm dev`   | Dev-Server starten          |
-| `pnpm build` | Produktions-Build erstellen |
-| `pnpm lint`  | ESLint laufen lassen        |
-| `pnpm test`  | Tests ausführen             |
-
-## Konfiguration
-
-Umgebungsvariablen in `apps/<application>/.env` (siehe `apps/<application>/.env.example`
-für die benötigten Keys). Nur für die Entwicklung nötige Konfiguration wird
-unter `apps/<application>/.env.local.example` dokumentiert.
-
-## Betrieb: Buchungs-Logs
-
-Jeder Buchungsversuch, der den Server erreicht, hinterlässt genau eine Zeile im
-Container-Log (`[booking] <outcome> {…}`). Die UI meldet nur dann Erfolg, wenn
-Cal.com die Buchung bestätigt hat (`created`).
-
-| Outcome        | Level | Bedeutung                                                         |
-| -------------- | ----- | ----------------------------------------------------------------- |
-| `created`      | info  | Cal.com hat gebucht (`calUid` = Buchung in Cal.com)               |
-| `slot_taken`   | info  | Slot war inzwischen vergeben                                      |
-| `blocked`      | warn  | Spamschutz hat gestoppt (`signal`) – kann ein echter Kunde sein   |
-| `rate_limited` | warn  | IP-Limit erreicht                                                 |
-| `rejected`     | warn  | Server-Validierung schlug fehl, obwohl das Formular dasselbe prüft |
-| `failed`       | error | Cal.com nicht erreichbar, nicht konfiguriert oder Fehlerantwort   |
+| Outcome | Level | Meaning |
+|---|---|---|
+| `created` | info | Cal.com booked it (`calUid` is the booking in Cal.com) |
+| `slot_taken` | info | the slot was taken in the meantime |
+| `blocked` | warn | the spam guard stopped it (`signal`) - can be a real customer |
+| `rate_limited` | warn | the IP hit the limit |
+| `rejected` | warn | server validation failed although the form checks the same |
+| `failed` | error | Cal.com unreachable, unconfigured or answering with an error |
 
 ```bash
 docker logs <container> 2>&1 | grep -F "[booking]" | grep -vE "created|slot_taken"
 ```
 
-Einziges personenbezogenes Detail ist die maskierte E-Mail (`ma***@example.com`),
-damit sich ein fälschlich blockierter Kunde erkennen lässt. Im Browser
-gescheiterte Buchungen landen zusätzlich als Umami-Event `booking-failed`.
+Bookings that fail in the browser before they reach the server show up as the Umami event
+`booking-failed`.
 
-## Betrieb: Zahlungs-Link auf Rechnungen
+## Operating the payment link
 
-Rechnungen aus sevDesk verlinken `/zahlung?re=<Rechnungsnummer>&betrag=<Betrag>`.
-Die Route leitet auf den PayPal-Checkout weiter, mit Betrag und Rechnungsnummer
-(PayPal-Feld `invoice`) vorbelegt:
+Invoices from sevDesk link to `/zahlung?re=<invoice>&betrag=<amount>`, which redirects to the PayPal
+checkout with amount and invoice number prefilled:
 
 ```
 https://nachhilfe.leonweimann.de/zahlung?re=RE-1840&betrag=90,00%20EUR
 ```
 
-Der Betrag darf so aussehen, wie sevDesk ihn schreibt (`90,00 EUR`, auch
-`1.234,56 EUR` oder ohne Währung); mehrdeutige Zahlen wie `1.234` werden
-abgelehnt statt geraten, ebenso Beträge unter 0,01 € und über 5.000 €.
-Empfänger, Währung und Positionsname sind Konstanten in
-`src/lib/payment/invoice-link.ts` – aus dem Link kommen nur Betrag und
-Rechnungsnummer, das Zielkonto kann er nicht verändern. Die Seite ist nicht
-indexiert (`robots.txt` und `noindex`), und `sitemap.ts` lässt sie über
-`unlistedRoutes` in `src/lib/routes.ts` bewusst aus.
+The amount may look the way sevDesk writes it (`90,00 EUR`, `1.234,56 EUR`, or without a currency);
+ambiguous figures like `1.234`, amounts below 0.01 € and above 5,000 € are rejected instead of
+guessed. Recipient, currency and item name are constants in `src/lib/payment/invoice-link.ts` - a
+link can only decide amount and invoice number, never the account. The page stays out of search
+(`robots.txt`, `noindex`, and `unlistedRoutes` in `src/lib/routes.ts`).
 
-Jeder Aufruf hinterlässt genau eine Zeile im Container-Log
-(`[payment] <outcome> {…}`) – mit Rechnungsnummer und Betrag, ohne Namen,
-E-Mail oder IP-Adresse.
-
-| Outcome      | Level | Bedeutung                                                            |
-| ------------ | ----- | -------------------------------------------------------------------- |
-| `redirected` | info  | Weiterleitung zu PayPal (`invoice`, `amount`)                        |
-| `rejected`   | warn  | Link unbrauchbar (`reason`: `missing`/`invoice`/`amount`) – Fehlerseite statt Redirect |
+Each call leaves one line (`[payment] <outcome> {…}`) with invoice number and amount, no name, e-mail
+or IP: `redirected` (info) or `rejected` (warn, with `reason` and the raw values). Repeated
+`rejected` lines mean the sevDesk template is wrong.
 
 ```bash
 docker logs <container> 2>&1 | grep -F "[payment] rejected"
 ```
 
-Häufen sich `rejected`-Zeilen, stimmt die Vorlage in sevDesk nicht: die
-Rohwerte (`re`, `betrag`) stehen längenbegrenzt in derselben Zeile.
+## Releasing
 
-## Deployment
+Merging the release PR (`chore(main): release X.Y.Z`) is the release: tag, image and deploy follow.
+Never bump the version or tag by hand - the conventional commits on `main` (`feat`, `fix`, `!`) drive
+both, and [`compose.yml`](compose.yml) records the version prod runs.
 
-Ein Release wird manuell angestoßen und läuft dann vollautomatisch durch:
-
-```bash
-pnpm release patch                            # patch | minor | major
-gh workflow run release.yml -f version=1.4.0  # alternativ: explizite Version
-```
-
-Der `release.yml`-Workflow erledigt nacheinander:
-
-1. **release** - `package.json` bumpen, committen, Tag `vX.Y.Z` setzen und nach `main` pushen
-2. **build** - Image bauen und nach GHCR pushen (`linux/amd64`, Tags `:vX.Y.Z`, `:sha-...`, `:latest`)
-3. **github-release** - GitHub Release mit automatischen Notes erstellen
-4. **deploy** - Dokploy-Webhook auslösen -> zieht das neue Image und startet neu
-
-Die Version ist für alle Apps einheitlich und lebt in der Root-`package.json`.
-Auf jedem Pull Request (und Push auf `main`) läuft `ci.yml` mit `pnpm lint`, `pnpm test` + `pnpm build`.
-
-### Lokal als Container testen
-
-Das Dockerfile baut standardmäßig die Marketing-App; andere Apps über
-`--build-arg APP=<name>`.
-
-```bash
-docker build -t skillsite:local .
-docker run --rm --env-file apps/marketing/.env -p 3000:3000 skillsite:local
-```
+The platform's one flow, documented in skillforge:
+[`release-flow.md`](https://github.com/Nachhilfe-Leon-Weimann/skillforge/blob/main/docs/specs/release-flow.md)
+(the why), [rolling back](https://github.com/Nachhilfe-Leon-Weimann/skillforge#rolling-back), and
+[`skill-platform-workflows`](https://github.com/Nachhilfe-Leon-Weimann/skill-platform-workflows) (the
+deploy).
