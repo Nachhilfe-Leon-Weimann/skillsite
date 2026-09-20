@@ -78,13 +78,16 @@ https://nachhilfe.leonweimann.de/zahlung?re=RE-1840&betrag=90,00%20EUR
 
 Der Betrag darf so aussehen, wie sevDesk ihn schreibt (`90,00 EUR`, auch
 `1.234,56 EUR` oder ohne Währung); mehrdeutige Zahlen wie `1.234` werden
-abgelehnt statt geraten. Empfänger, Währung und Positionsname sind Konstanten in
+abgelehnt statt geraten, ebenso Beträge unter 0,01 € und über 5.000 €.
+Empfänger, Währung und Positionsname sind Konstanten in
 `src/lib/payment/invoice-link.ts` – aus dem Link kommen nur Betrag und
 Rechnungsnummer, das Zielkonto kann er nicht verändern. Die Seite ist nicht
-indexiert (`robots.txt` und `noindex`).
+indexiert (`robots.txt` und `noindex`), und `sitemap.ts` lässt sie über
+`unlistedRoutes` in `src/lib/routes.ts` bewusst aus.
 
 Jeder Aufruf hinterlässt genau eine Zeile im Container-Log
-(`[payment] <outcome> {…}`); personenbezogene Daten enthält der Link keine.
+(`[payment] <outcome> {…}`) – mit Rechnungsnummer und Betrag, ohne Namen,
+E-Mail oder IP-Adresse.
 
 | Outcome      | Level | Bedeutung                                                            |
 | ------------ | ----- | -------------------------------------------------------------------- |

@@ -77,7 +77,8 @@ function normalizeAmount(rawAmount: string): string | null {
       ? `${figure}.00`
       : `${figure.slice(0, decimalPoint).replace(/[.,]/g, "")}.${figure.slice(decimalPoint + 1)}`;
 
-  // Cents keep the comparison exact; parsing to a float first would not.
+  // Rounding to whole cents removes the float error before anything is
+  // compared or printed, so the amount can't drift by a cent.
   const cents = Math.round(Number(decimal) * 100);
   if (cents < AMOUNT_LIMITS.min || cents > AMOUNT_LIMITS.max) return null;
   return (cents / 100).toFixed(2);

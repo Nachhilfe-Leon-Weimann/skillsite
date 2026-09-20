@@ -131,6 +131,26 @@ test("rejects a repeated parameter instead of picking one", () => {
   );
 });
 
+test("reads the link the way a browser hands it over", () => {
+  // Guards the decoding contract the sevDesk template actually produces:
+  // a percent-encoded comma, a space as %20, +, or a non-breaking space.
+  for (const query of [
+    "?re=RE-1840&betrag=90%2C00%20EUR",
+    "?re=RE-1840&betrag=90,00+EUR",
+    "?re=RE-1840&betrag=90%2C00%C2%A0EUR",
+  ]) {
+    const params = new URL(
+      `https://nachhilfe.leonweimann.de/zahlung${query}`,
+    ).searchParams;
+
+    assert.deepEqual(
+      parsePaymentRequest(Object.fromEntries(params)),
+      { ok: true, invoice: "RE-1840", amount: "90.00" },
+      `expected ${query} to reach PayPal`,
+    );
+  }
+});
+
 test("builds the checkout link against our own PayPal account", () => {
   const url = new URL(buildPaypalUrl({ invoice: "RE-1840", amount: "90.00" }));
 
