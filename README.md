@@ -66,6 +66,38 @@ Einziges personenbezogenes Detail ist die maskierte E-Mail (`ma***@example.com`)
 damit sich ein fälschlich blockierter Kunde erkennen lässt. Im Browser
 gescheiterte Buchungen landen zusätzlich als Umami-Event `booking-failed`.
 
+## Betrieb: Zahlungs-Link auf Rechnungen
+
+Rechnungen aus sevDesk verlinken `/zahlung?re=<Rechnungsnummer>&betrag=<Betrag>`.
+Die Route leitet auf den PayPal-Checkout weiter, mit Betrag und Rechnungsnummer
+(PayPal-Feld `invoice`) vorbelegt:
+
+```
+https://nachhilfe.leonweimann.de/zahlung?re=RE-1840&betrag=90,00%20EUR
+```
+
+Der Betrag darf so aussehen, wie sevDesk ihn schreibt (`90,00 EUR`, auch
+`1.234,56 EUR` oder ohne Währung); mehrdeutige Zahlen wie `1.234` werden
+abgelehnt statt geraten. Empfänger, Währung und Positionsname sind Konstanten in
+`src/lib/payment/invoice-link.ts` – aus dem Link kommen nur Betrag und
+Rechnungsnummer, das Zielkonto kann er nicht verändern. Die Seite ist nicht
+indexiert (`robots.txt` und `noindex`).
+
+Jeder Aufruf hinterlässt genau eine Zeile im Container-Log
+(`[payment] <outcome> {…}`); personenbezogene Daten enthält der Link keine.
+
+| Outcome      | Level | Bedeutung                                                            |
+| ------------ | ----- | -------------------------------------------------------------------- |
+| `redirected` | info  | Weiterleitung zu PayPal (`invoice`, `amount`)                        |
+| `rejected`   | warn  | Link unbrauchbar (`reason`: `missing`/`invoice`/`amount`) – Fehlerseite statt Redirect |
+
+```bash
+docker logs <container> 2>&1 | grep -F "[payment] rejected"
+```
+
+Häufen sich `rejected`-Zeilen, stimmt die Vorlage in sevDesk nicht: die
+Rohwerte (`re`, `betrag`) stehen längenbegrenzt in derselben Zeile.
+
 ## Deployment
 
 Ein Release wird manuell angestoßen und läuft dann vollautomatisch durch:

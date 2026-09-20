@@ -27,6 +27,9 @@ export const routes = {
   onlineLearning: "/online-lernen",
   msTeams: "/online-lernen#ms-teams",
 
+  /** Not linked anywhere: printed on invoices by sevDesk. */
+  payment: "/zahlung",
+
   impressum: "/impressum",
   datenschutz: "/datenschutz",
   agb: "/agb",
