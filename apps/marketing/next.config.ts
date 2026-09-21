@@ -1,6 +1,22 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import type { NextConfig } from "next";
+
+const repoRoot = path.join(__dirname, "../..");
+
+// The released version has to be baked into the image: `/health` reports it so the
+// deploy can prove the new version is the one answering, and the standalone bundle
+// the image ships carries no root `package.json` to read it from at runtime.
+const { version } = JSON.parse(
+  readFileSync(path.join(repoRoot, "package.json"), "utf8"),
+) as { version?: string };
+
+if (!version) {
+  throw new Error(
+    "The root package.json carries no version - /health would report none.",
+  );
+}
 
 // Baseline security headers applied to every response. Intentionally excludes a
 // Content-Security-Policy: a strict CSP needs per-request nonces for the theme
@@ -32,7 +48,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // The app lives in a pnpm workspace; trace files from the repo root so the
   // standalone bundle includes dependencies hoisted to the root store.
-  outputFileTracingRoot: path.join(__dirname, "../.."),
+  outputFileTracingRoot: repoRoot,
+  // Inlined into the bundle at build time; `/health` reports it as `version`.
+  env: { APP_VERSION: version },
   // Internal packages ship TypeScript sources; Next compiles them in place.
   transpilePackages: ["@skillsite/ui"],
   allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
