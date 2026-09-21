@@ -1,187 +1,68 @@
 name: Release
-run-name: Release (${{ inputs.version != '' && inputs.version || inputs.bump }})
 
 on:
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: "Semver bump (ignored when an explicit version is given)"
-        type: choice
-        options: [patch, minor, major]
-        default: patch
-        required: true
-      version:
-        description: "Explicit version without leading v (optional, overrides bump)"
-        type: string
-        required: false
-        default: ""
+  push:
+    branches: ["main"]
 
 permissions:
   contents: read
 
 concurrency:
-  group: release
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 jobs:
-  release:
-    name: Bump version and tag
-    if: github.ref == 'refs/heads/main'
+  release-please:
+    name: Maintain release PR or create release
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    permissions:
-      contents: write
     outputs:
-      version: ${{ steps.bump.outputs.version }}
-      sha: ${{ steps.bump.outputs.sha }}
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+      version: ${{ steps.rp.outputs.version }}
+      sha: ${{ steps.rp.outputs.sha }}
+
     steps:
-      - name: Create release bot token
+      # The App authors the release PR so that CI runs on it; PRs opened with GITHUB_TOKEN get no CI run.
+      - name: Create release App token
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
           private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
           permission-contents: write
+          permission-pull-requests: write
+          permission-issues: write
 
-      - name: Checkout main
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Keep this the last step: a failure after the release exists would skip build and deploy.
+      - name: Run release-please
+        id: rp
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
-          ref: main
-          fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "26"
-
-      - name: Configure git
-        run: |
-          git config user.name "skillsite-release-bot[bot]"
-          git config user.email "305108749+skillsite-release-bot[bot]@users.noreply.github.com"
-
-      - name: Bump version, commit and tag
-        id: bump
-        env:
-          INPUT_BUMP: ${{ inputs.bump }}
-          INPUT_VERSION: ${{ inputs.version }}
-        run: |
-          set -euo pipefail
-          if [[ -n "${INPUT_VERSION}" ]]; then
-            npm version "${INPUT_VERSION#v}" --no-git-tag-version >/dev/null
-            commit_scope="explicit"
-          else
-            npm version "${INPUT_BUMP}" --no-git-tag-version >/dev/null
-            commit_scope="${INPUT_BUMP}"
-          fi
-          version="$(node -p "require('./package.json').version")"
-
-          git add package.json
-          git commit -m "release(${commit_scope}): v${version}"
-          git tag "v${version}"
-          git push --atomic origin main "v${version}"
-
-          {
-            printf 'version=%s\n' "${version}"
-            printf 'sha=%s\n' "$(git rev-parse HEAD)"
-          } >> "${GITHUB_OUTPUT}"
-
-  build:
-    name: Build and push image
-    needs: release
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+  image:
+    name: Build and publish container image
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/build.yml
+    with:
+      push: true
+      source_ref: ${{ needs.release-please.outputs.sha }}
+      version: ${{ needs.release-please.outputs.version }}
+      tag_latest: true
+      platforms: "linux/amd64"
     permissions:
       contents: read
       packages: write
-    steps:
-      - name: Checkout release commit
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ needs.release.outputs.sha }}
-
-      - name: Resolve image tags
-        id: image
-        env:
-          RELEASE_VERSION: ${{ needs.release.outputs.version }}
-          RELEASE_SHA: ${{ needs.release.outputs.sha }}
-        run: |
-          set -euo pipefail
-          image="ghcr.io/${GITHUB_REPOSITORY,,}"
-          short_sha="${RELEASE_SHA:0:12}"
-          {
-            printf 'tags<<EOF\n'
-            printf '%s:v%s\n' "${image}" "${RELEASE_VERSION}"
-            printf '%s:sha-%s\n' "${image}" "${short_sha}"
-            printf '%s:latest\n' "${image}"
-            printf 'EOF\n'
-          } >> "${GITHUB_OUTPUT}"
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
-
-      - name: Log in to GHCR
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-
-      - name: Build and push image
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
-        with:
-          context: .
-          file: Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.image.outputs.tags }}
-          provenance: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  github-release:
-    name: Create GitHub release
-    needs: [release, build]
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ needs.release.outputs.sha }}
-          fetch-depth: 0
-
-      - name: Create GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_VERSION: ${{ needs.release.outputs.version }}
-          RELEASE_SHA: ${{ needs.release.outputs.sha }}
-        run: |
-          set -euo pipefail
-          image="ghcr.io/${GITHUB_REPOSITORY,,}:v${RELEASE_VERSION}"
-          notes="Container image:"$'\n\n'"\`${image}\`"
-          gh release create "v${RELEASE_VERSION}" \
-            --target "${RELEASE_SHA}" \
-            --title "v${RELEASE_VERSION}" \
-            --generate-notes \
-            --notes "${notes}"
 
   deploy:
-    name: Trigger Dokploy deploy
-    needs: [release, build, github-release]
-    runs-on: ubuntu-latest
-    environment: production
-    timeout-minutes: 5
-    steps:
-      - name: Trigger deploy webhook
-        env:
-          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
-          RELEASE_VERSION: ${{ needs.release.outputs.version }}
-        run: |
-          set -euo pipefail
-          echo "Triggering Dokploy redeploy for v${RELEASE_VERSION}"
-          curl --fail --show-error --silent \
-            --request POST \
-            "${DEPLOY_WEBHOOK_URL}"
+    name: Deploy
+    needs:
+      - release-please
+      - image
+    uses: ./.github/workflows/deploy.yml
+    with:
+      version: ${{ needs.release-please.outputs.version }}
+      sha: ${{ needs.release-please.outputs.sha }}
+    secrets: inherit
