@@ -1,0 +1,4 @@
+# Private working notes (audits, assessments, drafts) stay local; specs and decisions are versioned.
+ref/
+security-audit-*/
+wording/
