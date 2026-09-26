@@ -65,6 +65,27 @@ test("anchors are not hex colours", () => {
   expect(counts["hex-color"]).toBe(0);
 });
 
+test("counts the colour, shadow, radius, clamp and inline-style patterns", () => {
+  const counts = countPatterns(
+    [
+      file(
+        "apps/marketing/src/components/hero-card.tsx",
+        `<div
+  className="shadow-[0_2px_8px_rgba(0,0,0,0.08)] rounded-[20px] rounded-t-[8px] py-[clamp(1rem,2vw,2rem)]"
+  style={{ background: "color-mix(in srgb, red 50%, blue)" }}
+/>`,
+      ),
+    ],
+    {},
+  );
+  expect(counts["color-mix"]).toBe(1);
+  expect(counts["arbitrary-shadow"]).toBe(1);
+  // Both the bare and the `-t-` form of the radius pattern are exercised.
+  expect(counts["arbitrary-radius"]).toBe(2);
+  expect(counts["clamp-spacing"]).toBe(1);
+  expect(counts["inline-style"]).toBe(1);
+});
+
 test("a rise and a drop are both reported", () => {
   expect(compare({ a: 3, b: 1 }, { a: 2, b: 2 })).toEqual({
     raised: ["a"],

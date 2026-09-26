@@ -1,7 +1,8 @@
 /**
  * Design ratchet: counts patterns that bypass the design system and keeps the counts from rising.
  * `node scripts/design-ratchet.mjs`           check against design-ratchet.json (fails on any difference)
- * `node scripts/design-ratchet.mjs --update`  write lowered counts back (refuses a rise)
+ * `node scripts/design-ratchet.mjs --update`  write lowered counts back; a rise is refused -
+ *                                              exceptions go into `allow` with a reason
  */
 import { globSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -70,7 +71,10 @@ function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
   const baselineFile = path.join(root, "design-ratchet.json");
   const files = globSync(
-    ["apps/*/src/**/*.{ts,tsx,mts,css}", "packages/ui/src/**/*.{ts,tsx}"],
+    [
+      "apps/*/src/**/*.{ts,tsx,mts,css}",
+      "packages/ui/src/**/*.{ts,tsx,mts,css}",
+    ],
     { cwd: root },
   ).map((file) => ({
     path: file,
@@ -90,9 +94,13 @@ function main() {
     );
 
   if (process.argv.includes("--update")) {
-    // The very first run (empty baseline) records today's counts; afterwards a rise is refused.
-    const initial = Object.keys(baseline.counts).length === 0;
-    if (raised.length && !initial) process.exit(1);
+    if (raised.length) {
+      console.error(
+        "A pattern count rose: refusing to update - use the design-system component or token " +
+          "instead, or add an allow-list entry with a reason.",
+      );
+      process.exit(1);
+    }
     writeFileSync(
       baselineFile,
       `${JSON.stringify({ ...baseline, counts }, null, 2)}\n`,
