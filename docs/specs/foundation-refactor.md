@@ -218,8 +218,8 @@ Each slice is one PR. *Check* is what the maintainer looks at before merging.
   `footer` element. `agentRules: false` in `next.config.ts` (E-15). README paths fixed
   (`apps/marketing/src/lib/...`).
 - *Acceptance criteria:*
-  - [ ] `CLAUDE.md` exists at the root; `next dev` no longer creates `AGENTS.md`/`CLAUDE.md` in `apps/marketing`.
-  - [ ] Every path mentioned in README and `CLAUDE.md` exists.
+  - [x] `CLAUDE.md` exists at the root; `next dev` no longer creates `AGENTS.md`/`CLAUDE.md` in `apps/marketing`.
+  - [x] Every path mentioned in README and `CLAUDE.md` exists.
 
 **A2 - Delete the consent subsystem.**
 - *Technique:* remove `components/consent/*`, `providers/consent-provider.tsx`, `lib/consent.ts`, the

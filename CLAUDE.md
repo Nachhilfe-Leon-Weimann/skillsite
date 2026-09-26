@@ -1,0 +1,71 @@
+# CLAUDE.md
+
+Anchor for AI assistants and quick onboarding: commands, layout, conventions, traps. The _why_ and the current
+plan live in [`docs/specs/`](docs/specs/) - start with
+[`foundation-refactor.md`](docs/specs/foundation-refactor.md).
+
+## Commands
+
+- `just dev` - run the site (`http://localhost:3000`).
+- `just check` - everything that must be green before a push; CI's `check` job runs the same. **Keep green before every push.**
+- `just test` - the tests only.
+- `just build` - production build; it is also the type check of `apps/marketing`.
+- `just docker-build` / `just docker-run` - build and run the production image locally.
+- `pnpm storybook` - the design-system workbench of `packages/ui` (`http://localhost:6006`).
+
+## Layout
+
+```
+apps/marketing/        the Next.js site (nachhilfe.leonweimann.de)
+  src/app/             routes
+  src/components/      booking/, layout/, sections/, ...
+  src/content/         all visible text (German)
+  src/lib/             booking/, payment/, routes, metadata, health
+packages/ui/           @skillsite/ui - tokens (styles/theme.css), primitives, hooks, Storybook
+packages/config/       shared tsconfig and ESLint presets
+tests/                 repo-level tests (release config, workflows)
+docs/specs/            specs: plans and decision records (versioned)
+docs/plans/            task-level implementation plans for spec phases
+```
+
+The target structure (modules, a grouped `@skillsite/ui`) is described in the foundation refactor spec; code moves
+there slice by slice.
+
+## Conventions
+
+- English in code, comments, identifiers, specs and commits; German only in visible content.
+- Visible text lives in `apps/marketing/src/content/*.ts`, not in components.
+- Build pages from `@skillsite/ui` components and the type scale (`text-display` ... `text-caption`). No arbitrary
+  values (`text-[...]`, inline `color-mix(...)`, hand-tuned `clamp()`), no hand-built copies of existing components.
+- Motion speaks the brand tokens: `ease-flow`, `ease-soft`, `duration-quick|base|slow`, the `lift` utility, `Reveal`.
+- A refactor changes nothing a visitor sees. A bug is fixed in its own `fix:` PR that describes the visible
+  change. When it is unclear whether something is a bug or a design choice, stop and ask.
+- Next.js 16 differs from older versions: read the guide in `apps/marketing/node_modules/next/dist/docs/` before relying on an
+  API you are unsure about.
+- Unit-tested modules under `src/lib` are import-free (`node --test` cannot resolve `@/`) until the Vitest slice
+  of the foundation refactor lands.
+
+## Git and PRs
+
+- Conventional commits; the PR title is the commit message on `main` (squash merge). `feat` and `fix` cut releases;
+  use `refactor`, `chore`, `ci`, `build`, `docs`, `test` for everything else.
+- One PR per slice of a spec; tick the slice's acceptance boxes in the same PR.
+- Push the branch and open the PR - never merge, never change repo settings, rulesets or deployment configuration;
+  list settings that need changing in the PR body.
+- Every PR body has a _How to check_ section: the routes and states to open, light and dark, phone and desktop
+  width, and for fixes the exact visible change to expect.
+- Never bump a version or create a tag by hand; release-please does it (see [README](README.md#releasing)).
+
+## Traps
+
+- Bulk edits over German files only with UTF-8-safe tools (`perl -CSD -pi -e ...`); plain `sed`/`perl` destroy
+  umlauts and ß.
+- `next dev` serving stale CSS: delete `apps/marketing/.next` and restart.
+- Tailwind v4 `translate-*` / `scale-*` set the `translate` / `scale` properties, not `transform`;
+  `transition-transform` does not cover them. Verify every motion change in a browser.
+- `next-themes` runs with `disableTransitionOnChange`: theme switches do not animate, on purpose.
+- `next/font/google` downloads the fonts at build time: `just build` needs network access to Google Fonts.
+- The iOS 26 Safari toolbar tint follows the `footer` element
+  (`apps/marketing/src/components/layout/ios-toolbar-tint.tsx`); keep exactly one `<footer>` in the layout.
+- `agentRules: false` in `apps/marketing/next.config.ts` stops `next dev` from writing its own `AGENTS.md` /
+  `CLAUDE.md`; this file is the only anchor.

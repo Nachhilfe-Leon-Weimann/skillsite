@@ -52,9 +52,9 @@ https://nachhilfe.leonweimann.de/zahlung?re=RE-1840&betrag=90,00%20EUR
 
 The amount may look the way sevDesk writes it (`90,00 EUR`, `1.234,56 EUR`, or without a currency);
 ambiguous figures like `1.234`, amounts below 0.01 € and above 5,000 € are rejected instead of
-guessed. Recipient, currency and item name are constants in `src/lib/payment/invoice-link.ts` - a
+guessed. Recipient, currency and item name are constants in `apps/marketing/src/lib/payment/invoice-link.ts` - a
 link can only decide amount and invoice number, never the account. The page stays out of search
-(`robots.txt`, `noindex`, and `unlistedRoutes` in `src/lib/routes.ts`).
+(`robots.txt`, `noindex`, and `unlistedRoutes` in `apps/marketing/src/lib/routes.ts`).
 
 Each call leaves one line (`[payment] <outcome> {…}`) with invoice number and amount, no name, e-mail
 or IP: `redirected` (info) or `rejected` (warn, with `reason` and the raw values). Repeated
