@@ -43,6 +43,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // This repo keeps one agent anchor (the root CLAUDE.md); `next dev` must not write its own.
+  agentRules: false,
   // Emit a self-contained server bundle (.next/standalone) so the Docker
   // runtime image ships only the server plus the node_modules it actually uses.
   output: "standalone",
