@@ -23,9 +23,11 @@ apps/marketing/        the Next.js site (nachhilfe.leonweimann.de)
   src/components/      booking/, layout/, sections/, ...
   src/content/         all visible text (German)
   src/lib/             booking/, payment/, routes, metadata, health
+  e2e/                 Playwright smoke suite
 packages/ui/           @skillsite/ui - tokens (styles/theme.css), primitives, hooks, Storybook
-packages/config/       shared tsconfig and ESLint presets
-tests/                 repo-level tests (release config, workflows)
+packages/config/       shared tsconfig, ESLint and Prettier presets
+scripts/               repo scripts (e.g. the design ratchet)
+tests/                 repo-level tests (release config, workflows, Dockerfile guard)
 docs/specs/            specs: plans and decision records (versioned)
 docs/plans/            task-level implementation plans for spec phases
 ```
