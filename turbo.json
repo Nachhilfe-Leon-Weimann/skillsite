@@ -8,6 +8,10 @@
     "lint": {},
     "test": {},
     "typecheck": {},
+    "e2e": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true

@@ -10,6 +10,7 @@ export default defineConfig({
         test: {
           name: "unit",
           include: ["src/**/*.test.{ts,mts}"],
+          exclude: ["e2e/**"],
           environment: "node",
         },
       },
