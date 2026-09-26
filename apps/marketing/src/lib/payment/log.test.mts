@@ -47,5 +47,7 @@ test("describing a malformed link never throws and omits what it can't read", ()
 
 test("console is real again after a mocked test", () => {
   // restoreMocks: a spy from an earlier test must not swallow later output.
+  assert.equal(vi.isMockFunction(console.info), false);
   assert.equal(vi.isMockFunction(console.warn), false);
+  assert.equal(vi.isMockFunction(console.error), false);
 });
