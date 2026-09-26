@@ -13,6 +13,8 @@ export default defineConfig({
   webServer: {
     command: `pnpm start -p ${port}`,
     url: `http://127.0.0.1:${port}/health`,
-    reuseExistingServer: !process.env.CI,
+    // Never reuse a server already listening on the port: it could belong to another
+    // worktree's build and would give a false green against the wrong code.
+    reuseExistingServer: false,
   },
 });

@@ -4,11 +4,12 @@ import { indexablePaths } from "../src/lib/routes";
 
 /** Answer every non-local request locally: the smoke test must not depend on the network (e.g. Umami). */
 async function isolate(page: Page) {
-  await page
-    .context()
-    .route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) =>
-      route.fulfill({ status: 204, body: "" }),
-    );
+  await page.context().route(
+    // Anchored at the host end (`(?::\d+)?\/`) so `localhost.example.com` isn't
+    // mistaken for `localhost` and left unstubbed.
+    /^https?:\/\/(?!(?:127\.0\.0\.1|localhost)(?::\d+)?\/)/,
+    (route) => route.fulfill({ status: 204, body: "" }),
+  );
 }
 
 /** Collect console errors and uncaught exceptions of a page. */
@@ -51,6 +52,10 @@ for (const path of indexablePaths) {
     const errors = collectErrors(page);
     const response = await page.goto(path);
     expect(response?.status()).toBe(200);
+    // `goto` resolves at `load`; hydration and effects can still throw after that,
+    // so wait for the network to settle (every non-local request is fulfilled
+    // locally, so this doesn't hang) before trusting the error collector.
+    await page.waitForLoadState("networkidle");
     await expect(page.locator("main#main")).toBeVisible();
     expect(errors).toEqual([]);
   });
@@ -84,12 +89,22 @@ test("an invalid payment link renders a page instead of redirecting", async ({
   const errors = collectErrors(page);
   const response = await page.goto("/zahlung?re=x&betrag=abc");
   expect(response?.status()).toBe(200);
+  await page.waitForLoadState("networkidle");
   await expect(page.locator("main#main")).toBeVisible();
   expect(errors).toEqual([]);
 });
 
 test("an unknown route answers 404", async ({ page }) => {
   await isolate(page);
+  const errors = collectErrors(page);
   const response = await page.goto("/gibt-es-nicht");
   expect(response?.status()).toBe(404);
+  await page.waitForLoadState("networkidle");
+  await expect(page.locator("main#main")).toBeVisible();
+  // The browser logs its own line for the 404 document response itself - that
+  // is the one expected message here, everything else would be a real bug.
+  const unexpectedErrors = errors.filter(
+    (message) => !/Failed to load resource: .* 404/.test(message),
+  );
+  expect(unexpectedErrors).toEqual([]);
 });

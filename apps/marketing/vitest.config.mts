@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
   // Resolve the `@/` alias of tsconfig.json, like the Next build does.
@@ -10,7 +10,8 @@ export default defineConfig({
         test: {
           name: "unit",
           include: ["src/**/*.test.{ts,mts}"],
-          exclude: ["e2e/**"],
+          // Keep Vitest's own default excludes (node_modules, .next, ...); only add e2e/.
+          exclude: [...configDefaults.exclude, "e2e/**"],
           environment: "node",
         },
       },
