@@ -39,6 +39,8 @@ there slice by slice.
 - Visible text lives in `apps/marketing/src/content/*.ts`, not in components.
 - Build pages from `@skillsite/ui` components and the type scale (`text-display` ... `text-caption`). No arbitrary
   values (`text-[...]`, inline `color-mix(...)`, hand-tuned `clamp()`), no hand-built copies of existing components.
+- `just ratchet` counts design-system bypasses (`design-ratchet.json`). A count may never rise; when your change
+  lowers one, run `just ratchet-update` and commit the file. Exceptions go into its `allow` list with a reason.
 - Motion speaks the brand tokens: `ease-flow`, `ease-soft`, `duration-quick|base|slow`, the `lift` utility, `Reveal`.
 - A refactor changes nothing a visitor sees. A bug is fixed in its own `fix:` PR that describes the visible
   change. When it is unclear whether something is a bug or a design choice, stop and ask.

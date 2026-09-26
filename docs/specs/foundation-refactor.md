@@ -280,7 +280,7 @@ Each slice is one PR. _Check_ is what the maintainer looks at before merging.
   `design-ratchet.json`; a PR may lower but never raise them; exceptions by an allow-list with a reason. Part of
   `just check`.
 - _Acceptance criteria:_
-  - [ ] Adding one `text-[13px]` makes `just check` red; removing one and updating the file keeps it green.
+  - [x] Adding one `text-[13px]` makes `just check` red; removing one and updating the file keeps it green.
 
 ### Phase B - Bug fixes _(visible; each PR shows before/after)_
 
